@@ -25,6 +25,7 @@ const {
   fetchReviews
 } = require('./reviews')
 
+// add price and description into the products table
 const seed = async()=> {
   const SQL = `
     DROP TABLE IF EXISTS line_items;
@@ -44,7 +45,9 @@ const seed = async()=> {
     CREATE TABLE products(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
-      name VARCHAR(100) UNIQUE NOT NULL
+      name VARCHAR(100) UNIQUE NOT NULL,
+      price NUMERIC (5,2) NOT NULL,
+      description TEXT NOT NULL
     );
 
     CREATE TABLE orders(
@@ -80,11 +83,13 @@ const seed = async()=> {
     createUser({ username: 'lucy', password: '1234', is_admin: false}),
     createUser({ username: 'ethyl', password: '1234', is_admin: true})
   ]);
+
+  //Added price and description 
   const [foo, bar, bazz,quq] = await Promise.all([
-    createProduct({ name: 'foo' }),
-    createProduct({ name: 'bar' }),
-    createProduct({ name: 'bazz' }),
-    createProduct({ name: 'quq' }),
+    createProduct({ name: 'foo', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
+    createProduct({ name: 'bar', price: 425.00, description:'Yum, Yummy, Yummy, Yum' }),
+    createProduct({ name: 'bazz', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
+    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum' }),
   ]);
   let orders = await fetchOrders(ethyl.id);
   let cart = orders.find(order => order.is_cart);
