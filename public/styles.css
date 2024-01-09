@@ -10,3 +10,47 @@ form {
 form > * {
   margin: 0.5rem;
 }
+
+.navbar{
+  display: flex;
+  gap:4em;
+  justify-content: center;
+ }
+.logout{
+  float: right;
+  }
+.login{
+  font-weight: bold;
+  margin-right: 4em;
+}
+
+  .loginContainer{
+    width:35%;
+    margin: auto;
+    margin-top: 5em;
+    padding:10px;
+    border-radius: 5px;
+    border:1px double goldenrod;
+  }
+  .parentContainer{
+    width:90%;
+    height: fit-content;
+    margin: auto;
+    margin-top: 5em;
+    padding:10px;
+    border-radius: 5px;
+    border:1px double goldenrod;
+  }
+  .loginform{
+    width:25em;
+    height:3em;
+    border-radius: 5px;
+  }
+  .loginLabels{
+    width:25em;
+    height:1em;
+    border-radius: 5px;
+  }
+.navbarLogin{
+  float: right;
+}

@@ -7,27 +7,33 @@ const Login = ({ login })=> {
   const _login = async(ev)=> {
     ev.preventDefault();
     try {
-      await login({ username, password });
+      await login({ username, password });      
     }
     catch(ex){
       console.log(ex.response.data);
     }
   }
   return (
-    <form onSubmit={ _login }>
-      <input
-        placeholder='username'
-        value={ username }
-        onChange={ ev => setUsername(ev.target.value)}
-      />
-      <input
-        type='password'
-        placeholder='password'
-        value={ password }
-        onChange={ ev => setPassword(ev.target.value)}
-      />
-      <button disabled={!username || !password}>Login</button>
-    </form>
+    <div className="loginContainer">
+      <form onSubmit={ _login }>
+        <label className='loginLabels'>Username or email address</label>
+        <input
+          placeholder='username'
+          value={ username }
+          onChange={ ev => setUsername(ev.target.value)}
+          className='loginform'
+        />
+        <label className='loginLabels'>Password</label>
+        <input
+          type='password'
+          placeholder='password'
+          value={ password }
+          onChange={ ev => setPassword(ev.target.value)}
+          className='loginform'
+        />
+        <button disabled={!username || !password} className='loginform'>Login</button>
+      </form>
+    </div>
   );
 }
 

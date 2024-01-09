@@ -20,13 +20,18 @@ const {
   fetchOrders
 } = require('./cart');
 
+const {
+  createReview,
+  fetchReviews
+} = require('./reviews')
 
 const seed = async()=> {
   const SQL = `
     DROP TABLE IF EXISTS line_items;
-    DROP TABLE IF EXISTS products;
+    DROP TABLE IF EXISTS products CASCADE;
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
+    DROP TABLE IF EXISTS reviews;
 
     CREATE TABLE users(
       id UUID PRIMARY KEY,
@@ -58,15 +63,24 @@ const seed = async()=> {
       CONSTRAINT product_and_order_key UNIQUE(product_id, order_id)
     );
 
+    CREATE TABLE reviews(
+      id UUID PRIMARY KEY,
+      created_at TIMESTAMP DEFAULT now(),
+      comments VARCHAR(255) NOT NULL,
+      ratings INTEGER NOT NULL,
+      product_id UUID REFERENCES products(id) NOT NULL,
+      CHECK (ratings>0 AND ratings<6)
+    );
+
   `;
   await client.query(SQL);
 
   const [moe, lucy, ethyl] = await Promise.all([
-    createUser({ username: 'moe', password: 'm_password', is_admin: false}),
-    createUser({ username: 'lucy', password: 'l_password', is_admin: false}),
+    createUser({ username: 'moe', password: '1234', is_admin: false}),
+    createUser({ username: 'lucy', password: '1234', is_admin: false}),
     createUser({ username: 'ethyl', password: '1234', is_admin: true})
   ]);
-  const [foo, bar, bazz] = await Promise.all([
+  const [foo, bar, bazz,quq] = await Promise.all([
     createProduct({ name: 'foo' }),
     createProduct({ name: 'bar' }),
     createProduct({ name: 'bazz' }),
@@ -80,7 +94,18 @@ const seed = async()=> {
   lineItem = await createLineItem({ order_id: cart.id, product_id: bar.id});
   cart.is_cart = false;
   await updateOrder(cart);
+
+   //create review records
+   await Promise.all([
+    createReview({ comments: 'comments pencil tips breaks frequetly', ratings : 1,product_id: foo.id}),
+    createReview({ comments: 'comments writes smoothly. Tips dont break',ratings : 5,product_id: foo.id }),
+    createReview({ comments: 'comments Sturdy and strong for kids daily work',ratings : 5,product_id: bar.id }),
+    createReview({ comments: 'comments marker dries off quickly',ratings : 2 ,product_id: quq.id}),
+  ]);
+  
 };
+
+
 
 module.exports = {
   fetchProducts,
@@ -93,5 +118,6 @@ module.exports = {
   authenticate,
   findUserByToken,
   seed,
+  fetchReviews,
   client
 };
