@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Link, HashRouter, Routes, Route } from 'react-router-dom';
+import { Link, HashRouter, Routes, Route,useNavigate } from 'react-router-dom';
 import Products from './Products';
 import Orders from './Orders';
 import Cart from './Cart';
 import Login from './Login';
 import api from './api';
+import '../public/styles.css'
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [lineItems, setLineItems] = useState([]);
   const [auth, setAuth] = useState({});
+  const navigate=useNavigate();
 
   const attemptLoginWithToken = async()=> {
     await api.attemptLoginWithToken(setAuth);
@@ -73,58 +75,80 @@ const App = ()=> {
 
   const login = async(credentials)=> {
     await api.login({ credentials, setAuth });
+    navigate('/');
   }
 
   const logout = ()=> {
     api.logout(setAuth);
+
+    navigate('/');
   }
 
   return (
-    <div>
+    <div className='parentContainer'>
       {
         auth.id ? (
           <>
-            <nav>
-              <Link to='/products'>Products ({ products.length })</Link>
-              <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
-              <Link to='/cart'>Cart ({ cartCount })</Link>
-              <span>
-                Welcome { auth.username }!
-                <button onClick={ logout }>Logout</button>
+             <span>
+                Welcome { auth.username }!               
               </span>
+            <nav className='navbar'>
+              <Link to='/'>Products ({ products.length })</Link>
+              <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
+              <Link to='/cart'>Cart ({ cartCount })</Link>   
+              <button onClick={ logout } className='logout'>Logout</button>           
             </nav>
-            <main>
-              <Products
-                auth = { auth }
-                products={ products }
-                cartItems = { cartItems }
-                createLineItem = { createLineItem }
-                updateLineItem = { updateLineItem }
-              />
-              <Cart
-                cart = { cart }
-                lineItems = { lineItems }
-                products = { products }
-                updateOrder = { updateOrder }
-                removeFromCart = { removeFromCart }
-              />
-              <Orders
-                orders = { orders }
-                products = { products }
-                lineItems = { lineItems }
-              />
+            <main> 
+                <Routes>
+                  <Route path='/' element={
+                                          <Products
+                                            auth = { auth }
+                                            products={ products }
+                                            cartItems = { cartItems }
+                                            createLineItem = { createLineItem }
+                                            updateLineItem = { updateLineItem }
+                                          />}/>
+              
+                <Route path='/orders' element={
+                                            <Orders
+                                            orders = { orders }
+                                            products = { products }
+                                            lineItems = { lineItems }
+                                            />
+                                          }/>
+                <Route path='/cart' element={
+                                            <Cart
+                                            cart = { cart }
+                                            lineItems = { lineItems }
+                                            products = { products }
+                                            updateOrder = { updateOrder }
+                                            removeFromCart = { removeFromCart }
+                                            />
+                                        }/>
+                </Routes>                                
             </main>
             </>
         ):(
-          <div>
-            <Login login={ login }/>
-            <Products
-              products={ products }
-              cartItems = { cartItems }
-              createLineItem = { createLineItem }
-              updateLineItem = { updateLineItem }
-              auth = { auth }
-            />
+          <div>   
+           
+            <main>
+              <Routes>
+              <Route path='/' element={<>
+                                       <nav className='navbarLogin'>
+                                           <Link to='/login' className='login'>Login</Link>            
+                                       </nav>
+                                          <Products
+                                            auth = { auth }
+                                            products={ products }
+                                            cartItems = { cartItems }
+                                            createLineItem = { createLineItem }
+                                            updateLineItem = { updateLineItem }
+                                          />
+                                          </>
+                                          }/>
+                <Route path='/login' element={<Login login={login}/>}/>
+              </Routes>
+            </main> 
           </div>
         )
       }

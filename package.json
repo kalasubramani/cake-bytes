@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "build:dev": "webpack --watch --mode=development",
-    "start:dev": "JWT=michael nodemon server/index.js --ignore src/ --ignore dist/",
+    "start:dev": "JWT=michael nodemon --legacy-watch server/index.js --ignore src/ --ignore dist/",
     "start:dev:sync": "SYNC=true npm run start:dev"
   },
   "keywords": [],
@@ -17,10 +17,12 @@
     "@babel/preset-react": "^7.22.15",
     "axios": "^1.5.1",
     "babel-loader": "^9.1.3",
+    "css-loader": "^6.8.1",
     "nodemon": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
+    "style-loader": "^3.3.3",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
   },
