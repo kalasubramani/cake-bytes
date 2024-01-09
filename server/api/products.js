@@ -40,7 +40,7 @@ app.put('/:id', isLoggedIn, isAdmin, (req, res, next)=> {
 
 //Add reviews for a given product
 // app.put('/:id/reviews', isLoggedIn, async (req, res, next)=> {
-  app.put('/:id/reviews', async (req, res, next)=> {    
+  app.post('/:id/reviews', async (req, res, next)=> {    
       res.send(await createReview(req.body));
   });
 
