@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
 const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=> {
+
+     /* ADDED PRODUCT PRICE*/
+
   const navigate = useNavigate();
   
   return (
@@ -14,6 +17,9 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=
             const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
             return (
               <li key={ product.id }>
+
+                { product.name } ${product.price}
+
                 <div
                       // key={book.id}
                        className="product"
