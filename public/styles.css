@@ -21,7 +21,7 @@ form > * {
   }
 .login{
   font-weight: bold;
-  margin-right: 4em;
+  margin-right: auto;
 }
 
   .loginContainer{
@@ -53,4 +53,34 @@ form > * {
   }
 .navbarLogin{
   float: right;
+}
+.product{
+  height: 2 em;
+  cursor: pointer;
+  /* border:1px double black; */
+}
+.rating{
+  width:8em;
+}
+.reviewHeadline{
+  width:60em;
+  height:3em;
+  border-radius: 5px;
+}
+.reviewText{
+  width:60em;
+  height:10em;
+  border-radius: 5px;
+}
+.reviewContainer{
+  width:75%;
+  margin: auto;
+  margin-top: 2em;
+  padding:1px;
+  border-radius: 5px;
+  border:1px double goldenrod;
+}
+.reviewSubmit{ 
+  width:fit-content;
+  align-self: flex-end;
 }

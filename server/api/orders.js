@@ -15,7 +15,7 @@ app.put('/:id', isLoggedIn, async(req, res, next)=> {
   catch(ex){
     next(ex);
   }
-});
+}); 
 
 app.get('/', isLoggedIn, async(req, res, next)=> {
   try {
