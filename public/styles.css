@@ -57,7 +57,7 @@ form > * {
 .product{
   height: 2 em;
   cursor: pointer;
-  border:1px double black;
+  /* border:1px double black; */
 }
 .rating{
   width:8em;
