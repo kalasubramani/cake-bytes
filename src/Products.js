@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=> {
-     /* ADDED PRODUCT PRICE*/
+     /*ADDED PRODUCT PRICE*/
   return (
     <div>
       <h2>Products</h2>
