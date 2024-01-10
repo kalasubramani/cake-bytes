@@ -68,6 +68,11 @@ const App = ()=> {
     await api.removeFromCart({ lineItem, lineItems, setLineItems });
   };
 
+  //create api connection for removing a single item
+  const removeOneItem = async(lineItem)=> {
+    await api.removeOneItem({ lineItem, cart, lineItems, setLineItems });
+  };
+
   const cart = orders.find(order => order.is_cart) || {};
 
   const cartItems = lineItems.filter(lineItem => lineItem.order_id === cart.id);
@@ -154,6 +159,8 @@ const App = ()=> {
                                             products = { products }
                                             updateOrder = { updateOrder }
                                             removeFromCart = { removeFromCart }
+                                            removeOneItem = { removeOneItem }
+                                            updateLineItem = { updateLineItem }
                                             />
                                         }/>
                 <Route path='/products/:id' element={<ProductDetails products={products} 

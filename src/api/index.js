@@ -63,6 +63,15 @@ const addProductReview = async (review,productId)=>{
                                     getHeaders());
 } 
 
+//removes one item from the cart
+const removeOneItem = async({ lineItem, cart, lineItems, setLineItems })=> {
+  const response = await axios.put(`/api/lineItems/${lineItem.id}`, {
+    quantity: lineItem.quantity - 1,
+    order_id: cart.id
+  }, getHeaders());
+  setLineItems(lineItems.map( lineItem => lineItem.id == response.data.id ? response.data: lineItem));
+};
+
 const attemptLoginWithToken = async(setAuth)=> {
   const token = window.localStorage.getItem('token');
   if(token){
@@ -100,6 +109,7 @@ const api = {
   updateLineItem,
   updateOrder,
   removeFromCart,
+  removeOneItem,
   fetchProductReviews,
   addProductReview, 
   attemptLoginWithToken
