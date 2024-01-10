@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "./api";
 
-const ProductDetails = ({ products, displayPrice }) => {
-  const [reviews, setReviews] = useState([]);
 
+const ProductDetails = ({ products, displayPrice ,auth}) => {
+  const navigate=useNavigate();
+  const [reviews, setReviews] = useState([]);
+  const isLoggedIn = !!auth.id ;
+  
   //get the product id from url
   const { id } = useParams();
 
@@ -12,7 +15,7 @@ const ProductDetails = ({ products, displayPrice }) => {
   const selectedProduct = products?.find((product) => {
     return product.id === id;
   });
-
+ 
   useEffect(() => {
    if (selectedProduct) {
       //fetch reviews from db
@@ -42,16 +45,25 @@ const ProductDetails = ({ products, displayPrice }) => {
         <p>${displayPrice("5.75")}</p>
       </div>
       <hr />
-      {productReviews.length > 0 ? (
+      {/* {productReviews.length > 0 ? ( */}
         <div>
           <h3>Reviews about the product</h3>
-          <ul>{productReviews}</ul>
-        </div>
-      ) : (
+          {/* show the button only for logged in user */}
+          {isLoggedIn && 
+          <button onClick={() => {
+                        navigate(`/products/${selectedProduct?.id}/review`);
+                      }}>Write a product review</button>
+           }
+         {productReviews.length >0 &&  <ul>{productReviews}</ul> }
+        </div>  
+      {/* ) : (   */}
+      {!productReviews.length && 
         <div>
           <p>There are no reviews for this product.</p>
         </div>
-      )}
+        }
+      {/* ) 
+      }*/}
     </div>
   );
 };

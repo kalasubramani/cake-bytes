@@ -8,6 +8,8 @@ import Login from './Login';
 import api from './api';
 import '../public/styles.css'
 import ProductDetails from './ProductDetails';
+import AddProductReview from './AddProductReview';
+import ThankForReview from './ThankForReview';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -15,6 +17,7 @@ const App = ()=> {
   const [lineItems, setLineItems] = useState([]);
   const [auth, setAuth] = useState({});
   const navigate=useNavigate();
+  const isLoggedIn = !!auth.id ;
 
   const attemptLoginWithToken = async()=> {
     await api.attemptLoginWithToken(setAuth);
@@ -103,19 +106,31 @@ const App = ()=> {
   return (
     <div className='parentContainer'>
       {
-        auth.id ? (
+        // auth.id ? (
           <>
              <span>
                 Welcome { auth.username }!               
               </span>
             <nav className='navbar'>
-              <Link to='/'>Products ({ products.length })</Link>
+             
+              {isLoggedIn && 
+              <>
+               <Link to='/'>Products ({ products.length })</Link>
               <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
-              <Link to='/cart'>Cart ({ cartCount })</Link>   
-              <button onClick={ logout } className='logout'>Logout</button>           
+              <Link to='/cart'>Cart ({ cartCount })</Link>  
+              </>
+              } 
+               
+            { 
+            isLoggedIn? 
+            <button onClick={ logout } className='logout'>Logout</button>  
+            :  <Link to='/login' className='login'>Login</Link>   
+            }   
+ 
             </nav>
             <main> 
                 <Routes>
+                <Route path='/login' element={<Login login={login}/>}/>
                   <Route path='/' element={
                                           <Products
                                             auth = { auth }
@@ -142,35 +157,38 @@ const App = ()=> {
                                             />
                                         }/>
                 <Route path='/products/:id' element={<ProductDetails products={products} 
-                                  displayPrice={displayPrice}/>}/> 
+                                  displayPrice={displayPrice} auth={auth}/>}/> 
+
+                <Route path='/products/:id/review' element={<AddProductReview products={products}/>}/>
+                <Route path='/thankforreview' element={<ThankForReview/>} />
                 </Routes>                                
             </main>
             </>
-        ):(
-          <div>   
+        // ):(
+        //   <div>   
            
-            <main>
-              <Routes>
-              <Route path='/' element={<>
-                                       <nav className='navbarLogin'>
-                                           <Link to='/login' className='login'>Login</Link>            
-                                       </nav>
-                                          <Products
-                                            auth = { auth }
-                                            products={ products }
-                                            cartItems = { cartItems }
-                                            createLineItem = { createLineItem }
-                                            updateLineItem = { updateLineItem }
-                                          />
-                                          </>
-                                          }/>
-                <Route path='/products/:id' element={<ProductDetails products={products} 
-                                  displayPrice={displayPrice}/>}/> 
-                <Route path='/login' element={<Login login={login}/>}/>
-              </Routes>
-            </main> 
-          </div>
-        )
+        //     <main>
+        //       <Routes>
+        //       <Route path='/' element={<>
+        //                                <nav className='navbarLogin'>
+        //                                            
+        //                                </nav>
+        //                                   <Products
+        //                                     auth = { auth }
+        //                                     products={ products }
+        //                                     cartItems = { cartItems }
+        //                                     createLineItem = { createLineItem }
+        //                                     updateLineItem = { updateLineItem }
+        //                                   />
+        //                                   </>
+        //                                   }/>
+        //         <Route path='/products/:id' element={<ProductDetails products={products} 
+        //                           displayPrice={displayPrice}/>}/> 
+        //         
+        //       </Routes>
+        //     </main> 
+        //   </div>
+        // )
       }
     </div>
   );

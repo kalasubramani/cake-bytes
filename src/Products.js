@@ -27,7 +27,10 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=
                 
                 {
                   auth.id ? (
-                    cartItem ? <button onClick={ ()=> updateLineItem(cartItem)}>Add Another</button>: <button onClick={ ()=> createLineItem(product)}>Add</button>
+                    cartItem ? <button 
+                    onClick={ ()=> updateLineItem(cartItem)}>Add Another</button>
+                    : <button onClick={ ()=> createLineItem(product)}>Add</button>
+                  
                   ): null 
                 }
                 {

@@ -33,15 +33,16 @@ app.put('/:id', isLoggedIn, isAdmin, (req, res, next)=> {
 });
 
 //Fetch reviews for a given product
-// app.get('/:id/reviews', isLoggedIn, async (req, res, next)=> {
-  app.get('/:id/reviews', async (req, res, next)=> {   
+app.get('/:id/reviews', isLoggedIn, async (req, res, next)=> {
+  // app.get('/:id/reviews', async (req, res, next)=> {   
     res.send(await fetchReviews(req.params.id));
 });
 
 //Add reviews for a given product
-// app.put('/:id/reviews', isLoggedIn, async (req, res, next)=> {
-  app.post('/:id/reviews', async (req, res, next)=> {    
-      res.send(await createReview(req.body));
+app.post('/:id/reviews', isLoggedIn, async (req, res, next)=> {
+  // app.post('/:id/reviews', async (req, res, next)=> {   
+    console.log("/product/id/review route reached ", req.body) 
+      res.send(await createReview(req.body.review));
   });
 
 

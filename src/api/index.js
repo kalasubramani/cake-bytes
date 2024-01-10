@@ -52,11 +52,16 @@ const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
    
 //fetch reviews for the product
 const fetchProductReviews = async(productId,setReviews)=>{
-  console.log("fetchProductReviews productId - ",productId);
    const response = await axios.get(`/api/products/${productId}/reviews`);
-  console.log("fetchProductReviews response.data - ",response.data);
   setReviews(response.data);
 };
+
+//add a product review
+const addProductReview = async (review,productId)=>{
+  const response = await axios.post(`/api/products/${productId}/reviews`,
+                                    {review},
+                                    getHeaders());
+} 
 
 const attemptLoginWithToken = async(setAuth)=> {
   const token = window.localStorage.getItem('token');
@@ -96,6 +101,7 @@ const api = {
   updateOrder,
   removeFromCart,
   fetchProductReviews,
+  addProductReview, 
   attemptLoginWithToken
 };
 
