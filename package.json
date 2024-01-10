@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack",
     "build:dev": "webpack --watch --mode=development",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "start:dev": "JWT=michael nodemon --legacy-watch server/index.js --ignore src/ --ignore dist/",
     "start:dev:sync": "SYNC=true npm run start:dev"
   },
@@ -18,6 +19,10 @@
     "axios": "^1.5.1",
     "babel-loader": "^9.1.3",
     "css-loader": "^6.9.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
     "nodemon": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
