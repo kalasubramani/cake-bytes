@@ -91,6 +91,7 @@ const seed = async()=> {
     createProduct({ name: 'bazz', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
     createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum' }),
   ]);
+  
   let orders = await fetchOrders(ethyl.id);
   let cart = orders.find(order => order.is_cart);
   let lineItem = await createLineItem({ order_id: cart.id, product_id: foo.id});

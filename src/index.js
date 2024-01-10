@@ -7,6 +7,10 @@ import Cart from './Cart';
 import Login from './Login';
 import api from './api';
 import '../public/styles.css'
+import SearchBar from './SearchBar'
+import ProductDetails from './ProductDetails';
+import AddProductReview from './AddProductReview';
+import ThankForReview from './ThankForReview';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -14,6 +18,7 @@ const App = ()=> {
   const [lineItems, setLineItems] = useState([]);
   const [auth, setAuth] = useState({});
   const navigate=useNavigate();
+  const isLoggedIn = !!auth.id ;
 
   const attemptLoginWithToken = async()=> {
     await api.attemptLoginWithToken(setAuth);
@@ -48,7 +53,6 @@ const App = ()=> {
     }
   }, [auth]);
 
-
   const createLineItem = async(product)=> {
     await api.createLineItem({ product, cart, lineItems, setLineItems});
   };
@@ -63,6 +67,11 @@ const App = ()=> {
 
   const removeFromCart = async(lineItem)=> {
     await api.removeFromCart({ lineItem, lineItems, setLineItems });
+  };
+
+  //create api connection for removing a single item
+  const removeOneItem = async(lineItem)=> {
+    await api.removeOneItem({ lineItem, cart, lineItems, setLineItems });
   };
 
   const cart = orders.find(order => order.is_cart) || {};
@@ -84,22 +93,55 @@ const App = ()=> {
     navigate('/');
   }
 
+  //formats the product price to decimal
+  function displayPrice(price){   
+    //handle numbers less than 2 digits
+     var leftDecimal = price.toString().replace('.', ''),
+         rightDecimal = '00';
+     
+    //handle numbers > 2 digits
+     if(leftDecimal.length > 2){          
+       rightDecimal = leftDecimal.slice(-2);
+       leftDecimal = leftDecimal.slice(0, -2);
+     }
+     //form the decimal price to be displayed
+     var n = Number(leftDecimal+'.'+rightDecimal).toFixed(2);        
+     return (n === "NaN") ? price:n        
+   }
+
   return (
     <div className='parentContainer'>
       {
-        auth.id ? (
+        // auth.id ? (
           <>
              <span>
                 Welcome { auth.username }!               
               </span>
+            
+          <h3> Search: </h3> 
+          <SearchBar products={products}/>
+               <hr/>
+
             <nav className='navbar'>
-              <Link to='/'>Products ({ products.length })</Link>
+             
+              {isLoggedIn && 
+              <>
+               <Link to='/'>Products ({ products.length })</Link>
               <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
-              <Link to='/cart'>Cart ({ cartCount })</Link>   
-              <button onClick={ logout } className='logout'>Logout</button>           
+              <Link to='/cart'>Cart ({ cartCount })</Link>  
+              </>
+              } 
+               
+            { 
+            isLoggedIn? 
+            <button onClick={ logout } className='logout'>Logout</button>  
+            :  <Link to='/login' className='login'>Login</Link>   
+            }   
+ 
             </nav>
             <main> 
                 <Routes>
+                <Route path='/login' element={<Login login={login}/>}/>
                   <Route path='/' element={
                                           <Products
                                             auth = { auth }
@@ -123,34 +165,43 @@ const App = ()=> {
                                             products = { products }
                                             updateOrder = { updateOrder }
                                             removeFromCart = { removeFromCart }
+                                            removeOneItem = { removeOneItem }
+                                            updateLineItem = { updateLineItem }
                                             />
                                         }/>
+                <Route path='/products/:id' element={<ProductDetails products={products} 
+                                  displayPrice={displayPrice} auth={auth}/>}/> 
+
+                <Route path='/products/:id/review' element={<AddProductReview products={products}/>}/>
+                <Route path='/thankforreview' element={<ThankForReview/>} />
                 </Routes>                                
             </main>
             </>
-        ):(
-          <div>   
+        // ):(
+        //   <div>   
            
-            <main>
-              <Routes>
-              <Route path='/' element={<>
-                                       <nav className='navbarLogin'>
-                                           <Link to='/login' className='login'>Login</Link>            
-                                       </nav>
-                                          <Products
-                                            auth = { auth }
-                                            products={ products }
-                                            cartItems = { cartItems }
-                                            createLineItem = { createLineItem }
-                                            updateLineItem = { updateLineItem }
-                                          />
-                                          </>
-                                          }/>
-                <Route path='/login' element={<Login login={login}/>}/>
-              </Routes>
-            </main> 
-          </div>
-        )
+        //     <main>
+        //       <Routes>
+        //       <Route path='/' element={<>
+        //                                <nav className='navbarLogin'>
+        //                                            
+        //                                </nav>
+        //                                   <Products
+        //                                     auth = { auth }
+        //                                     products={ products }
+        //                                     cartItems = { cartItems }
+        //                                     createLineItem = { createLineItem }
+        //                                     updateLineItem = { updateLineItem }
+        //                                   />
+        //                                   </>
+        //                                   }/>
+        //         <Route path='/products/:id' element={<ProductDetails products={products} 
+        //                           displayPrice={displayPrice}/>}/> 
+        //         
+        //       </Routes>
+        //     </main> 
+        //   </div>
+        // )
       }
     </div>
   );
