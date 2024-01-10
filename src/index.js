@@ -7,6 +7,7 @@ import Cart from './Cart';
 import Login from './Login';
 import api from './api';
 import '../public/styles.css'
+import SearchBar from './SearchBar'
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -92,6 +93,11 @@ const App = ()=> {
              <span>
                 Welcome { auth.username }!               
               </span>
+            
+          <h3> Search: </h3> 
+          <SearchBar products={products}/>
+               <hr/>
+
             <nav className='navbar'>
               <Link to='/'>Products ({ products.length })</Link>
               <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
