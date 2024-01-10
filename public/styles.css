@@ -54,3 +54,8 @@ form > * {
 .navbarLogin{
   float: right;
 }
+.product{
+  height: 2 em;
+  cursor: pointer;
+  border:1px double black;
+}

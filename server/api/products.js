@@ -34,8 +34,8 @@ app.put('/:id', isLoggedIn, isAdmin, (req, res, next)=> {
 
 //Fetch reviews for a given product
 // app.get('/:id/reviews', isLoggedIn, async (req, res, next)=> {
-  app.get('/:id/reviews', async (req, res, next)=> {    
-  res.send(await fetchReviews(req.params.id));
+  app.get('/:id/reviews', async (req, res, next)=> {   
+    res.send(await fetchReviews(req.params.id));
 });
 
 //Add reviews for a given product

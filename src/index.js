@@ -7,6 +7,7 @@ import Cart from './Cart';
 import Login from './Login';
 import api from './api';
 import '../public/styles.css'
+import ProductDetails from './ProductDetails';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -48,7 +49,6 @@ const App = ()=> {
     }
   }, [auth]);
 
-
   const createLineItem = async(product)=> {
     await api.createLineItem({ product, cart, lineItems, setLineItems});
   };
@@ -83,6 +83,22 @@ const App = ()=> {
 
     navigate('/');
   }
+
+  //formats the product price to decimal
+  function displayPrice(price){   
+    //handle numbers less than 2 digits
+     var leftDecimal = price.toString().replace('.', ''),
+         rightDecimal = '00';
+     
+    //handle numbers > 2 digits
+     if(leftDecimal.length > 2){          
+       rightDecimal = leftDecimal.slice(-2);
+       leftDecimal = leftDecimal.slice(0, -2);
+     }
+     //form the decimal price to be displayed
+     var n = Number(leftDecimal+'.'+rightDecimal).toFixed(2);        
+     return (n === "NaN") ? price:n        
+   }
 
   return (
     <div className='parentContainer'>
@@ -125,6 +141,8 @@ const App = ()=> {
                                             removeFromCart = { removeFromCart }
                                             />
                                         }/>
+                <Route path='/products/:id' element={<ProductDetails products={products} 
+                                  displayPrice={displayPrice}/>}/> 
                 </Routes>                                
             </main>
             </>
@@ -146,6 +164,8 @@ const App = ()=> {
                                           />
                                           </>
                                           }/>
+                <Route path='/products/:id' element={<ProductDetails products={products} 
+                                  displayPrice={displayPrice}/>}/> 
                 <Route path='/login' element={<Login login={login}/>}/>
               </Routes>
             </main> 
