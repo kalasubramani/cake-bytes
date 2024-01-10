@@ -52,7 +52,7 @@ const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
    
 //fetch reviews for the product
 const fetchProductReviews = async(productId,setReviews)=>{
-   const response = await axios.get(`/api/products/${productId}/reviews`);
+   const response = await axios.get(`/api/products/${productId}/reviews`, getHeaders());
   setReviews(response.data);
 };
 
