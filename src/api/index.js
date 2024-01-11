@@ -52,14 +52,14 @@ const removeFromCart = async({ lineItem, lineItems, setLineItems })=> {
    
 //fetch reviews for the product
 const fetchProductReviews = async(productId,setReviews)=>{
-   const response = await axios.get(`/api/products/${productId}/reviews`);
+   const response = await axios.get(`/api/products/${productId}/reviews`, getHeaders());
   setReviews(response.data);
 };
 
 //add a product review
 const addProductReview = async (review,productId)=>{
   const response = await axios.post(`/api/products/${productId}/reviews`,
-                                    {review},
+                                    review,
                                     getHeaders());
 } 
 
@@ -99,6 +99,17 @@ const logout = (setAuth)=> {
   setAuth({});
 }
 
+//fetch all customers to display in admin tab
+const fetchAllCustomers = async (setCustomers)=>{
+  const response = await axios.get('/api/customers',getHeaders());
+  setCustomers(response.data); 
+}
+
+//add new product to db 
+const addNewProduct = async (product,setProducts)=>{
+  const response = await axios.post('/api/products',product,getHeaders())
+  setProducts((prds)=>{return [...prds,response.data]})
+}
 
 const api = {
   login,
@@ -114,6 +125,9 @@ const api = {
   fetchProductReviews,
   addProductReview, 
   attemptLoginWithToken,
+  fetchAllCustomers,
+  addNewProduct,
+  attemptLoginWithToken
 };
 
 export default api;

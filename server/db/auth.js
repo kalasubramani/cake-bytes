@@ -63,10 +63,19 @@ const createUser = async(user)=> {
   return response.rows[0];
 };
 
-
+//gets all customers
+const fetchAllCustomers = async(user)=>{
+  const SQL = `
+  SELECT id,username,is_admin
+  FROM users
+      `;
+const response = await client.query(SQL);
+return response.rows;
+}
 
 module.exports = {
   createUser,
   authenticate,
-  findUserByToken
+  findUserByToken,
+  fetchAllCustomers
 };
