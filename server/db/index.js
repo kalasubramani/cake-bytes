@@ -8,6 +8,7 @@ const {
 const {
   createUser,
   authenticate,
+  fetchAllCustomers,
   findUserByToken
 } = require('./auth');
 
@@ -47,7 +48,8 @@ const seed = async()=> {
       created_at TIMESTAMP DEFAULT now(),
       name VARCHAR(100) UNIQUE NOT NULL,
       price NUMERIC (5,2) NOT NULL,
-      description TEXT NOT NULL
+      description TEXT NOT NULL,
+      is_vip_product BOOLEAN DEFAULT FALSE
     );
 
     CREATE TABLE orders(
@@ -86,10 +88,10 @@ const seed = async()=> {
 
   //Added price and description 
   const [foo, bar, bazz,quq] = await Promise.all([
-    createProduct({ name: 'foo', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
-    createProduct({ name: 'bar', price: 425.00, description:'Yum, Yummy, Yummy, Yum' }),
-    createProduct({ name: 'bazz', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
-    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum' }),
+    createProduct({ name: 'foo', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:true}),
+    createProduct({ name: 'bar', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:true }),
+    createProduct({ name: 'bazz', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:false}),
+    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:false }),
   ]);
   
   let orders = await fetchOrders(ethyl.id);
@@ -121,9 +123,10 @@ module.exports = {
   updateLineItem,
   deleteLineItem,
   updateOrder,
-  authenticate,
+  authenticate,  
   findUserByToken,
   seed,
   fetchReviews,
+  fetchAllCustomers,
   client
 };

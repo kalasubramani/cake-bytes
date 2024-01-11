@@ -13,7 +13,7 @@ form > * {
 
 .navbar{
   display: flex;
-  gap:4em;
+  gap:2em;
   justify-content: center;
  }
 .logout{
@@ -83,4 +83,32 @@ form > * {
 .reviewSubmit{ 
   width:fit-content;
   align-self: flex-end;
+}
+.addProductContainer{
+  width:75%;
+  margin: auto;
+  margin-top: 2em;
+  padding:1px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap:1em;
+  border:1px double goldenrod;
+}
+
+.productText{
+  width:60em;
+  height:3em;
+  border-radius: 5px;
+}
+.productPrice{
+  width:6em;
+  height:3em;
+  border-radius: 5px;
+}
+.addProductButton{
+  width:fit-content;
+  height: 3em;
+  align-self: flex-end;
+  border-radius: 5px;
 }
