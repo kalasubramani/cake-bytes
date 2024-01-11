@@ -1,12 +1,13 @@
 const {
   authenticate,
   findUserByToken,
-  createUser
+  createUser,
+  fetchAllCustomers
 } = require('../db');
 
 const express = require('express');
 const app = express.Router();
-const { isLoggedIn } = require('./middleware');
+const { isLoggedIn,isAdmin } = require('./middleware');
 
 
 app.post('/login', async(req, res, next)=> {
@@ -29,6 +30,7 @@ app.get('/me', isLoggedIn, (req, res, next)=> {
   }
 });
 
+
 app.post('/users/register',  async(req, res, next)=> {
   try {
     const response = await createUser(req.body);
@@ -38,6 +40,16 @@ app.post('/users/register',  async(req, res, next)=> {
     next(ex);
   }
 });
+
+
+//fetch all customers for admin user login
+app.get('/customers',isLoggedIn, isAdmin,async (req,res,next)=>{
+  try{  
+   res.send(await fetchAllCustomers())
+  }catch(ex){
+    next(ex)
+  }
+})
 
 
 module.exports = app;

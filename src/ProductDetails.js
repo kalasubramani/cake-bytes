@@ -42,7 +42,7 @@ const ProductDetails = ({ products, displayPrice ,auth}) => {
         <p>{selectedProduct?.description}</p>
         {/* <img src={`../public/assets/${selectedProduct.product_image_name}`}></img> */}
         {/* <p>${displayPrice(selectedProduct.price)}</p> */}
-        <p>${displayPrice("5.75")}</p>
+        <p>${displayPrice(selectedProduct?.price)}</p>
       </div>
       <hr />
       {/* {productReviews.length > 0 ? ( */}

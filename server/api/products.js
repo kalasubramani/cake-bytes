@@ -6,6 +6,7 @@ const express = require('express');
 const app = express.Router();
 const { isLoggedIn, isAdmin } = require('./middleware');
 const { createReview } = require('../db/reviews');
+const { createProduct } = require('../db/products');
 
 //fetch all products
 app.get('/', async(req, res, next)=> {
@@ -27,22 +28,19 @@ app.get('/:id', async(req, res, next)=> {
   }
 });
 
-//Add new product
-app.put('/:id', isLoggedIn, isAdmin, (req, res, next)=> {
-  res.send('hello world');
+//Add new product //
+app.post('/', isLoggedIn, isAdmin,async (req, res, next)=> {
+  res.send(await createProduct(req.body));
 });
 
 //Fetch reviews for a given product
-app.get('/:id/reviews', isLoggedIn, async (req, res, next)=> {
-  // app.get('/:id/reviews', async (req, res, next)=> {   
+app.get('/:id/reviews', async (req, res, next)=> {   
     res.send(await fetchReviews(req.params.id));
 });
 
-//Add reviews for a given product
-app.post('/:id/reviews', isLoggedIn, async (req, res, next)=> {
-  // app.post('/:id/reviews', async (req, res, next)=> {   
-    console.log("/product/id/review route reached ", req.body) 
-      res.send(await createReview(req.body.review));
+//a logged in user - Adds review for a given product
+app.post('/:id/reviews', isLoggedIn, async (req, res, next)=> {  
+      res.send(await createReview(req.body));
   });
 
 

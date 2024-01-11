@@ -17,9 +17,11 @@ app.use('/api', require('./api'));
 const init = async()=> {
   await client.connect();
   console.log('connected to database');
-  await seed();
-  console.log('create your tables and seed data');
-
+   if (process.env.SYNC === 'true') {
+    console.log('create your tables and seed data');
+    await seed();
+   }
+  
   const port = process.env.PORT || 3050;
   app.listen(port, ()=> {
     console.log(`listening on port ${port}`);
