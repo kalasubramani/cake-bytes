@@ -59,7 +59,7 @@ const fetchProductReviews = async(productId,setReviews)=>{
 //add a product review
 const addProductReview = async (review,productId)=>{
   const response = await axios.post(`/api/products/${productId}/reviews`,
-                                    {review},
+                                    review,
                                     getHeaders());
 } 
 
@@ -99,6 +99,18 @@ const logout = (setAuth)=> {
   setAuth({});
 }
 
+//fetch all customers to display in admin tab
+const fetchAllCustomers = async (setCustomers)=>{
+  const response = await axios.get('/api/customers',getHeaders());
+  setCustomers(response.data); 
+}
+
+//add new product to db 
+const addNewProduct = async (product,setProducts)=>{
+  const response = await axios.post('/api/products',product,getHeaders())
+  setProducts((prds)=>{return [...prds,response.data]})
+}
+
 const api = {
   login,
   logout,
@@ -112,6 +124,8 @@ const api = {
   removeOneItem,
   fetchProductReviews,
   addProductReview, 
+  fetchAllCustomers,
+  addNewProduct,
   attemptLoginWithToken
 };
 
