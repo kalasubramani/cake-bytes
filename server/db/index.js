@@ -37,6 +37,8 @@ const seed = async()=> {
     CREATE TABLE users(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
+      firstname VARCHAR(100) NOT NULL,
+      lastname VARCHAR(100) NOT NULL,
       username VARCHAR(100) UNIQUE NOT NULL,
       password VARCHAR(100) NOT NULL,
       is_admin BOOLEAN DEFAULT false NOT NULL
@@ -77,11 +79,11 @@ const seed = async()=> {
 
   `;
   await client.query(SQL);
-
+//Added firstname & lastname to columns to table
   const [moe, lucy, ethyl] = await Promise.all([
-    createUser({ username: 'moe', password: '1234', is_admin: false}),
-    createUser({ username: 'lucy', password: '1234', is_admin: false}),
-    createUser({ username: 'ethyl', password: '1234', is_admin: true})
+    createUser({firstname: "Moesha", lastname: "Norwood", username: 'moe', password: '1234', is_admin: false}),
+    createUser({ firstname: "Lucinda", lastname: "Hall", username: 'lucy', password: '1234', is_admin: false}),
+    createUser({ firstname: "Ethyleen", lastname: "Sims", username: 'ethyl', password: '1234', is_admin: true})
   ]);
 
   //Added price and description 
@@ -125,5 +127,6 @@ module.exports = {
   findUserByToken,
   seed,
   fetchReviews,
+  createUser,
   client
 };

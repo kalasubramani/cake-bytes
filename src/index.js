@@ -11,6 +11,8 @@ import SearchBar from './SearchBar'
 import ProductDetails from './ProductDetails';
 import AddProductReview from './AddProductReview';
 import ThankForReview from './ThankForReview';
+import Register from './Register';
+import CompleteRegistration from './CompleteRegistration';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -129,19 +131,21 @@ const App = ()=> {
                <Link to='/'>Products ({ products.length })</Link>
               <Link to='/orders'>Orders ({ orders.filter(order => !order.is_cart).length })</Link>
               <Link to='/cart'>Cart ({ cartCount })</Link>  
+             
+                
               </>
               } 
                
             { 
             isLoggedIn? 
             <button onClick={ logout } className='logout'>Logout</button>  
-            :  <Link to='/login' className='login'>Login</Link>   
+            :  <Link to='/login' className='login'>Login</Link>  
             }   
  
             </nav>
             <main> 
                 <Routes>
-                <Route path='/login' element={<Login login={login}/>}/>
+                <Route path='/login' element={<Login login={login} />}/>
                   <Route path='/' element={
                                           <Products
                                             auth = { auth }
@@ -150,7 +154,9 @@ const App = ()=> {
                                             createLineItem = { createLineItem }
                                             updateLineItem = { updateLineItem }
                                           />}/>
-              
+              {/* ADD REGISTER PATH  */}
+                <Route path="/register" element={<Register />} />
+                <Route path="/completeregistration" element={<CompleteRegistration/>} />
                 <Route path='/orders' element={
                                             <Orders
                                             orders = { orders }

@@ -99,6 +99,7 @@ const logout = (setAuth)=> {
   setAuth({});
 }
 
+
 const api = {
   login,
   logout,
@@ -112,7 +113,7 @@ const api = {
   removeOneItem,
   fetchProductReviews,
   addProductReview, 
-  attemptLoginWithToken
+  attemptLoginWithToken,
 };
 
 export default api;
