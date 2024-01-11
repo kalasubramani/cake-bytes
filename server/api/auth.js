@@ -12,7 +12,6 @@ const { isLoggedIn } = require('./middleware');
 app.post('/login', async(req, res, next)=> {
   try {
     const token = await authenticate(req.body);
-    // console.log(token)
     res.send({ token });
   }
   catch(ex){
@@ -29,6 +28,7 @@ app.get('/me', isLoggedIn, (req, res, next)=> {
   }
 });
 
+//created server response 
 app.post('/users/register',  async(req, res, next)=> {
   try {
     const response = await createUser(req.body);

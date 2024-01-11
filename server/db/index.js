@@ -25,7 +25,7 @@ const {
   fetchReviews
 } = require('./reviews')
 
-// add price and description into the products table
+// add price and description into the products table..//add firstname and lastname to users table
 const seed = async()=> {
   const SQL = `
     DROP TABLE IF EXISTS line_items;
