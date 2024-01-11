@@ -1,6 +1,7 @@
 const {
   authenticate,
   findUserByToken,
+  createUser,
   fetchAllCustomers
 } = require('../db');
 
@@ -12,13 +13,13 @@ const { isLoggedIn,isAdmin } = require('./middleware');
 app.post('/login', async(req, res, next)=> {
   try {
     const token = await authenticate(req.body);
+    // console.log(token)
     res.send({ token });
   }
   catch(ex){
     next(ex);
   }
 });
-
 
 app.get('/me', isLoggedIn, (req, res, next)=> {
   try {
@@ -29,6 +30,18 @@ app.get('/me', isLoggedIn, (req, res, next)=> {
   }
 });
 
+
+app.post('/users/register',  async(req, res, next)=> {
+  try {
+    const response = await createUser(req.body);
+    res.send(response);
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+
 //fetch all customers for admin user login
 app.get('/customers',isLoggedIn, isAdmin,async (req,res,next)=>{
   try{  
@@ -37,5 +50,6 @@ app.get('/customers',isLoggedIn, isAdmin,async (req,res,next)=>{
     next(ex)
   }
 })
+
 
 module.exports = app;

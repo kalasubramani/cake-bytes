@@ -124,6 +124,7 @@ const api = {
   removeOneItem,
   fetchProductReviews,
   addProductReview, 
+  attemptLoginWithToken,
   fetchAllCustomers,
   addNewProduct,
   attemptLoginWithToken

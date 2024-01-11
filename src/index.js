@@ -1,22 +1,24 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom/client";
-import { Link, HashRouter, Routes, Route, useNavigate } from "react-router-dom";
-import Products from "./Products";
-import Orders from "./Orders";
-import Cart from "./Cart";
-import Login from "./Login";
-import api from "./api";
-import "../public/styles.css";
-import SearchBar from "./SearchBar";
-import ProductDetails from "./ProductDetails";
-import AddProductReview from "./AddProductReview";
-import ThankForReview from "./ThankForReview";
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+import { Link, HashRouter, Routes, Route,useNavigate } from 'react-router-dom';
+import Products from './Products';
+import Orders from './Orders';
+import Cart from './Cart';
+import Login from './Login';
+import api from './api';
+import '../public/styles.css'
+import SearchBar from './SearchBar'
+import ProductDetails from './ProductDetails';
+import AddProductReview from './AddProductReview';
+import ThankForReview from './ThankForReview';
+import Register from './Register';
+import CompleteRegistration from './CompleteRegistration';
 import AllCustomers from "./AllCustomers";
 import EditAProduct from "./EditAProduct";
 import AddNewProduct from "./AddNewProduct";
 import UserProfile from "./UserProfile";
 
-const App = () => {
+const App = ()=> {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [lineItems, setLineItems] = useState([]);
@@ -120,14 +122,8 @@ const App = () => {
 
   return (
     <div className="parentContainer">
-      {
-        // auth.id ? (
-        <>
-          <span>{/* Welcome { auth.username }!                */}</span>
-          <h3> Search: </h3>
-          {/* load searchbar component here */}
-          <SearchBar products={products} />
-          <hr />
+      {     
+        <>          
           <nav className="navbar">
             {isLoggedIn && (
               <>
@@ -176,7 +172,9 @@ const App = () => {
                   />
                 }
               />
-
+                  {/* ADD REGISTER PATH  */}
+                <Route path="/register" element={<Register />} />
+                <Route path="/completeregistration" element={<CompleteRegistration/>} />
               <Route
                 path="/orders"
                 element={
@@ -225,6 +223,7 @@ const App = () => {
           </main>
         </>
               }
+
     </div>
   );
 };

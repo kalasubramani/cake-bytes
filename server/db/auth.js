@@ -55,11 +55,12 @@ const createUser = async(user)=> {
   if(!user.username.trim() || !user.password.trim()){
     throw Error('must have username and password');
   }
+  console.log(user)
   user.password = await bcrypt.hash(user.password, 5);
   const SQL = `
-    INSERT INTO users (id, username, password, is_admin) VALUES($1, $2, $3, $4) RETURNING *
+    INSERT INTO users (id, firstname, lastname, username, password, is_admin) VALUES($1, $2, $3, $4, $5, $6) RETURNING *
   `;
-  const response = await client.query(SQL, [ uuidv4(), user.username, user.password, user.is_admin ]);
+  const response = await client.query(SQL, [ uuidv4(), user.firstname, user.lastname, user.username, user.password, user.is_admin ]);
   return response.rows[0];
 };
 
