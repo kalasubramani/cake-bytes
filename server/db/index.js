@@ -26,6 +26,7 @@ const {
 } = require('./reviews')
 
 // add price and description into the products table
+// added vip boolean into the users table
 const seed = async()=> {
   const SQL = `
     DROP TABLE IF EXISTS line_items;
@@ -39,7 +40,8 @@ const seed = async()=> {
       created_at TIMESTAMP DEFAULT now(),
       username VARCHAR(100) UNIQUE NOT NULL,
       password VARCHAR(100) NOT NULL,
-      is_admin BOOLEAN DEFAULT false NOT NULL
+      is_admin BOOLEAN DEFAULT false NOT NULL,
+      is_vip BOOLEAN DEFAULT false NOT NULL
     );
 
     CREATE TABLE products(
@@ -78,10 +80,11 @@ const seed = async()=> {
   `;
   await client.query(SQL);
 
+  //Added vip status
   const [moe, lucy, ethyl] = await Promise.all([
-    createUser({ username: 'moe', password: '1234', is_admin: false}),
-    createUser({ username: 'lucy', password: '1234', is_admin: false}),
-    createUser({ username: 'ethyl', password: '1234', is_admin: true})
+    createUser({ username: 'moe', password: '1234', is_admin: false, is_vip: false}),
+    createUser({ username: 'lucy', password: '1234', is_admin: false, is_vip: false}),
+    createUser({ username: 'ethyl', password: '1234', is_admin: true, is_vip: true})
   ]);
 
   //Added price and description 
