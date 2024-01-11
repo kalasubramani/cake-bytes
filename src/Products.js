@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
 const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=> {
-
-     /* ADDED PRODUCT PRICE*/
+  const isLoggedIn = !!auth.id;
+  const isAdmin = auth.is_admin;
 
   const navigate = useNavigate();
   
   return (
-    <div>
+    <div>    
       <h2>Products</h2>
       <ul>
         {
@@ -32,17 +32,17 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=
                   </div>
                 
                 {
-                  auth.id ? (
+                  isLoggedIn ? (
                     cartItem ? <button 
-                    onClick={ ()=> updateLineItem(cartItem)}>Add Another</button>
-                    : <button onClick={ ()=> createLineItem(product)}>Add</button>
+                    onClick={ ()=> updateLineItem(cartItem)}>Add another to cart</button>
+                    : <button onClick={ ()=> createLineItem(product)}>Add to cart</button>
                   
                   ): null 
                 }
                 {
-                  auth.is_admin ? (
-                    <Link to={`/products/${product.id}/edit`}>Edit</Link>
-                  ): null
+                  isAdmin ? (
+                    <button onClick={()=>{navigate(`/products/${product.id}/edit`)}}>Edit Product details</button>                   
+                  ): null                  
                 }
               </li>
             );

@@ -8,6 +8,7 @@ const {
 const {
   createUser,
   authenticate,
+  fetchAllCustomers,
   findUserByToken
 } = require('./auth');
 
@@ -38,6 +39,8 @@ const seed = async()=> {
     CREATE TABLE users(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
+      firstname VARCHAR(100) NOT NULL,
+      lastname VARCHAR(100) NOT NULL,
       username VARCHAR(100) UNIQUE NOT NULL,
       password VARCHAR(100) NOT NULL,
       is_admin BOOLEAN DEFAULT false NOT NULL,
@@ -49,7 +52,8 @@ const seed = async()=> {
       created_at TIMESTAMP DEFAULT now(),
       name VARCHAR(100) UNIQUE NOT NULL,
       price NUMERIC (5,2) NOT NULL,
-      description TEXT NOT NULL
+      description TEXT NOT NULL,
+      is_vip_product BOOLEAN DEFAULT FALSE
     );
 
     CREATE TABLE orders(
@@ -80,19 +84,20 @@ const seed = async()=> {
   `;
   await client.query(SQL);
 
-  //Added vip status
+  //Added VIP status
+  //Added firstname & lastname to columns to table
   const [moe, lucy, ethyl] = await Promise.all([
-    createUser({ username: 'moe', password: '1234', is_admin: false, is_vip: false}),
-    createUser({ username: 'lucy', password: '1234', is_admin: false, is_vip: false}),
-    createUser({ username: 'ethyl', password: '1234', is_admin: true, is_vip: true})
+    createUser({firstname: "Moesha", lastname: "Norwood", username: 'moe', password: '1234', is_admin: false, is_vip: false }),
+    createUser({ firstname: "Lucinda", lastname: "Hall", username: 'lucy', password: '1234', is_admin: false, is_vip: false }),
+    createUser({ firstname: "Ethyleen", lastname: "Sims", username: 'ethyl', password: '1234', is_admin: true, is_vip: true })
   ]);
 
   //Added price and description 
   const [foo, bar, bazz,quq] = await Promise.all([
-    createProduct({ name: 'foo', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
-    createProduct({ name: 'bar', price: 425.00, description:'Yum, Yummy, Yummy, Yum' }),
-    createProduct({ name: 'bazz', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
-    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum' }),
+    createProduct({ name: 'foo', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:true}),
+    createProduct({ name: 'bar', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:true }),
+    createProduct({ name: 'bazz', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:false}),
+    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:false }),
   ]);
   
   let orders = await fetchOrders(ethyl.id);
@@ -124,9 +129,11 @@ module.exports = {
   updateLineItem,
   deleteLineItem,
   updateOrder,
-  authenticate,
+  authenticate,  
   findUserByToken,
   seed,
   fetchReviews,
+  createUser,
+  fetchAllCustomers,
   client
 };
