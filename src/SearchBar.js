@@ -10,7 +10,7 @@ const SearchBar =({searchList}) =>{
 
  //get all of the products that match the search text
      const filteredProducts = searchList.filter((product) => {
-        return product.name?.indexOf( searchProducts) !== -1
+        return product.name?.toLowerCase().indexOf( searchProducts.toLowerCase()) !== -1
     
     })
 
