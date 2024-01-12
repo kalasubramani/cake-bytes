@@ -29,11 +29,7 @@ app.get('/me', isLoggedIn, (req, res, next)=> {
   }
 });
 
-<<<<<<< HEAD
 //created server response 
-=======
-
->>>>>>> main
 app.post('/users/register',  async(req, res, next)=> {
   try {
     const response = await createUser(req.body);
