@@ -1,8 +1,71 @@
-import React from "react";
+import React, {useState} from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "./api";
 
-const EditAProduct = ()=>{
- return (
-  <h3> Edit the product details here </h3>
+const EditAProduct = ({products})=>{
+   
+   
+    const [name, setName]=useState('');
+    const [price, setPrice]=useState(0);
+    const [description, setDescription]=useState('');
+    const [is_vip_product,setVipProduct]=useState(false);
+
+    const navigate=useNavigate();
+    
+    //get the product id from url
+    const { id } = useParams();
+
+    //find selected product from products list
+    const product = products?.find((product) => {
+        return product.id === id;
+      });
+   
+
+    const handleSubmit =(e)=>{
+        e.preventDefault();
+       
+     
+    const newProduct={
+        product_id: id,
+        name,
+        price,
+        description,
+        is_vip_product
+         }
+         const updateProducts = async (productId)=>{
+            const response = await api.updateProduct(newProduct,productId);
+        }
+         updateProducts(product.id);
+    
+        
+        setName('');
+        setPrice('');
+        setDescription('');
+        setVipProduct(false); //default value = false
+    
+         navigate("/")
+        }
+
+        const handleCheckboxChange = () =>{
+            setVipProduct(isVipProduct => !isVipProduct)
+          }
+      
+    return (
+    <div>
+        <h3> Cake Update </h3>
+        <form onSubmit={handleSubmit}>
+        <label > Cake Name : <input type="text" onChange={(e)=>{setName(e.target.value)}} className="productText" required/></label>         
+          <label > Description : <input type="text" onChange={(e)=>{setDescription(e.target.value)}} className="productText" required/></label>
+          <label >Price : <input type="number" step=".01" onChange={(e)=>{setPrice(e.target.value)}} className="productPrice" required/></label>
+          <label > Upload image : TBD</label>
+          <label >Mark Cake as VIP only <input type="checkbox" checked={is_vip_product} onChange={handleCheckboxChange}/></label>
+          <button className="addProductButton">Add Cake</button>  
+
+
+        </form>
+
+
+    </div>
  )
 }
 

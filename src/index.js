@@ -221,7 +221,7 @@ const App = ()=> {
               />
               <Route path="/thankforreview" element={<ThankForReview />} />
               <Route path="/customers" element={<AllCustomers auth={auth}/>} />
-              <Route path="/products/:id/edit" element={<EditAProduct/>} />
+              <Route path="/products/:id/edit" element={<EditAProduct  products={products}/>} />
               <Route path="/products" element={<AddNewProduct setProducts={setProducts}/>} />
               <Route path="/profile" element={<UserProfile auth={auth}/>} />
               <Route path="/ordersadmin" element={<AllOrders/>}/>

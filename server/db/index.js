@@ -26,8 +26,10 @@ const {
   fetchReviews
 } = require('./reviews')
 
-// add price and description into the products table
+
+// add price and description into the products table..//add firstname and lastname to users table//add img to Product table
 // added vip boolean into the users table
+
 const seed = async()=> {
   const SQL = `
     DROP TABLE IF EXISTS line_items;
@@ -92,12 +94,12 @@ const seed = async()=> {
     createUser({ firstname: "Ethyleen", lastname: "Sims", username: 'ethyl', password: '1234', is_admin: true, is_vip: false })
   ]);
 
-  //Added price and description 
+  //Added price and description
   const [foo, bar, bazz,quq] = await Promise.all([
-    createProduct({ name: 'foo', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:true}),
-    createProduct({ name: 'bar', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:true }),
-    createProduct({ name: 'bazz', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:false}),
-    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum',is_vip_product:false }),
+    createProduct({ name: 'foo', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', is_vip_product:true}),
+    createProduct({ name: 'bar', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', is_vip_product:true}),
+    createProduct({ name: 'bazz', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', is_vip_product:false}),
+    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum', is_vip_product:false}),
   ]);
   
   let orders = await fetchOrders(ethyl.id);
