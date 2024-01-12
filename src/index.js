@@ -17,6 +17,7 @@ import AllCustomers from "./AllCustomers";
 import EditAProduct from "./EditAProduct";
 import AddNewProduct from "./AddNewProduct";
 import UserProfile from "./UserProfile";
+import AllOrders from "./AllOrders";
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -136,6 +137,7 @@ const App = ()=> {
                         <>
                           <Link to="/customers">View all customers</Link>
                           <Link to="/products">Add new product</Link>
+                          <Link to="/ordersadmin">View all orders</Link>
                         </>
                       )
                     }
@@ -219,6 +221,7 @@ const App = ()=> {
               <Route path="/products/:id/edit" element={<EditAProduct/>} />
               <Route path="/products" element={<AddNewProduct setProducts={setProducts}/>} />
               <Route path="/profile" element={<UserProfile/>} />
+              <Route path="/ordersadmin" element={<AllOrders/>}/>
             </Routes>
           </main>
         </>
