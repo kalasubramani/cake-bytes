@@ -26,6 +26,7 @@ const App = ()=> {
   const navigate = useNavigate();
   const isLoggedIn = !!auth.id;
   const isAdmin = auth.is_admin;
+  const isVip = auth.is_vip;
 
   const attemptLoginWithToken = async () => {
     await api.attemptLoginWithToken(setAuth);
@@ -120,6 +121,7 @@ const App = ()=> {
     }
   }
 
+
   return (
     <div className="parentContainer">
       {     
@@ -158,6 +160,7 @@ const App = ()=> {
 
           <main>
           {isAdmin && <h3> ADMIN LOGIN -- PRIVILEGED USER -- EXERCISE CAUTION</h3>}
+          {isVip && <h3> VIP MEMBER - Thank you for being a Cake Code VIP!</h3>}
             <Routes>
               <Route path="/login" element={<Login login={login} />} />
               <Route
@@ -218,7 +221,7 @@ const App = ()=> {
               <Route path="/customers" element={<AllCustomers auth={auth}/>} />
               <Route path="/products/:id/edit" element={<EditAProduct/>} />
               <Route path="/products" element={<AddNewProduct setProducts={setProducts}/>} />
-              <Route path="/profile" element={<UserProfile/>} />
+              <Route path="/profile" element={<UserProfile auth={auth}/>} />
             </Routes>
           </main>
         </>
