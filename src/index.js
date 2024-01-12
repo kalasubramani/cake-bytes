@@ -197,6 +197,7 @@ const App = ()=> {
                     removeFromCart={removeFromCart}
                     removeOneItem={removeOneItem}
                     updateLineItem={updateLineItem}
+                    displayPrice={displayPrice}
                   />
                 }
               />
