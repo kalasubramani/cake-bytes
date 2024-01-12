@@ -188,6 +188,7 @@ const App = ()=> {
                     products={products}
                     lineItems={lineItems}
                   />
+                  
                 }
               />
               <Route
@@ -201,6 +202,7 @@ const App = ()=> {
                     removeFromCart={removeFromCart}
                     removeOneItem={removeOneItem}
                     updateLineItem={updateLineItem}
+                    displayPrice={displayPrice}
                   />
                 }
               />
