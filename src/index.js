@@ -120,16 +120,14 @@ const App = () => {
         <>
           <span>{/* Welcome { auth.username }!                */}</span>
           <h3> Search: </h3>
-          load searchbar component here
-          <SearchBar products={products} />
+          {/* load searchbar component here */}
+          {/* <SearchBar products={products} /> */}
           <hr />
           <nav className="navbar">
             {isLoggedIn && (
               <>
                 <Link to="/">Products ({products.length})</Link>
-                <Link to="/orders">
-                  Orders ({orders.filter((order) => !order.is_cart).length})
-                </Link>
+                <Link to="/orders"> Orders ({orders.filter((order) => !order.is_cart).length})</Link>
                 <Link to="/cart">Cart ({cartCount})</Link>
               </>
             )}
@@ -168,6 +166,7 @@ const App = () => {
                     products={products}
                     lineItems={lineItems}
                   />
+                  
                 }
               />
               <Route

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import SearchBar from "./SearchBar"
 
 const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=> {
 
@@ -11,6 +12,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=
   return (
     <div>
       <h2>Products</h2>
+      <SearchBar searchList={products}/>
       <ul>
         {
           products.map( product => {

@@ -11,7 +11,7 @@ const Cart = ({ updateOrder, removeFromCart, updateLineItem, removeOneItem, line
             return (
               <li key={ lineItem.id }>
                 { product.name }
-                ({ lineItem.quantity })
+                ({ lineItem.quantity }) 
                 <button onClick={ ()=> updateLineItem(lineItem)}>Add one</button>
                 { lineItem.quantity > 1 ?
                   <button onClick={ ()=> removeOneItem(lineItem)}>Remove one</button> 
