@@ -26,7 +26,10 @@ const {
   fetchReviews
 } = require('./reviews')
 
+
 // add price and description into the products table..//add firstname and lastname to users table//add img to Product table
+// added vip boolean into the users table
+
 const seed = async()=> {
   const SQL = `
     DROP TABLE IF EXISTS line_items;
@@ -42,7 +45,8 @@ const seed = async()=> {
       lastname VARCHAR(100) NOT NULL,
       username VARCHAR(100) UNIQUE NOT NULL,
       password VARCHAR(100) NOT NULL,
-      is_admin BOOLEAN DEFAULT false NOT NULL
+      is_admin BOOLEAN DEFAULT false NOT NULL,
+      is_vip BOOLEAN DEFAULT false NOT NULL
     );
 
     CREATE TABLE products(
@@ -81,11 +85,13 @@ const seed = async()=> {
 
   `;
   await client.query(SQL);
-//Added firstname & lastname to columns to table
+
+  //Added VIP status
+  //Added firstname & lastname to columns to table
   const [moe, lucy, ethyl] = await Promise.all([
-    createUser({firstname: "Moesha", lastname: "Norwood", username: 'moe', password: '1234', is_admin: false}),
-    createUser({ firstname: "Lucinda", lastname: "Hall", username: 'lucy', password: '1234', is_admin: false}),
-    createUser({ firstname: "Ethyleen", lastname: "Sims", username: 'ethyl', password: '1234', is_admin: true})
+    createUser({firstname: "Moesha", lastname: "Norwood", username: 'moe', password: '1234', is_admin: false, is_vip: false }),
+    createUser({ firstname: "Lucinda", lastname: "Hall", username: 'lucy', password: '1234', is_admin: false, is_vip: true }),
+    createUser({ firstname: "Ethyleen", lastname: "Sims", username: 'ethyl', password: '1234', is_admin: true, is_vip: false })
   ]);
 
   //Added price and description

@@ -7,7 +7,7 @@ const {
 
 const express = require('express');
 const app = express.Router();
-const { isLoggedIn,isAdmin } = require('./middleware');
+const { isLoggedIn,isAdmin, isVip } = require('./middleware');
 
 
 app.post('/login', async(req, res, next)=> {
@@ -49,6 +49,5 @@ app.get('/customers',isLoggedIn, isAdmin,async (req,res,next)=>{
     next(ex)
   }
 })
-
 
 module.exports = app;
