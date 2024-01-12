@@ -21,7 +21,8 @@ const Register = () => {
       lastname,
       username,
       password,
-      is_admin: false
+      is_admin: false,
+      is_vip: false
     };
     try {
       const response = await axios.post(
