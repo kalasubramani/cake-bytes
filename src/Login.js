@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState,} from 'react';
+import Register from './Register';
+import { Link } from 'react-router-dom';
 
 const Login = ({ login })=> {
   const [username, setUsername] = useState('');
@@ -33,6 +35,8 @@ const Login = ({ login })=> {
         />
         <button disabled={!username || !password} className='loginform'>Login</button>
       </form>
+      {/* Add Register LINK */}
+      Are you a new user? Get Started <Link to='/register'>here</Link>!
     </div>
   );
 }
