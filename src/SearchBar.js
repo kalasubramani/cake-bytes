@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 const SearchBar =({searchList}) =>{
     const [searchProducts, setSearchProducts] = useState ('')
-    console.log(" searchbar page searchlist",searchList)
+    //console.log(" searchbar page searchlist",searchList)
 
  //get all of the products that match the search text
      const filteredProducts = searchList.filter((product) => {
