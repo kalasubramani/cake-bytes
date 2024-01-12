@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "./api";
 
 const AllCustomers = ({ auth }) => {
+  console.log
   const isLoggedIn = !!auth.id;
   const isAdmin = auth.is_admin;
   const [customers,setCustomers] = useState([]);
@@ -19,7 +20,7 @@ const AllCustomers = ({ auth }) => {
       return (
             <p key={customer.id}>{customer.username} 
             {customer.is_admin && <span>**ADMIN**</span>}
-            {/* {!customer.is_vip && <button>Make VIP customer</button>} */}
+            {customer.is_vip ? <button>Remove VIP status</button> : <button>Make custumer VIP</button>}
             </p>            
       )
   })

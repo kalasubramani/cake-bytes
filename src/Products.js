@@ -1,53 +1,80 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import SearchBar from "./SearchBar"
+import SearchBar from './SearchBar';
 
 const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=> {
+  const [searchResults,setSearchResults] = useState();
   const isLoggedIn = !!auth.id;
   const isAdmin = auth.is_admin;
+  const isVip = auth.is_vip;
 
   const navigate = useNavigate();
+
+  //display search results in the page
+  const showSearchResults = (searchResults) => {
+    return (
+         searchResults.map((product)=>{return (
+        <div key={product.id}>  
+        <div                        
+                        className="product"
+                        onClick={() => {
+                          navigate(`/products/${product.id}`);
+                        }}
+                      >
+                        {product.name}
+                      </div>
+        {product.price}
+    </div>
+         )}
+    ))
+  }
   
   return (
     <div>    
       <h2>Products</h2>
-      <SearchBar searchList={products}/>
+      <SearchBar searchList={products} onSearch={(results)=>{setSearchResults(results)}}/>
       <ul>
         {
+             // display order details by default. If the searchResults are available, then display only search results
+            searchResults ? showSearchResults(searchResults) 
+            : 
           products.map( product => {
             const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
-            return (
-              <li key={ product.id }>
-
-                { product.name } ${product.price}
-
-                <div
-                      // key={book.id}
-                       className="product"
-                      onClick={() => {
-                        navigate(`/products/${product.id}`);
-                      }}
-                    >
-                      { product.name }
-                    {/* <img src={book.coverimage} className="coverimage" /> */}
-                  </div>
-                
-                {
-                  isLoggedIn ? (
-                    cartItem ? <button 
-                    onClick={ ()=> updateLineItem(cartItem)}>Add another to cart</button>
-                    : <button onClick={ ()=> createLineItem(product)}>Add to cart</button>
-                  
-                  ): null 
-                }
-                {
-                  isAdmin ? (
-                    <button onClick={()=>{navigate(`/products/${product.id}/edit`)}}>Edit Product details</button>                   
-                  ): null                  
-                }
-              </li>
-            );
+            {
+              if(!product.is_vip_product || isVip) {
+                return (
+                  <li key={ product.id }>
+    
+                    { product.name } ${product.price} {product.is_vip_product && <span>"**for VIP customers only!**"</span>}
+                    
+                    <div
+                          className="product"
+                          onClick={() => {
+                            navigate(`/products/${product.id}`);
+                          }}
+                        >
+                          { product.name }
+                        {/* <img src={book.coverimage} className="coverimage" /> */}
+                      </div>
+                    
+                    {
+                      isLoggedIn ? (
+                        cartItem ? <button 
+                        onClick={ ()=> updateLineItem(cartItem)}>Add another to cart</button>
+                        : <button onClick={ ()=> createLineItem(product)}>Add to cart</button>
+                      
+                      ): null 
+                    }
+                    {
+                      isAdmin ? (
+                        <button onClick={()=>{navigate(`/products/${product.id}/edit`)}}>Edit Product details</button>                   
+                      ): null                  
+                    }
+                  </li>
+                );
+              }
+            }
           })
         }
       </ul>

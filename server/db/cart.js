@@ -100,6 +100,14 @@ const fetchOrders = async(userId)=> {
   return response.rows;
 };
 
+//fetch all orders for admin user
+const fetchAllOrders = async ()=>{
+  const SQL=`
+          SELECT * FROM orders;`
+  const response = await client.query(SQL);
+  return response.rows;
+}
+
 module.exports = {
   fetchLineItems,
   createLineItem,
