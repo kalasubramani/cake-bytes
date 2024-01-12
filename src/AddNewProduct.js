@@ -25,9 +25,9 @@ const navigate=useNavigate();
       is_vip_product
      }
      console.log("product obj ", product);
-     const addProduct = async (newProduct,setProducts)=>{
-        const response = await api.addNewProduct(newProduct,setProducts);
-        
+     const addProduct = async (resetProduct,setProducts)=>{
+        const response = await api.addNewProduct(resetProduct,setProducts);
+        console.log(response)
      }
      addProduct(product,setProducts);
 

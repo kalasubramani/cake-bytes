@@ -6,7 +6,7 @@ const express = require('express');
 const app = express.Router();
 const { isLoggedIn, isAdmin } = require('./middleware');
 const { createReview } = require('../db/reviews');
-const { createProduct } = require('../db/products');
+const { createProduct, updateProduct } = require('../db/products');
 
 //fetch all products
 app.get('/', async(req, res, next)=> {
@@ -29,9 +29,21 @@ app.get('/:id', async(req, res, next)=> {
 });
 
 //Add new product //
-app.post('/', isLoggedIn, isAdmin,async (req, res, next)=> {
+app.post('/', isLoggedIn, isAdmin, async (req, res, next) => {
   res.send(await createProduct(req.body));
 });
+
+//Edit a product//
+ 
+app.put('/:id', isLoggedIn, isAdmin, async(req, res, next) => {
+  try {
+      res.send(await updateProduct({...req.body, id: req.params.id}));
+  } catch (ex) {
+    next(ex);
+  }
+
+})
+
 
 //Fetch reviews for a given product
 app.get('/:id/reviews', async (req, res, next)=> {   

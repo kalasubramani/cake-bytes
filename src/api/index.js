@@ -111,6 +111,11 @@ const addNewProduct = async (product,setProducts)=>{
   setProducts((prds)=>{return [...prds,response.data]})
 }
 
+//updateProducts call 
+const updateProduct = async(product, setProducts)=> {
+ const response = await axios.put(`/api/products/${product.product_id}`,product, getHeaders());
+};
+
 const api = {
   login,
   logout,
@@ -127,7 +132,8 @@ const api = {
   attemptLoginWithToken,
   fetchAllCustomers,
   addNewProduct,
-  attemptLoginWithToken
+  attemptLoginWithToken,
+  updateProduct
 };
 
 export default api;

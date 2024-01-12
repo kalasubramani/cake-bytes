@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+
 // dependencies use numbers, so you can use the product.id as a variable to watch for in useEffect
 //Creating a search bar so we can see the results
 
