@@ -113,7 +113,7 @@ const addNewProduct = async (product,setProducts)=>{
 
 //updateProducts call 
 const updateProduct = async(product, setProducts)=> {
- const response = await axios.put(`/api/products/${product.product_id}`,product, getHeaders());
+ const response = await axios.put(`/api/products/${product.product_id}`,product, getHeaders())
 };
 
 const api = {

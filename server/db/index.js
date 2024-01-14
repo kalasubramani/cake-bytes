@@ -29,6 +29,7 @@ const {
 
 // add price and description into the products table..//add firstname and lastname to users table//add img to Product table
 // added vip boolean into the users table
+// modified vip boolean to price in the products table
 
 const seed = async()=> {
   const SQL = `
@@ -55,7 +56,7 @@ const seed = async()=> {
       name VARCHAR(100) UNIQUE NOT NULL,
       price NUMERIC (5,2) NOT NULL,
       description TEXT NOT NULL,
-      is_vip_product BOOLEAN DEFAULT FALSE
+      vip_price NUMERIC (5,2)
     );
 
     CREATE TABLE orders(
@@ -95,11 +96,12 @@ const seed = async()=> {
   ]);
 
   //Added price and description
+  //Modified VIP booleans to VIP prices
   const [foo, bar, bazz,quq] = await Promise.all([
-    createProduct({ name: 'foo', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', is_vip_product:true}),
-    createProduct({ name: 'bar', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', is_vip_product:true}),
-    createProduct({ name: 'bazz', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', is_vip_product:false}),
-    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum', is_vip_product:false}),
+    createProduct({ name: 'foo', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5}),
+    createProduct({ name: 'bar', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5}),
+    createProduct({ name: 'bazz', price: 425.00, description: 'Yum, Yummy, Yummy, Yum'}),
+    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
   ]);
   
   let orders = await fetchOrders(ethyl.id);
