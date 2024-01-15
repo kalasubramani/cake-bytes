@@ -18,6 +18,7 @@ import EditAProduct from "./EditAProduct";
 import AddNewProduct from "./AddNewProduct";
 import UserProfile from "./UserProfile";
 import AllOrders from "./AllOrders";
+import ProfileSettings from './ProfileSettings';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -242,6 +243,7 @@ const App = ()=> {
               <Route path="/customers" element={<AllCustomers auth={auth}/>} />
               <Route path="/products/:id/edit" element={<EditAProduct  products={products}/>} />
               <Route path="/products" element={<AddNewProduct setProducts={setProducts}/>} />
+              <Route path="/settings" element={<ProfileSettings auth={auth} setAuth={setAuth}/>}></Route>
               <Route path="/profile" element={<UserProfile auth={auth} wishlistItems={wishlistItems} products={products} />} />
               <Route path="/ordersadmin" element={<AllOrders/>}/>
             </Routes>

@@ -111,9 +111,18 @@ const addNewProduct = async (product,setProducts)=>{
   setProducts((prds)=>{return [...prds,response.data]})
 }
 
-//updateProducts call 
+//updateProducts in db 
 const updateProduct = async(product, setProducts)=> {
- const response = await axios.put(`/api/products/${product.product_id}`,product, getHeaders())
+ const response = await axios.put(`/api/products/${product.product_id}`,product, getHeaders());
+//use setProducts() to update the state refer to linenumber 111
+}; 
+
+
+//updateUser in db use 
+const updateProfile = async(user,setAuth)=> {
+  const response = await axios.put(`/api/users/${user.user_id}`,user, getHeaders());
+  //use setAuth() to update the state 
+  setAuth(response.data)
 };
 
 //fetch all wishlist items for a user
@@ -143,7 +152,8 @@ const api = {
   fetchAllCustomers,
   addNewProduct,
   attemptLoginWithToken,
-  updateProduct, 
+  updateProduct,
+  updateProfile,
   fetchWishlistItems
 };
 

@@ -6,6 +6,7 @@ const {
 } = require('./products');
 
 const {
+  updateUser,
   createUser,
   authenticate,
   fetchAllCustomers,
@@ -159,6 +160,7 @@ module.exports = {
   fetchReviews,
   createUser,
   fetchAllCustomers,
+  updateUser,
   createWishlistItem,
   fetchWishlistItems,
   deleteWishlistItem,

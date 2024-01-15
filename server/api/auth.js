@@ -2,7 +2,8 @@ const {
   authenticate,
   findUserByToken,
   createUser,
-  fetchAllCustomers
+  fetchAllCustomers,
+  updateUser
 } = require('../db');
 
 const express = require('express');
@@ -48,6 +49,16 @@ app.get('/customers',isLoggedIn, isAdmin,async (req,res,next)=>{
   }catch(ex){
     next(ex)
   }
+})
+
+//update user db
+app.put('/users/:id', isLoggedIn, async(req, res, next) => {
+  try {
+      res.send(await updateUser({...req.body, id: req.params.id}));
+  } catch (ex) {
+    next(ex);
+  }
+
 })
 
 module.exports = app;
