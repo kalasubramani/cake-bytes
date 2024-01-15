@@ -100,11 +100,12 @@ const fetchOrders = async(userId)=> {
   return response.rows;
 };
 
-//fetch all orders for admin user
+// fetch all orders for admin user
 const fetchAllOrders = async ()=>{
   const SQL=`
-          SELECT * FROM orders;`
+          SELECT * FROM orders`;
   const response = await client.query(SQL);
+  console.log("fetchAllOrders", response.data)
   return response.rows;
 }
 
@@ -114,5 +115,6 @@ module.exports = {
   updateLineItem,
   deleteLineItem,
   updateOrder,
-  fetchOrders
+  fetchOrders,
+  fetchAllOrders 
 };

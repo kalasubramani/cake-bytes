@@ -15,8 +15,17 @@ const fetchProducts = async(setProducts)=> {
 
 const fetchOrders = async(setOrders)=> {
   const response = await axios.get('/api/orders', getHeaders());
+  console.log("all orders",setOrders)
   setOrders(response.data);
 };
+
+//fetch all orders to display in admin tab, fetch all orders, created a new route called /current for admin user
+const fetchAllOrders = async (setAllOrders)=>{
+  const response = await axios.get('/api/orders/current',getHeaders());
+  console.log("/src/api fetchAllOrders", response.data )
+  setAllOrders(response.data); 
+}
+
 
 const fetchLineItems = async(setLineItems)=> {
   const response = await axios.get('/api/lineItems', getHeaders());
@@ -105,6 +114,7 @@ const fetchAllCustomers = async (setCustomers)=>{
   setCustomers(response.data); 
 }
 
+
 //add new product to db 
 const addNewProduct = async (product,setProducts)=>{
   const response = await axios.post('/api/products',product,getHeaders())
@@ -153,6 +163,7 @@ const api = {
   addNewProduct,
   attemptLoginWithToken,
   updateProduct,
+  fetchAllOrders,
   updateProfile,
   fetchWishlistItems
 };

@@ -10,6 +10,7 @@ const {
   createUser,
   authenticate,
   fetchAllCustomers,
+  
   findUserByToken
 } = require('./auth');
 
@@ -19,7 +20,8 @@ const {
   updateLineItem,
   deleteLineItem,
   updateOrder,
-  fetchOrders
+  fetchOrders,
+  fetchAllOrders,
 } = require('./cart');
 
 const {
@@ -160,6 +162,7 @@ module.exports = {
   fetchReviews,
   createUser,
   fetchAllCustomers,
+  fetchAllOrders,
   updateUser,
   createWishlistItem,
   fetchWishlistItems,

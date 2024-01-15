@@ -5,7 +5,7 @@ const AllCustomers = ({ auth }) => {
   console.log
   const isLoggedIn = !!auth.id;
   const isAdmin = auth.is_admin;
-  const [customers,setCustomers] = useState([]);
+  const [customers, setCustomers] = useState([]);
   useEffect(() => {
     //if the logged in user is an admin, get customer details from db
     if (isLoggedIn && isAdmin) {    
