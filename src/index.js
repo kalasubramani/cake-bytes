@@ -24,6 +24,7 @@ const App = ()=> {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [lineItems, setLineItems] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState([]);
   const [auth, setAuth] = useState({});
   const navigate = useNavigate();
   const isLoggedIn = !!auth.id;
@@ -58,6 +59,16 @@ const App = ()=> {
     if (auth.id) {
       const fetchData = async () => {
         await api.fetchLineItems(setLineItems);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
+  //fetch wishlist items for the logged in user
+  useEffect(() => {
+    if (auth.id) {
+      const fetchData = async () => {
+        await api.fetchWishlistItems(setWishlistItems);
       };
       fetchData();
     }
@@ -105,24 +116,28 @@ const App = ()=> {
     navigate("/");
   };
 
-  //formats the product price to decimal
-  function displayPrice(price) {
-    if (price) {
-      //handle numbers less than 2 digits
-      var leftDecimal = price.toString().replace(".", ""),
-        rightDecimal = "00";
+  // //formats the product price to decimal
+  // function displayPrice(price) {
+  //   if (price) {
+  //     //handle numbers less than 2 digits
+  //     var leftDecimal = price.toString().replace(".", ""),
+  //       rightDecimal = "00";
 
-      //handle numbers > 2 digits
-      if (leftDecimal.length > 2) {
-        rightDecimal = leftDecimal.slice(-2);
-        leftDecimal = leftDecimal.slice(0, -2);
-      }
-      //form the decimal price to be displayed
-      var n = Number(leftDecimal + "." + rightDecimal).toFixed(2);
-      return n === "NaN" ? price : n;
-    }
-  }
+  //     //handle numbers > 2 digits
+  //     if (leftDecimal.length > 2) {
+  //       rightDecimal = leftDecimal.slice(-2);
+  //       leftDecimal = leftDecimal.slice(0, -2);
+  //     }
+  //     //form the decimal price to be displayed
+  //     var n = Number(leftDecimal + "." + rightDecimal).toFixed(2);
+  //     return n === "NaN" ? price : n;
+  //   }
+  // }
 
+  let displayPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })
 
   return (
     <div className="parentContainer">
@@ -175,6 +190,7 @@ const App = ()=> {
                     cartItems={cartItems}
                     createLineItem={createLineItem}
                     updateLineItem={updateLineItem}
+                    displayPrice={displayPrice}
                   />
                 }
               />
@@ -204,6 +220,7 @@ const App = ()=> {
                     removeOneItem={removeOneItem}
                     updateLineItem={updateLineItem}
                     displayPrice={displayPrice}
+                    isVip = {isVip}
                   />
                 }
               />
@@ -226,8 +243,8 @@ const App = ()=> {
               <Route path="/customers" element={<AllCustomers auth={auth}/>} />
               <Route path="/products/:id/edit" element={<EditAProduct  products={products}/>} />
               <Route path="/products" element={<AddNewProduct setProducts={setProducts}/>} />
-              <Route path="/profile" element={<UserProfile auth={auth}/>} />
               <Route path="/settings" element={<ProfileSettings auth={auth} setAuth={setAuth}/>}></Route>
+              <Route path="/profile" element={<UserProfile auth={auth} wishlistItems={wishlistItems} products={products} />} />
               <Route path="/ordersadmin" element={<AllOrders/>}/>
             </Routes>
           </main>

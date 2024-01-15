@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import SearchBar from './SearchBar';
 
-const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=> {
+const Products = ({ products, cartItems, createLineItem, updateLineItem, displayPrice, auth})=> {
   const [searchResults,setSearchResults] = useState();
   const isLoggedIn = !!auth.id;
   const isAdmin = auth.is_admin;
-  const isVip = auth.is_vip;
 
   const navigate = useNavigate();
 
@@ -24,7 +23,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=
                       >
                         {product.name}
                       </div>
-        {product.price}
+        {displayPrice.format(product.price)}
     </div>
          )}
     ))
@@ -41,40 +40,38 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, auth})=
             : 
           products.map( product => {
             const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
-            {
-              if(!product.is_vip_product || isVip) {
-                return (
-                  <li key={ product.id }>
-    
-                    { product.name } ${product.price} {product.is_vip_product && <span>"**for VIP customers only!**"</span>}
-                    
-                    <div
-                          className="product"
-                          onClick={() => {
-                            navigate(`/products/${product.id}`);
-                          }}
-                        >
-                          { product.name }
-                        {/* <img src={book.coverimage} className="coverimage" /> */}
-                      </div>
-                    
-                    {
-                      isLoggedIn ? (
-                        cartItem ? <button 
-                        onClick={ ()=> updateLineItem(cartItem)}>Add another to cart</button>
-                        : <button onClick={ ()=> createLineItem(product)}>Add to cart</button>
-                      
-                      ): null 
-                    }
-                    {
-                      isAdmin ? (
-                        <button onClick={()=>{navigate(`/products/${product.id}/edit`)}}>Edit Product details</button>                   
-                      ): null                  
-                    }
-                  </li>
-                );
-              }
-            }
+            return (
+              <li key={ product.id }>
+
+                <div>{ product.name }</div> 
+                <div>{displayPrice.format(product.price)}</div>
+                <div className="vipDiscount">{ product.vip_price ? `${displayPrice.format(product.vip_price)}  **VIP only discount!**` : "" }</div>
+                
+                <div
+                      className="product"
+                      onClick={() => {
+                        navigate(`/products/${product.id}`);
+                      }}
+                    >
+                      Navigate to { product.name }
+                    {/* <img src={book.coverimage} className="coverimage" /> */}
+                  </div>
+                
+                {
+                  isLoggedIn ? (
+                    cartItem ? <button 
+                    onClick={ ()=> updateLineItem(cartItem)}>Add another to cart</button>
+                    : <button onClick={ ()=> createLineItem(product)}>Add to cart</button>
+                  
+                  ): null 
+                }
+                {
+                  isAdmin ? (
+                    <button onClick={()=>{navigate(`/products/${product.id}/edit`)}}>Edit Product details</button>                   
+                  ): null                  
+                }
+              </li>
+            );
           })
         }
       </ul>

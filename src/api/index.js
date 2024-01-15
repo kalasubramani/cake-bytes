@@ -123,9 +123,17 @@ const updateProfile = async(user,setAuth)=> {
   const response = await axios.put(`/api/users/${user.user_id}`,user, getHeaders());
   //use setAuth() to update the state 
   setAuth(response.data)
-
-
 };
+
+//fetch all wishlist items for a user
+const fetchWishlistItems = async(setWishlistItems) => {
+  const response = await axios.get('/api/wishlist', getHeaders())
+  setWishlistItems(response.data)
+};
+
+
+
+
 
 const api = {
   login,
@@ -145,7 +153,8 @@ const api = {
   addNewProduct,
   attemptLoginWithToken,
   updateProduct,
-  updateProfile
+  updateProfile,
+  fetchWishlistItems
 };
 
 export default api;
