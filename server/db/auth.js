@@ -74,9 +74,26 @@ const response = await client.query(SQL);
 return response.rows;
 }
 
+//declared updateUsers SQL... exported
+const updateUser = async(user)=> {
+  user.password = await bcrypt.hash(user.password, 5)
+  const SQL = `
+    UPDATE users
+    SET  firstname = $1,
+    lastname = $2,
+    username = $3,
+    password =$4
+    WHERE id = $5
+    RETURNING *
+  `;
+  const response = await client.query(SQL, [ user.firstName, user.lastName, user.userName, user.password, user.user_id]);
+  return response.rows[0];
+};
+
 module.exports = {
   createUser,
   authenticate,
   findUserByToken,
   fetchAllCustomers,
+  updateUser
 };

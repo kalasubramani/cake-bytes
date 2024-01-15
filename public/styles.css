@@ -115,3 +115,7 @@ form > * {
 .orderData{
   border: 1px soild gray;
 }
+
+.vipDiscount {
+  color: lime;
+}
