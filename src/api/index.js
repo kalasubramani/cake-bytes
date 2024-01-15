@@ -116,6 +116,16 @@ const updateProduct = async(product, setProducts)=> {
  const response = await axios.put(`/api/products/${product.product_id}`,product, getHeaders())
 };
 
+//fetch all wishlist items for a user
+const fetchWishlistItems = async(setWishlistItems) => {
+  const response = await axios.get('/api/wishlist', getHeaders())
+  setWishlistItems(response.data)
+};
+
+
+
+
+
 const api = {
   login,
   logout,
@@ -133,7 +143,8 @@ const api = {
   fetchAllCustomers,
   addNewProduct,
   attemptLoginWithToken,
-  updateProduct
+  updateProduct, 
+  fetchWishlistItems
 };
 
 export default api;

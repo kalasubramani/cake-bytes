@@ -1,5 +1,6 @@
 const {
-  fetchProducts, fetchReviews,
+  fetchProducts, 
+  fetchReviews
 } = require('../db');
 
 const express = require('express');
@@ -7,6 +8,7 @@ const app = express.Router();
 const { isLoggedIn, isAdmin } = require('./middleware');
 const { createReview } = require('../db/reviews');
 const { createProduct, updateProduct } = require('../db/products');
+
 
 //fetch all products
 app.get('/', async(req, res, next)=> {
@@ -54,7 +56,6 @@ app.get('/:id/reviews', async (req, res, next)=> {
 app.post('/:id/reviews', isLoggedIn, async (req, res, next)=> {  
       res.send(await createReview(req.body));
   });
-
 
 
 module.exports = app;

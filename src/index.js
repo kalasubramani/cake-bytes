@@ -23,6 +23,7 @@ const App = ()=> {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [lineItems, setLineItems] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState([]);
   const [auth, setAuth] = useState({});
   const navigate = useNavigate();
   const isLoggedIn = !!auth.id;
@@ -57,6 +58,16 @@ const App = ()=> {
     if (auth.id) {
       const fetchData = async () => {
         await api.fetchLineItems(setLineItems);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
+  //fetch wishlist items for the logged in user
+  useEffect(() => {
+    if (auth.id) {
+      const fetchData = async () => {
+        await api.fetchWishlistItems(setWishlistItems);
       };
       fetchData();
     }
@@ -231,7 +242,7 @@ const App = ()=> {
               <Route path="/customers" element={<AllCustomers auth={auth}/>} />
               <Route path="/products/:id/edit" element={<EditAProduct  products={products}/>} />
               <Route path="/products" element={<AddNewProduct setProducts={setProducts}/>} />
-              <Route path="/profile" element={<UserProfile auth={auth}/>} />
+              <Route path="/profile" element={<UserProfile auth={auth} wishlistItems={wishlistItems} products={products} />} />
               <Route path="/ordersadmin" element={<AllOrders/>}/>
             </Routes>
           </main>
