@@ -1,6 +1,6 @@
 import React from 'react';
 import Products from './Products';
-import { useParams } from "react-router-dom";
+
 
 const Cart = ({ updateOrder, removeFromCart, updateLineItem, removeOneItem, lineItems, cart, products, displayPrice })=> {
   //adds grand total price in the cart to display to user

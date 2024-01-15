@@ -28,6 +28,7 @@ const App = ()=> {
   const isLoggedIn = !!auth.id;
   const isAdmin = auth.is_admin;
   const isVip = auth.is_vip;
+  const [allOrders, setAllOrders] = useState([]);
 
   const attemptLoginWithToken = async () => {
     await api.attemptLoginWithToken(setAuth);
@@ -48,6 +49,16 @@ const App = ()=> {
     if (auth.id) {
       const fetchData = async () => {
         await api.fetchOrders(setOrders);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
+
+  useEffect(() => {
+    if (auth.id && auth.is_admin) {
+      const fetchData = async () => {
+        await api.fetchAllOrders(setAllOrders);
       };
       fetchData();
     }
@@ -187,6 +198,7 @@ const App = ()=> {
                     orders={orders}
                     products={products}
                     lineItems={lineItems}
+                    auth={auth}
                   />
                   
                 }
@@ -226,7 +238,7 @@ const App = ()=> {
               <Route path="/products/:id/edit" element={<EditAProduct  products={products}/>} />
               <Route path="/products" element={<AddNewProduct setProducts={setProducts}/>} />
               <Route path="/profile" element={<UserProfile auth={auth}/>} />
-              <Route path="/ordersadmin" element={<AllOrders/>}/>
+              <Route path="/ordersadmin" element={<AllOrders auth={auth} setAllOrders={setAllOrders}/>}/>
             </Routes>
           </main>
         </>
