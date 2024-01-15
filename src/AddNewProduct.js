@@ -7,7 +7,7 @@ const AddNewProduct = ({setProducts})=>{
 const [name,setName]=useState('');
 const [description,setDescription]=useState('');
 const [price,setPrice]=useState(0);
-const [is_vip_product,setVipProduct]=useState(false);
+const [vip_price,setVipPrice]=useState('');
 
 const navigate=useNavigate();
 
@@ -22,7 +22,7 @@ const navigate=useNavigate();
       description,
       price,
       // product_image,
-      is_vip_product
+      vip_price
      }
      console.log("product obj ", product);
      const addProduct = async (resetProduct,setProducts)=>{
@@ -35,16 +35,16 @@ const navigate=useNavigate();
      setName('');
      setDescription('');
      setPrice('');
-     setVipProduct(false); //default value = false
+     setVipPrice('');
 
      //redirect to products page
      navigate("/")
   }
 
   const handleCheckboxChange = () =>{
-    setVipProduct(isVipProduct => !isVipProduct)
+    setVipPrice(price*.9)
   }
-  console.log('value of checkbox : ', is_vip_product);
+  
    return (
      <div className="addProductContainer">      
         <p> Enter new product details here</p>
@@ -53,7 +53,7 @@ const navigate=useNavigate();
           <label >Product Description : <input type="text" onChange={(e)=>{setDescription(e.target.value)}} className="productText" required/></label>
           <label >Price : <input type="number" step=".01" onChange={(e)=>{setPrice(e.target.value)}} className="productPrice" required/></label>
           <label >Product image : TBD</label>
-          <label >Mark product as VIP only <input type="checkbox" checked={is_vip_product} onChange={handleCheckboxChange}/></label>
+          <label >Mark product as VIP<input type="checkbox" checked={vip_price} onChange={handleCheckboxChange}/></label>
           <button className="addProductButton">Add Product</button>
          </form>
       </div>

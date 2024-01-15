@@ -8,8 +8,9 @@ const EditAProduct = ({products})=>{
     const [name, setName]=useState('');
     const [price, setPrice]=useState(0);
     const [description, setDescription]=useState('');
-    const [is_vip_product,setVipProduct]=useState(false);
-
+    const [vip_price,setVipPrice]=useState(null);
+    const [checked, setChecked]=useState(false);
+   
     const navigate=useNavigate();
     
     //get the product id from url
@@ -19,36 +20,40 @@ const EditAProduct = ({products})=>{
     const product = products?.find((product) => {
         return product.id === id;
       });
-   
-
+    
     const handleSubmit =(e)=>{
         e.preventDefault();
-       
-     
-    const newProduct={
-        product_id: id,
-        name,
-        price,
-        description,
-        is_vip_product
-         }
-         const updateProducts = async (productId)=>{
-            const response = await api.updateProduct(newProduct,productId);
+            
+        const newProduct={
+            product_id: id,
+            name,
+            price,
+            description,
+            vip_price
         }
-         updateProducts(product.id);
-    
-        
+        console.log(newProduct.name)
+        console.log(newProduct.price)
+        console.log(product.price)
+
+        const updateProducts = async (productId)=>{
+          const response = await api.updateProduct(newProduct,productId);
+        }
+        updateProducts(product.id);
+
+        console.log(newProduct.price)
+        console.log(product.price)
+            
         setName('');
         setPrice('');
         setDescription('');
-        setVipProduct(false); //default value = false
+        setVipPrice(''); 
     
-         navigate("/")
-        }
+        navigate("/")
+    }
 
-        const handleCheckboxChange = () =>{
-            setVipProduct(isVipProduct => !isVipProduct)
-          }
+    const handleCheckboxChange = () =>{      
+      setVipPrice(price*.9)
+    }
       
     return (
     <div>
@@ -58,9 +63,10 @@ const EditAProduct = ({products})=>{
           <label > Description : <input type="text" onChange={(e)=>{setDescription(e.target.value)}} className="productText" required/></label>
           <label >Price : <input type="number" step=".01" onChange={(e)=>{setPrice(e.target.value)}} className="productPrice" required/></label>
           <label > Upload image : TBD</label>
-          <label >Mark Cake as VIP only <input type="checkbox" checked={is_vip_product} onChange={handleCheckboxChange}/></label>
+          <label>Mark product as VIP <input type="checkbox" value={checked} onChange={handleCheckboxChange} /></label>
           <button className="addProductButton">Add Cake</button>  
 
+          
 
         </form>
 

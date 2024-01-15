@@ -42,7 +42,8 @@ const ProductDetails = ({ products, displayPrice ,auth}) => {
         <p>{selectedProduct?.description}</p>
         {/* <img src={`../public/assets/${selectedProduct.product_image_name}`}></img> */}
         {/* <p>${displayPrice(selectedProduct.price)}</p> */}
-        <p>${displayPrice(selectedProduct?.price)}</p>
+        <p>{displayPrice.format(selectedProduct?.price)}</p>
+        <p className="vipDiscount">{ selectedProduct?.vip_price ? `${displayPrice.format(selectedProduct?.vip_price)}  **VIP only discount!**` : "" }</p>
       </div>
       <hr />
       {/* {productReviews.length > 0 ? ( */}
