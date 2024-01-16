@@ -2,9 +2,7 @@ import React, {useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "./api";
 
-const EditAProduct = ({products})=>{
-   
-   
+const EditAProduct = ({products})=>{   
     const [name, setName]=useState('');
     const [price, setPrice]=useState(0);
     const [description, setDescription]=useState('');
@@ -31,18 +29,12 @@ const EditAProduct = ({products})=>{
             description,
             vip_price
         }
-        console.log(newProduct.name)
-        console.log(newProduct.price)
-        console.log(product.price)
 
         const updateProducts = async (productId)=>{
-          const response = await api.updateProduct(newProduct,productId);
+          await api.updateProduct(newProduct,productId);
         }
         updateProducts(product.id);
-
-        console.log(newProduct.price)
-        console.log(product.price)
-            
+         
         setName('');
         setPrice('');
         setDescription('');
@@ -64,10 +56,7 @@ const EditAProduct = ({products})=>{
           <label >Price : <input type="number" step=".01" onChange={(e)=>{setPrice(e.target.value)}} className="productPrice" required/></label>
           <label > Upload image : TBD</label>
           <label>Mark product as VIP <input type="checkbox" value={checked} onChange={handleCheckboxChange} /></label>
-          <button className="addProductButton">Add Cake</button>  
-
-          
-
+          <button className="addProductButton" onClick={handleSubmit}>Add Cake</button>  
         </form>
 
 

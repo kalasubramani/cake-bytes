@@ -1,9 +1,9 @@
 import React from 'react';
 import Products from './Products';
+import { displayPrice } from './Util';
 
 
-const Cart = ({ updateOrder, removeFromCart, updateLineItem, removeOneItem, lineItems, cart, products, displayPrice, isVip })=> {
-  
+const Cart = ({ updateOrder, removeFromCart, updateLineItem, removeOneItem, lineItems, cart, products, isVip })=> {
   //adds grand total price in the cart to display to user
   const sum = lineItems.reduce((accumulator, lineItem) => {
     const findProduct = products.find((product) =>{
