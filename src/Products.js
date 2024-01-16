@@ -98,10 +98,44 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
         )}
       <ul>
         {
-          // display order details by default. If the searchResults are available, then display only search results
-          searchResults ? showSearchResults(searchResults)
-            : showProducts()
-            
+             // display order details by default. If the searchResults are available, then display only search results
+            searchResults ? showSearchResults(searchResults) 
+            : 
+          products.map( product => {
+            const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
+            return (
+              <li key={ product.id }>
+
+                <div>{ product.name }</div> 
+                <div>{displayPrice.format(product.price)}</div>
+                <div className="vipDiscount">{ product.vip_price > 0 ? `${displayPrice.format(product.vip_price)}  **VIP only discount!**` : "" }</div>
+                
+                <div
+                      className="product"
+                      onClick={() => {
+                        navigate(`/products/${product.id}`);
+                      }}
+                    >
+                      Navigate to { product.name }
+                    {/* <img src={book.coverimage} className="coverimage" /> */}
+                  </div>
+                
+                {
+                  isLoggedIn ? (
+                    cartItem ? <button 
+                    onClick={ ()=> updateLineItem(cartItem)}>Add another to cart</button>
+                    : <button onClick={ ()=> createLineItem(product)}>Add to cart</button>
+                  
+                  ): null 
+                }
+                {
+                  isAdmin ? (
+                    <button onClick={()=>{navigate(`/products/${product.id}/edit`)}}>Edit Product details</button>                   
+                  ): null                  
+                }
+              </li>
+            );
+          })
         }
       </ul>
     </div>

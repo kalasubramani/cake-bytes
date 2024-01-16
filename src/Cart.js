@@ -10,7 +10,7 @@ const Cart = ({ updateOrder, removeFromCart, updateLineItem, removeOneItem, line
       return product.id === lineItem.product_id
     })
     if(cart.id === lineItem.order_id) {
-      if(isVip && findProduct.vip_price) {
+      if(isVip && findProduct.vip_price > 0) {
         accumulator += findProduct.vip_price * lineItem.quantity
       } else {
         accumulator += findProduct.price * lineItem.quantity
@@ -21,7 +21,7 @@ const Cart = ({ updateOrder, removeFromCart, updateLineItem, removeOneItem, line
   }, 0)
 
   const calculateLineItemTotal =(productPrice, vipPrice, quantity) => {
-    if(isVip && vipPrice) {
+    if(isVip && vipPrice > 0) {
       return vipPrice * quantity
     } else {
       return productPrice * quantity
