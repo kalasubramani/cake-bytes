@@ -32,7 +32,8 @@ const {
 const {
   createWishlistItem,
   fetchWishlistItems,  
-  deleteWishlistItem
+  deleteWishlistItem,
+  updateNewCart,
 } = require('./wishlist')
 
 
