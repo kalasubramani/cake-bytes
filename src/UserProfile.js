@@ -3,16 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Wishlist from "./Wishlist";
 
-const UserProfile = ({ auth, wishlistItems, products }) => {
+const UserProfile = ({ user, wishlistItems, products }) => {
+  const isVip = user?.is_vip;
+  const productIdArray = wishlistItems?.map((wishlistItem) => {
+    return wishlistItem.product_id;
+  })
 
-  const isVip = auth.is_vip;
+  const wishlistProducts = products?.filter((product) => {
+    return productIdArray.includes(product.id)
+  })
+
 
   //displays wishlist
   return (
     <div>
       <div>
             <h3> Profile  <Link to='/settings'> Settings </Link>  </h3>
-
             <ul>
               <li> Username:{ auth.username }</li>
               <li> Firstname:{ auth.firstname}</li>
