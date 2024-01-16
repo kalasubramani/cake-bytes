@@ -3,7 +3,7 @@ const app = express.Router();
 const { 
     createWishlistItem, 
     fetchWishlistItems, 
-    deleteWishlistItem 
+    deleteWishlistItem,
 } = require('../db/wishlist');
 
 const { isLoggedIn, isAdmin } = require('./middleware');
@@ -35,5 +35,15 @@ app.delete('/:id', isLoggedIn, async(req, res, next) => {
         next(ex);
     }
 });
+
+//move item from wishlist to cart
+app.put('/:id', isLoggedIn, async(req, res, next) => {
+    try {
+        res.send(await updateNewCart({...req.body, id: req.params.id}));
+    } catch (ex) {
+      next(ex);
+    }
+  
+  })
 
 module.exports = app;

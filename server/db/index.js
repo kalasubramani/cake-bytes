@@ -32,7 +32,8 @@ const {
 const {
   createWishlistItem,
   fetchWishlistItems,  
-  deleteWishlistItem
+  deleteWishlistItem,
+  updateNewCart,
 } = require('./wishlist')
 
 
@@ -67,7 +68,7 @@ const seed = async()=> {
       name VARCHAR(100) UNIQUE NOT NULL,
       price NUMERIC (5,2) NOT NULL,
       description TEXT NOT NULL,
-      vip_price NUMERIC (5,2)
+      vip_price NUMERIC (5,2) NOT NULL,
     );
 
     CREATE TABLE orders(
