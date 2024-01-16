@@ -68,7 +68,7 @@ const seed = async()=> {
       name VARCHAR(100) UNIQUE NOT NULL,
       price NUMERIC (5,2) NOT NULL,
       description TEXT NOT NULL,
-      vip_price NUMERIC (5,2) NOT NULL,
+      vip_price NUMERIC (5,2) NOT NULL
     );
 
     CREATE TABLE orders(
@@ -119,8 +119,8 @@ const seed = async()=> {
   const [foo, bar, bazz,quq] = await Promise.all([
     createProduct({ name: 'foo', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5}),
     createProduct({ name: 'bar', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5}),
-    createProduct({ name: 'bazz', price: 425.00, description: 'Yum, Yummy, Yummy, Yum'}),
-    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
+    createProduct({ name: 'bazz', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price: 0}),
+    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum', vip_price: 0}),
   ]);
 
   let orders = await fetchOrders(ethyl.id);

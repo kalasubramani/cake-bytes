@@ -15,14 +15,12 @@ const fetchProducts = async(setProducts)=> {
 
 const fetchOrders = async(setOrders)=> {
   const response = await axios.get('/api/orders', getHeaders());
-  console.log("all orders",setOrders)
   setOrders(response.data);
 };
 
 //fetch all orders to display in admin tab, fetch all orders, created a new route called /current for admin user
 const fetchAllOrders = async (setAllOrders)=>{
   const response = await axios.get('/api/orders/current',getHeaders());
-  console.log("/src/api fetchAllOrders", response.data )
   setAllOrders(response.data); 
 }
 
@@ -141,7 +139,20 @@ const fetchWishlistItems = async(setWishlistItems) => {
   setWishlistItems(response.data)
 };
 
+//add product to a users wishlist
+const createWishlistItem = async({user, product, wishlistItems, setWishlistItems})=> {
+  const response = await axios.post('/api/wishlist', {
+    user_id: user.id,
+    product_id: product.id 
+  }, getHeaders());
+  setWishlistItems((wishlistItems)=> {return [...wishlistItems,response.data]})
+};
 
+//delete a product from a users wishlist
+const deleteWishlistItem = async({ wishlistItem, wishlistItems, setWishlistItems }) => {
+  const response = await axios.delete(`/api/wishlist/${wishlistItem.id}`, getHeaders());
+  setWishlistItems(wishlistItems.filter(_wishlistItem => _wishlistItem.id !== wishlistItem.id));
+};
 
 
 
@@ -165,7 +176,9 @@ const api = {
   updateProduct,
   fetchAllOrders,
   updateProfile,
-  fetchWishlistItems
+  fetchWishlistItems,
+  createWishlistItem,
+  deleteWishlistItem
 };
 
 export default api;
