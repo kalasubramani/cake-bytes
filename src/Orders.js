@@ -9,6 +9,7 @@ const Orders = ({ orders, products, lineItems })=> {
   // finds the order date for given order id
   const getOrderDate = (orderId)=>{
     const date= orders.find((order)=>{ return order.id===orderId})?.created_at;
+    //console.log("created at", date)
     return date;
   }
 
@@ -17,11 +18,21 @@ const Orders = ({ orders, products, lineItems })=> {
  //For all placed orders - get product id from line item
  const orderLineItems = lineItems.filter((lineItem)=>placedOrders.includes(lineItem.order_id)) ;
  //for each filtered line item, get all required data from products (name,quantity purchased,order id, order , product id)
+ /* passed in price:product.price to pull price info from products to be caluculated in the total order price*/
  const orderedProducts = orderLineItems.map((lineItem)=>{  
  const product = products.find(product => product.id === lineItem.product_id);
-    return {name:product.name,quantity:lineItem.quantity,orderId:lineItem.order_id,orderDate:getOrderDate(lineItem.order_id),productId:product.id}
+    return {name:product.name,quantity:lineItem.quantity,price:product.price,orderId:lineItem.order_id,orderDate:getOrderDate(lineItem.order_id),productId:product.id}
 
 })
+
+
+/* added the total order price to be diplayed for each order */
+const calculateLineItemTotal =(productPrice, quantity) => {
+  //console.log("productPrice",productPrice)
+  //console.log("quantity",quantity)
+  //console.log("item total", (productPrice* quantity))
+  return productPrice * quantity
+}
 
 const showSearchResults = (searchResults) => {
   return (
@@ -35,9 +46,9 @@ const showSearchResults = (searchResults) => {
           >
             {product.name}
           </div>
-      
+          {/* added the total order price to be diplayed for each order */}
       Quantity Purchased : {product.quantity} |
-      Order Total : TBD |
+      Order Total :${calculateLineItemTotal(product.price, product.quantity)}|
       Order ID : {product.orderId}
   </div>
        )}
@@ -64,18 +75,25 @@ const showOrderDetails=(orderId)=>{
                           >
                         {product.name} 
                     </div> |
+                    {/* added the total order price to be diplayed for each order */}
                     Quantity Purchased : {product.quantity} |
-                    Order Total : TBD |
+                    Order Total : ${calculateLineItemTotal(product.price, product.quantity)}|
                     Order ID : {product.orderId}
                 </div>
   )});
+
+ 
   //for displaying app products under the order date heading - form the html elements
   const orderData = <div className='orderData'>
+    {/* add in the grand total for each order after the Order placed on  */}
                         Order Placed On :  <span >{ new Date(orderDate).toString().slice(0,15) }</span>
+                        {/* added the grand total here */}
+      {/* <h4> Order Grand Total: ${sum} </h4> */}
                         {productData}
                     </div>
  return orderData;
 }
+
           
   return (
     <div>

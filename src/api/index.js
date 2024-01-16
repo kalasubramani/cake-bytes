@@ -15,8 +15,17 @@ const fetchProducts = async(setProducts)=> {
 
 const fetchOrders = async(setOrders)=> {
   const response = await axios.get('/api/orders', getHeaders());
+  console.log("all orders",setOrders)
   setOrders(response.data);
 };
+
+//fetch all orders to display in admin tab, fetch all orders, created a new route called /current for admin user
+const fetchAllOrders = async (setAllOrders)=>{
+  const response = await axios.get('/api/orders/current',getHeaders());
+  console.log("/src/api fetchAllOrders", response.data )
+  setAllOrders(response.data); 
+}
+
 
 const fetchLineItems = async(setLineItems)=> {
   const response = await axios.get('/api/lineItems', getHeaders());
@@ -105,16 +114,36 @@ const fetchAllCustomers = async (setCustomers)=>{
   setCustomers(response.data); 
 }
 
+
 //add new product to db 
 const addNewProduct = async (product,setProducts)=>{
   const response = await axios.post('/api/products',product,getHeaders())
   setProducts((prds)=>{return [...prds,response.data]})
 }
 
-//updateProducts call 
+//updateProducts in db 
 const updateProduct = async(product, setProducts)=> {
  const response = await axios.put(`/api/products/${product.product_id}`,product, getHeaders());
+//use setProducts() to update the state refer to linenumber 111
+}; 
+
+
+//updateUser in db use 
+const updateProfile = async(user,setAuth)=> {
+  const response = await axios.put(`/api/users/${user.user_id}`,user, getHeaders());
+  //use setAuth() to update the state 
+  setAuth(response.data)
 };
+
+//fetch all wishlist items for a user
+const fetchWishlistItems = async(setWishlistItems) => {
+  const response = await axios.get('/api/wishlist', getHeaders())
+  setWishlistItems(response.data)
+};
+
+
+
+
 
 const api = {
   login,
@@ -133,7 +162,10 @@ const api = {
   fetchAllCustomers,
   addNewProduct,
   attemptLoginWithToken,
-  updateProduct
+  updateProduct,
+  fetchAllOrders,
+  updateProfile,
+  fetchWishlistItems
 };
 
 export default api;

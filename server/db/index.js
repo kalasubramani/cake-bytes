@@ -6,9 +6,11 @@ const {
 } = require('./products');
 
 const {
+  updateUser,
   createUser,
   authenticate,
   fetchAllCustomers,
+  
   findUserByToken
 } = require('./auth');
 
@@ -18,7 +20,8 @@ const {
   updateLineItem,
   deleteLineItem,
   updateOrder,
-  fetchOrders
+  fetchOrders,
+  fetchAllOrders,
 } = require('./cart');
 
 const {
@@ -26,17 +29,26 @@ const {
   fetchReviews
 } = require('./reviews')
 
+const {
+  createWishlistItem,
+  fetchWishlistItems,  
+  deleteWishlistItem
+} = require('./wishlist')
+
 
 // add price and description into the products table..//add firstname and lastname to users table//add img to Product table
 // added vip boolean into the users table
+// modified vip boolean to price in the products table
 
 const seed = async()=> {
   const SQL = `
+    DROP TABLE IF EXISTS wishlist;
     DROP TABLE IF EXISTS line_items;
     DROP TABLE IF EXISTS products CASCADE;
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS reviews;
+    
 
     CREATE TABLE users(
       id UUID PRIMARY KEY,
@@ -55,7 +67,7 @@ const seed = async()=> {
       name VARCHAR(100) UNIQUE NOT NULL,
       price NUMERIC (5,2) NOT NULL,
       description TEXT NOT NULL,
-      is_vip_product BOOLEAN DEFAULT FALSE
+      vip_price NUMERIC (5,2)
     );
 
     CREATE TABLE orders(
@@ -83,6 +95,13 @@ const seed = async()=> {
       CHECK (ratings>0 AND ratings<6)
     );
 
+    CREATE TABLE wishlist(
+      id UUID PRIMARY KEY,
+      user_id UUID REFERENCES users(id) NOT NULL,
+      product_id UUID REFERENCES products(id) NOT NULL,
+      CONSTRAINT user_and_product_key UNIQUE(user_id, product_id)
+    );
+
   `;
   await client.query(SQL);
 
@@ -91,17 +110,18 @@ const seed = async()=> {
   const [moe, lucy, ethyl] = await Promise.all([
     createUser({firstname: "Moesha", lastname: "Norwood", username: 'moe', password: '1234', is_admin: false, is_vip: false }),
     createUser({ firstname: "Lucinda", lastname: "Hall", username: 'lucy', password: '1234', is_admin: false, is_vip: true }),
-    createUser({ firstname: "Ethyleen", lastname: "Sims", username: 'ethyl', password: '1234', is_admin: true, is_vip: false })
+    createUser({ firstname: "Ethyleen", lastname: "Sims", username: 'ethyl', password: '1234', is_admin: true, is_vip: true })
   ]);
 
   //Added price and description
+  //Modified VIP booleans to VIP prices
   const [foo, bar, bazz,quq] = await Promise.all([
-    createProduct({ name: 'foo', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', is_vip_product:true}),
-    createProduct({ name: 'bar', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', is_vip_product:true}),
-    createProduct({ name: 'bazz', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', is_vip_product:false}),
-    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum', is_vip_product:false}),
+    createProduct({ name: 'foo', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5}),
+    createProduct({ name: 'bar', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5}),
+    createProduct({ name: 'bazz', price: 425.00, description: 'Yum, Yummy, Yummy, Yum'}),
+    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
   ]);
-  
+
   let orders = await fetchOrders(ethyl.id);
   let cart = orders.find(order => order.is_cart);
   let lineItem = await createLineItem({ order_id: cart.id, product_id: foo.id});
@@ -118,10 +138,15 @@ const seed = async()=> {
     createReview({ comments: 'comments Sturdy and strong for kids daily work',ratings : 5,product_id: bar.id }),
     createReview({ comments: 'comments marker dries off quickly',ratings : 2 ,product_id: quq.id}),
   ]);
+
+  //Created wishlist items for current users
+  await Promise.all([
+    createWishlistItem({ user_id: moe.id, product_id: bar.id }),
+    createWishlistItem({ user_id: moe.id, product_id: bazz.id }),
+    createWishlistItem({ user_id: lucy.id, product_id: bazz.id })
+  ]);
   
 };
-
-
 
 module.exports = {
   fetchProducts,
@@ -137,5 +162,10 @@ module.exports = {
   fetchReviews,
   createUser,
   fetchAllCustomers,
+  fetchAllOrders,
+  updateUser,
+  createWishlistItem,
+  fetchWishlistItems,
+  deleteWishlistItem,
   client
 };

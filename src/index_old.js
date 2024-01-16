@@ -19,16 +19,19 @@ import AddNewProduct from "./AddNewProduct";
 import UserProfile from "./UserProfile";
 import AllOrders from "./AllOrders";
 import Test from "./Test";
+import ProfileSettings from './ProfileSettings';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [lineItems, setLineItems] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState([]);
   const [auth, setAuth] = useState({});
   const navigate = useNavigate();
   const isLoggedIn = !!auth.id;
   const isAdmin = auth.is_admin;
   const isVip = auth.is_vip;
+  const [allOrders, setAllOrders] = useState([]);
 
   const attemptLoginWithToken = async () => {
     await api.attemptLoginWithToken(setAuth);
@@ -55,9 +58,28 @@ const App = ()=> {
   }, [auth]);
 
   useEffect(() => {
+    if (auth.id && auth.is_admin) {
+      const fetchData = async () => {
+        await api.fetchAllOrders(setAllOrders);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
+  useEffect(() => {
     if (auth.id) {
       const fetchData = async () => {
         await api.fetchLineItems(setLineItems);
+      };
+      fetchData();
+    }
+  }, [auth]);
+
+  //fetch wishlist items for the logged in user
+  useEffect(() => {
+    if (auth.id) {
+      const fetchData = async () => {
+        await api.fetchWishlistItems(setWishlistItems);
       };
       fetchData();
     }
@@ -106,22 +128,27 @@ const App = ()=> {
   };
 
   //formats the product price to decimal
-  function displayPrice(price) {
-    if (price) {
-      //handle numbers less than 2 digits
-      var leftDecimal = price.toString().replace(".", ""),
-        rightDecimal = "00";
+  // function displayPrice(price) {
+  //   if (price) {
+  //     //handle numbers less than 2 digits
+  //     var leftDecimal = price.toString().replace(".", ""),
+  //       rightDecimal = "00";
 
-      //handle numbers > 2 digits
-      if (leftDecimal.length > 2) {
-        rightDecimal = leftDecimal.slice(-2);
-        leftDecimal = leftDecimal.slice(0, -2);
-      }
-      //form the decimal price to be displayed
-      var n = Number(leftDecimal + "." + rightDecimal).toFixed(2);
-      return n === "NaN" ? price : n;
-    }
-  }
+  //     //handle numbers > 2 digits
+  //     if (leftDecimal.length > 2) {
+  //       rightDecimal = leftDecimal.slice(-2);
+  //       leftDecimal = leftDecimal.slice(0, -2);
+  //     }
+  //     //form the decimal price to be displayed
+  //     var n = Number(leftDecimal + "." + rightDecimal).toFixed(2);
+  //     return n === "NaN" ? price : n;
+  //   }
+  // }
+
+  let displayPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })
 
 
   return (
@@ -188,6 +215,7 @@ const App = ()=> {
                     orders={orders}
                     products={products}
                     lineItems={lineItems}
+                    auth={auth}
                   />
                   
                 }
@@ -204,6 +232,7 @@ const App = ()=> {
                     removeOneItem={removeOneItem}
                     updateLineItem={updateLineItem}
                     displayPrice={displayPrice}
+                    isVip = {isVip}
                   />
                 }
               />
@@ -226,8 +255,10 @@ const App = ()=> {
               <Route path="/customers" element={<AllCustomers auth={auth}/>} />
               <Route path="/products/:id/edit" element={<EditAProduct  products={products}/>} />
               <Route path="/products" element={<AddNewProduct setProducts={setProducts}/>} />
-              <Route path="/profile" element={<UserProfile auth={auth}/>} />
-              <Route path="/ordersadmin" element={<AllOrders/>}/>
+              <Route path="/ordersadmin" element={<AllOrders auth={auth} setAllOrders={setAllOrders}/>}/>
+              <Route path="/settings" element={<ProfileSettings auth={auth} setAuth={setAuth}/>}></Route>
+              <Route path="/profile" element={<UserProfile auth={auth} wishlistItems={wishlistItems} products={products} />} />
+              
               <Route path="/test" element={<Test products={products}/>} />
             </Routes>
           </main>
