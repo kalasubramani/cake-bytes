@@ -6,60 +6,53 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
-const AppSideMenu = () => {
+const AppSideMenu = ({ isAdmin }) => {
   const navigate = useNavigate();
+ 
   return (
     <Drawer sx={{ width: "15rem" }} variant="permanent" open>
       <List component="nav" sx={{ paddingTop: '6rem', width: "15rem" }}>
         <Typography variant='h6' sx={{ pl: '1em' }}>Occassions</Typography>
-        {["Birthdays", "Valentines", "Seasonals", "Cup Cakes","Special Occassions","All Cakes"].map((menu) => {
+        {["Birthdays", "Valentines", "Seasonals", "Cup Cakes", "Special Occassions", "All Cakes"].map((category) => {
           return (
-            <React.Fragment key={`key-for-${menu}`}>
-              <ListItemButton>
+            <React.Fragment key={`key-for-${category}`}>
+              <ListItemButton onClick={()=>navigate(`/products?category=${category}`)}>
                 <ListItemIcon>
                   <CakeIcon />
                 </ListItemIcon>
-                <ListItemText primary={menu} />
+                <ListItemText primary={category} />
               </ListItemButton>
             </React.Fragment>
 
           )
         })}
-        <Divider sx={{ my: 1 }} />
-        <Typography variant='h6' sx={{ pl: '1em' }}>Admin Menu</Typography>
-        {/* {["All Products", "Add New Product", "All Orders","Customers"].map((menu) => { */}
-          {/* return ( */}
-            {/* <React.Fragment key={`key-for-all-products`}> */}
-              <ListItemButton onClick={() => navigate("/products")}>
-                <ListItemIcon>
-                  <QrCode2Icon/>
-                </ListItemIcon>
-                <ListItemText primary="All Products" />
-              </ListItemButton>
-              <ListItemButton>
-                <ListItemIcon>
-                  <EditNoteIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Edit Producs" />
-              </ListItemButton>
-              <ListItemButton>
-                <ListItemIcon>
-                  <MonetizationOnIcon/>
-                </ListItemIcon>
-                <ListItemText primary="All Orders" />
-              </ListItemButton>
-              <ListItemButton>
-                <ListItemIcon>
-                  <GroupsIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Customers" />
-              </ListItemButton>
-            {/* </React.Fragment> */}
-          {/* ) */}
-        {/* }) */}
-        {/* } */}
+        {/* display admin menu items only for admin users */}
+        {isAdmin && (
+          <> 
+            <Divider sx={{ my: 1 }} />
+            <Typography variant='h6' sx={{ pl: '1em' }}>Admin Menu</Typography>
+            <ListItemButton onClick={() => navigate("/products")}>
+              <ListItemIcon>
+                <QrCode2Icon />
+              </ListItemIcon>
+              <ListItemText primary="All Products" />
+            </ListItemButton>            
+            <ListItemButton onClick={()=>navigate("/orders-admin")}>
+              <ListItemIcon>
+                <MonetizationOnIcon />
+              </ListItemIcon>
+              <ListItemText primary="All Orders" />
+            </ListItemButton>
+            <ListItemButton onClick={()=>navigate("/customers")}>
+              <ListItemIcon>
+                <GroupsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Customers" />
+            </ListItemButton>
+          </>
+        )}
       </List>
     </Drawer>
   )

@@ -4,7 +4,7 @@ import React from "react";
 
 const FeaturedProducts = () => {
   return (
-    <Container maxWidth="xl" sx={{ mt: "7rem", mb: 4 }}>
+    <Container maxWidth="xl" sx={{ mt: "3rem", mb: 4 }}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6} lg={4}>
           <Paper

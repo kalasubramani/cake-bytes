@@ -16,9 +16,9 @@ const App = () => {
   };
 
   const logout = () => {
-    console.log("logout called")
     api.logout(setAuth);
-  }; 
+    navigate("/");
+   }; 
 
   const attemptLoginWithToken = async () => {
     await api.attemptLoginWithToken(setAuth);
@@ -30,9 +30,8 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/*" element={<Home user={auth} logout={logout} />} />
+      <Route path="/*" element={<Home user={auth} logout={logout} setUser={setAuth} />} />
       <Route path="/sign-in" element={<SignIn login={login} />} />
-      <Route path="/products" element={<Products />} />
     </Routes>
   )
 }

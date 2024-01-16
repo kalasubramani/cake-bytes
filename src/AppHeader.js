@@ -8,7 +8,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
 
-const AppHeader = ({ isLoggedIn, logout }) => {
+const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
   const navigate = useNavigate();
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, height: "5rem" }}>
@@ -40,6 +40,7 @@ const AppHeader = ({ isLoggedIn, logout }) => {
         </Box>
         {isLoggedIn && (
           <>
+           {/* display user profile */}
             <Tooltip title={"User profile"}>
               <IconButton
                 color="inherit"
@@ -49,6 +50,14 @@ const AppHeader = ({ isLoggedIn, logout }) => {
                 <AccountCircleIcon />
               </IconButton>
             </Tooltip>
+            {/* display cart */}
+            <Tooltip title="Cart">
+          <IconButton color="inherit" onClick={()=>{navigate("/cart")}}>
+          <Badge badgeContent={cartCount} color="secondary">
+            <ShoppingCartIcon />
+          </Badge>  
+        </IconButton>
+      </Tooltip>
           </>
         )}
         <Tooltip title={isLoggedIn ? "Logout" : "Login"}>
@@ -59,12 +68,7 @@ const AppHeader = ({ isLoggedIn, logout }) => {
           >
             {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
           </IconButton>
-        </Tooltip>
-        <Tooltip title="Cart">
-          <IconButton color="inherit">
-            <ShoppingCartIcon />
-        </IconButton>
-      </Tooltip>
+        </Tooltip>        
       <IconButton color="inherit">
         <Badge badgeContent={4} color="secondary">
           <NotificationsIcon />

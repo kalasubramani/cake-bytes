@@ -3,20 +3,19 @@ import { useNavigate } from "react-router-dom";
 import api from "./api";
 
 
-const ProfileSettings = ({auth, setAuth}) => {
+const ProfileSettings = ({user, setUser}) => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
-   
+    const [password, setPassword] = useState('');   
 
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const newUser = {
-          user_id: auth.id,  
+          user_id: user.id,  
           firstName,
           lastName,
           userName,
@@ -25,16 +24,13 @@ const ProfileSettings = ({auth, setAuth}) => {
           is_vip: false
         }
 
-      const updateUser = async (newUser,setAuth)=>{
-            const response = await api.updateProfile(newUser,setAuth);
+      const updateUser = async (newUser,setUser)=>{
+            await api.updateProfile(newUser,setUser);
         }
-         updateUser(newUser,setAuth);
+         updateUser(newUser,setUser);
 
-         navigate("/profile")
+         navigate("/user-profile")
       };
-
-    
-
 
 return (
     <div>
