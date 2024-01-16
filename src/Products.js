@@ -45,7 +45,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, display
 
                 <div>{ product.name }</div> 
                 <div>{displayPrice.format(product.price)}</div>
-                <div className="vipDiscount">{ product.vip_price ? `${displayPrice.format(product.vip_price)}  **VIP only discount!**` : "" }</div>
+                <div className="vipDiscount">{ product.vip_price > 0 ? `${displayPrice.format(product.vip_price)}  **VIP only discount!**` : "" }</div>
                 
                 <div
                       className="product"

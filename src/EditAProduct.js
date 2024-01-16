@@ -8,7 +8,7 @@ const EditAProduct = ({products})=>{
     const [name, setName]=useState('');
     const [price, setPrice]=useState(0);
     const [description, setDescription]=useState('');
-    const [vip_price,setVipPrice]=useState(null);
+    const [vip_price,setVipPrice]=useState(0);
     const [checked, setChecked]=useState(false);
    
     const navigate=useNavigate();
