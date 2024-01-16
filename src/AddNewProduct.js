@@ -14,8 +14,7 @@ const navigate=useNavigate();
   //add product to db
   const handleSubmit =(e)=>{
     e.preventDefault();
-     console.log("submit event fired")
-
+   
      //create product obj to send to db
      const product={
       name,
@@ -24,11 +23,11 @@ const navigate=useNavigate();
       // product_image,
       vip_price
      }
-     console.log("product obj ", product);
+  
      const addProduct = async (resetProduct,setProducts)=>{
-        const response = await api.addNewProduct(resetProduct,setProducts);
-        console.log(response)
+        await api.addNewProduct(resetProduct,setProducts);
      }
+     //add new product to db and update the product-state with the new product added
      addProduct(product,setProducts);
 
      //clear out form fields

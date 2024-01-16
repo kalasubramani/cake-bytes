@@ -2,40 +2,38 @@ import React , {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const UserProfile = ({ auth, wishlistItems, products }) => {
-
-  const isVip = auth.is_vip;
-  const productIdArray = wishlistItems.map((wishlistItem) => {
+const UserProfile = ({ user, wishlistItems, products }) => {
+  const isVip = user?.is_vip;
+  const productIdArray = wishlistItems?.map((wishlistItem) => {
     return wishlistItem.product_id;
   })
 
-  const wishlistProducts = products.filter((product) => {
+  const wishlistProducts = products?.filter((product) => {
     return productIdArray.includes(product.id)
   })
 
   return (
     <div>
       <div>
-      <h3> Profile  <Link to='/settings'> Settings </Link>  </h3>
-    
-
+      <h3> Profile  <Link to='/settings'> Settings </Link> | <Link to='/orders'> My Orders </Link>  </h3>   
+     
       <ul>
-        <li> Username:{ auth.username }</li>
-        <li> Firstname:{ auth.firstname}</li>
-        <li> Lastname: { auth.lastname}</li>
+        <li> Username:{ user?.username }</li>
+        <li> Firstname:{ user?.firstname}</li>
+        <li> Lastname: { user?.lastname}</li>
         <li> Billing Address: </li>
       </ul>
          
      { isVip ? <p>Thank you for being a VIP customer!</p> : null }
    </div>
-      <h2>Profile for {auth.firstname} {auth.lastname}</h2>
-      <h3>username: {auth.username}</h3>
+      <h2>Profile for {user?.firstname} {user?.lastname}</h2>
+      <h3>username: {user?.username}</h3>
       <br />
       <h2>My Wishlist</h2>
       <ul>
-        { wishlistProducts.length > 0 ? 
+        { wishlistProducts?.length > 0 ? 
           (
-            wishlistProducts.map((product) => {
+            wishlistProducts?.map((product) => {
               return (
                 <li key={product.id}>
                   <Link to={`/products/${product.id}`}>{product.name}</Link>
