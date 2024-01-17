@@ -30,7 +30,7 @@ const AppFooter = () => {
         <IconButton color="inherit">
           <FacebookIcon fontSize='large' />
         </IconButton>
-        <IconButton color="inherit">
+        <IconButton href= "https://www.instagram.com/"color="inherit">
           <InstagramIcon fontSize='large' />
         </IconButton>
         <IconButton color="inherit">
