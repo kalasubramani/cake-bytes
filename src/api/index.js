@@ -15,14 +15,14 @@ const fetchProducts = async(setProducts)=> {
 
 const fetchOrders = async(setOrders)=> {
   const response = await axios.get('/api/orders', getHeaders());
-  console.log("all orders",setOrders)
+
   setOrders(response.data);
 };
 
 //fetch all orders to display in admin tab, fetch all orders, created a new route called /current for admin user
 const fetchAllOrders = async (setAllOrders)=>{
   const response = await axios.get('/api/orders/current',getHeaders());
-  console.log("/src/api fetchAllOrders", response.data )
+
   setAllOrders(response.data); 
 }
 
