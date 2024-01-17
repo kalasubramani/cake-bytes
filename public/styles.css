@@ -117,5 +117,9 @@ form > * {
 }
 
 .vipDiscount {
-  color: lime;
+  color:brown;
 }
+/* MUI styles */
+/* .productCard:hover{
+  cursor: pointer;
+} */
