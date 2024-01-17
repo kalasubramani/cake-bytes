@@ -164,14 +164,14 @@ const Home = ({ user, logout, setUser }) => {
 
           <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Routes>
-             {/* display landing page as home page for all users */}
+              {/* display landing page as home page for all users */}
               <Route path="/" element={
                 <>
                   <FeaturedProducts />
                   <FrequentlyBought />
                 </>
               }></Route>
-               {/* display products for all users */}
+              {/* display products and product details for all users */}
               <Route
                 path="/products"
                 element={
@@ -182,6 +182,15 @@ const Home = ({ user, logout, setUser }) => {
                     cartItems={cartItems}
                     createLineItem={createLineItem}
                     updateLineItem={updateLineItem}
+                  />
+                }
+              />
+              <Route
+                path="/products/:id"
+                element={
+                  <ProductDetails
+                    products={products}
+                    isLoggedIn={isLoggedIn}
                   />
                 }
               />
@@ -203,15 +212,7 @@ const Home = ({ user, logout, setUser }) => {
                       />
                     }
                   />
-                  <Route
-                    path="/products/:id"
-                    element={
-                      <ProductDetails
-                        products={products}
-                        isLoggedIn={isLoggedIn}
-                      />
-                    }
-                  />
+
                   <Route path="/products/:id/edit" element={<EditAProduct products={products} />} />
                   <Route
                     path="/products/:id/review"

@@ -67,7 +67,8 @@ const seed = async()=> {
       name VARCHAR(100) UNIQUE NOT NULL,
       price NUMERIC (5,2) NOT NULL,
       description TEXT NOT NULL,
-      vip_price NUMERIC (5,2)
+      vip_price NUMERIC (5,2),
+      category VARCHAR(100)
     );
 
     CREATE TABLE orders(
@@ -115,11 +116,15 @@ const seed = async()=> {
 
   //Added price and description
   //Modified VIP booleans to VIP prices
+  //Added category to each product
   const [foo, bar, bazz,quq] = await Promise.all([
-    createProduct({ name: 'foo', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5}),
-    createProduct({ name: 'bar', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5}),
-    createProduct({ name: 'bazz', price: 425.00, description: 'Yum, Yummy, Yummy, Yum'}),
-    createProduct({ name: 'quq', price: 425.00, description:'Yum, Yummy, Yummy, Yum'}),
+    createProduct({ name: 'Chocolate cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays'}),
+    createProduct({ name: 'Fudge cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays'}),
+    createProduct({ name: 'Pumpkin cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum',category:'Holidays'}),
+    createProduct({ name: 'Strawberry short cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Holidays'}),
+    createProduct({ name: 'Strawberry cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Special Occassions'}),
+    createProduct({ name: 'Vanilla Cupcakes', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Cup Cakes'}),
+    createProduct({ name: 'CHEESECAKE CUPCAKES', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Cup Cakes'})
   ]);
 
   let orders = await fetchOrders(ethyl.id);
