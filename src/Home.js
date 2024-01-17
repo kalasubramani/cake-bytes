@@ -27,6 +27,7 @@ import AddNewProduct from './AddNewProduct';
 import AllCustomers from './AllCustomers';
 import ProfileSettings from './ProfileSettings';
 import Orders from './Orders';
+import Wishlist from './Wishlist';
 
 // https://www.svgrepo.com/svg/419438/baked-cake-cup
 // https://www.svgrepo.com/svg/404839/birthday-cake
@@ -218,6 +219,11 @@ const Home = ({ user, logout, setUser }) => {
                     path="/products/:id/review"
                     element={<AddProductReview products={products} />}
                   />
+                  {/* added route for wishlist */}
+                  <Route
+                    path="/wishlist"
+                    element={<Wishlist Wishlist={Wishlist} wishlistItems={wishlistItems} products={products}/>}
+                  />
                   <Route path="/thankforreview" element={<ThankForReview />} />
                   <Route path="/settings" element={<ProfileSettings user={user} setUser={setUser} />}></Route>
                   <Route
@@ -228,8 +234,8 @@ const Home = ({ user, logout, setUser }) => {
                         products={products}
                         lineItems={lineItems}
                       />
-
                     }
+                
                   />
                   {isAdmin && (
                     <>
