@@ -22,7 +22,7 @@ const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
               marginRight: '36px',
             }}
           >
-            <HomeIcon fontSize='large' />
+            <HomeIcon fontSize='large'/>
           </IconButton>
         </Tooltip>
         <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}>

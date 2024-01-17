@@ -27,7 +27,8 @@ const AllOrders = ({isLoggedIn,isAdmin})=>{
       <p key={order.id}> 
           Order Placed On:{ new Date(order?.created_at).toString().slice(0,15)} |
           Order Id: {order?.id}|
-          User Id: {order?.user_id}    
+          User Id: {order?.user_id} 
+          Grand Total :    
       </p>
     )
   })

@@ -11,49 +11,54 @@ import { Button, Card, CardActions, CardContent, CardMedia, Container, Typograph
 
 const images = [
   {
-    label: 'cake[1]',
+    label: 'cake',
     imgPath:
       'https://source.unsplash.com/random/?cake[1]',
   },
   {
-    label: 'cake[2]',
+    label: 'cake',
     imgPath:
       'https://source.unsplash.com/random/?cake[2]',
   },
   {
-    label: 'cake[3]',
+    label: 'cake',
     imgPath:
       'https://source.unsplash.com/random/?cake[3]',
   },
   {
-    label: 'cake[4]',
+    label: 'cake',
     imgPath:
       'https://source.unsplash.com/random/?cake[4]',
   },
   {
-    label: 'cake[5]',
+    label: 'cake',
     imgPath:
       'https://source.unsplash.com/random/?cake[5]',
   },
   {
-    label: 'cake[6]',
+    label: 'cake',
     imgPath:
       'https://source.unsplash.com/random/?cake[6]',
   },
   {
-    label: 'cake[7]',
+    label: 'cake',
     imgPath:
       'https://source.unsplash.com/random/?cake[7]',
   },
   {
-    label: 'cake[8]',
+    label: 'cake',
     imgPath:
       'https://source.unsplash.com/random/?cake[8]',
   },
   {
-    label: 'cake[9]',
+    label: 'cake',
     imgPath:
       'https://source.unsplash.com/random/?cake[9]',
+  },
+  {
+    label: 'cup cake',
+    imgPath:
+      'https://source.unsplash.com/random/?cupcake',
   },
 ];
  
@@ -67,8 +72,6 @@ function FrequentlyBought() {
         slidesPerView={4}
         navigation
         pagination={{ clickable: true }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log('slide change')}
         autoplay={{
           delay: 2000,
           disableOnInteraction: false,
@@ -85,7 +88,7 @@ function FrequentlyBought() {
                 />
                 <CardContent>
                   <Typography gutterBottom variant="caption" component="span">
-                    Cake name
+                    {image.label}
                   </Typography>
                   {/* <Typography variant="body2" color="text.secondary">
                     Cake description
