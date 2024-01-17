@@ -124,7 +124,6 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
           // display order details by default. If the searchResults are available, then display only search results
           searchResults ? showSearchResults(searchResults)
             : showProducts(productCategory)
-
         }
       </Container>
     </div>

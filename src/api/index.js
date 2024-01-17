@@ -139,7 +139,20 @@ const fetchWishlistItems = async(setWishlistItems) => {
   setWishlistItems(response.data)
 };
 
+//add product to a users wishlist
+const createWishlistItem = async({user, product, wishlistItems, setWishlistItems})=> {
+  const response = await axios.post('/api/wishlist', {
+    user_id: user.id,
+    product_id: product.id 
+  }, getHeaders());
+  setWishlistItems((wishlistItems)=> {return [...wishlistItems,response.data]})
+};
 
+//delete a product from a users wishlist
+const deleteWishlistItem = async({ wishlistItem, wishlistItems, setWishlistItems }) => {
+  const response = await axios.delete(`/api/wishlist/${wishlistItem.id}`, getHeaders());
+  setWishlistItems(wishlistItems.filter(_wishlistItem => _wishlistItem.id !== wishlistItem.id));
+};
 
 
 
@@ -163,7 +176,9 @@ const api = {
   updateProduct,
   fetchAllOrders,
   updateProfile,
-  fetchWishlistItems
+  fetchWishlistItems,
+  createWishlistItem,
+  deleteWishlistItem
 };
 
 export default api;

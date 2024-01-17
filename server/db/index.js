@@ -32,7 +32,8 @@ const {
 const {
   createWishlistItem,
   fetchWishlistItems,  
-  deleteWishlistItem
+  deleteWishlistItem,
+  updateNewCart,
 } = require('./wishlist')
 
 
@@ -67,8 +68,8 @@ const seed = async()=> {
       name VARCHAR(100) UNIQUE NOT NULL,
       price NUMERIC (5,2) NOT NULL,
       description TEXT NOT NULL,
-      vip_price NUMERIC (5,2),
-      category VARCHAR(100)
+      category VARCHAR(100),
+      vip_price NUMERIC (5,2) NOT NULL
     );
 
     CREATE TABLE orders(
@@ -118,6 +119,7 @@ const seed = async()=> {
   //Modified VIP booleans to VIP prices
   //Added category to each product
   const [foo, bar, bazz,quq] = await Promise.all([
+
     createProduct({ name: 'Chocolate cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays'}),
     createProduct({ name: 'Fudge cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays'}),
     createProduct({ name: 'Pumpkin cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum',category:'Holidays'}),
@@ -125,6 +127,7 @@ const seed = async()=> {
     createProduct({ name: 'Strawberry cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Special Occassions'}),
     createProduct({ name: 'Vanilla Cupcakes', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Cup Cakes'}),
     createProduct({ name: 'CHEESECAKE CUPCAKES', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Cup Cakes'})
+
   ]);
 
   let orders = await fetchOrders(ethyl.id);
