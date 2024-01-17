@@ -109,6 +109,9 @@ const fetchAllOrders = async ()=>{
   return response.rows;
 }
 
+
+
+
 module.exports = {
   fetchLineItems,
   createLineItem,
@@ -116,5 +119,5 @@ module.exports = {
   deleteLineItem,
   updateOrder,
   fetchOrders,
-  fetchAllOrders 
+  fetchAllOrders, 
 };

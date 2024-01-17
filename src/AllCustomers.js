@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "./api";
 
-const AllCustomers = ({ auth }) => {
-  console.log
-  const isLoggedIn = !!auth.id;
-  const isAdmin = auth.is_admin;
+const AllCustomers = ({ isLoggedIn,isAdmin }) => {
   const [customers, setCustomers] = useState([]);
   useEffect(() => {
     //if the logged in user is an admin, get customer details from db
@@ -14,9 +11,9 @@ const AllCustomers = ({ auth }) => {
       };
       fetchCustomers();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn,isAdmin]);
 
-  const customerData = customers.map((customer)=>{
+  const customerData = customers?.map((customer)=>{
       return (
             <p key={customer.id}>{customer.username} 
             {customer.is_admin && <span>**ADMIN**</span>}

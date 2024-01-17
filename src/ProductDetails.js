@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "./api";
+import { displayPrice } from "./Util";
 
 
-const ProductDetails = ({ products, displayPrice ,auth}) => {
+const ProductDetails = ({ products, isLoggedIn}) => {
   const navigate=useNavigate();
   const [reviews, setReviews] = useState([]);
-  const isLoggedIn = !!auth.id ;
-  
+    
   //get the product id from url
   const { id } = useParams();
 
@@ -43,7 +43,7 @@ const ProductDetails = ({ products, displayPrice ,auth}) => {
         {/* <img src={`../public/assets/${selectedProduct.product_image_name}`}></img> */}
         {/* <p>${displayPrice(selectedProduct.price)}</p> */}
         <p>{displayPrice.format(selectedProduct?.price)}</p>
-        <p className="vipDiscount">{ selectedProduct?.vip_price ? `${displayPrice.format(selectedProduct?.vip_price)}  **VIP only discount!**` : "" }</p>
+        <p className="vipDiscount">{ selectedProduct?.vip_price > 0 ? `${displayPrice.format(selectedProduct?.vip_price)}  **VIP only discount!**` : "" }</p>
       </div>
       <hr />
       {/* {productReviews.length > 0 ? ( */}
@@ -55,7 +55,7 @@ const ProductDetails = ({ products, displayPrice ,auth}) => {
                         navigate(`/products/${selectedProduct?.id}/review`);
                       }}>Write a product review</button>
            }
-         {productReviews.length >0 &&  <ul>{productReviews}</ul> }
+         {productReviews?.length >0 &&  <ul>{productReviews}</ul> }
         </div>  
       {/* ) : (   */}
       {!productReviews.length && 
