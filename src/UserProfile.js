@@ -5,14 +5,7 @@ import Wishlist from "./Wishlist";
 
 const UserProfile = ({ user, wishlistItems, products }) => {
   const isVip = user?.is_vip;
-  const productIdArray = wishlistItems?.map((wishlistItem) => {
-    return wishlistItem.product_id;
-  })
-
-  const wishlistProducts = products?.filter((product) => {
-    return productIdArray.includes(product.id)
-  })
-
+  
   return (
     <div>
       <div>
@@ -25,7 +18,7 @@ const UserProfile = ({ user, wishlistItems, products }) => {
             </ul>
               
           { isVip ? <p>Thank you for being a VIP customer!</p> : null }
-          <Wishlist auth={auth} wishlistItems={wishlistItems} products={products} />
+          <Wishlist wishlistItems={wishlistItems} products={products} />
         </div>
     </div>
   )
