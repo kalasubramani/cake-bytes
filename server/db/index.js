@@ -21,7 +21,7 @@ const {
   deleteLineItem,
   updateOrder,
   fetchOrders,
-  fetchAllOrders,
+  fetchAllOrders
 } = require('./cart');
 
 const {
@@ -32,8 +32,7 @@ const {
 const {
   createWishlistItem,
   fetchWishlistItems,  
-  deleteWishlistItem,
-  updateNewCart,
+  deleteWishlistItem
 } = require('./wishlist')
 
 
@@ -69,7 +68,7 @@ const seed = async()=> {
       price NUMERIC (5,2) NOT NULL,
       description TEXT NOT NULL,
       category VARCHAR(100),
-      vip_price NUMERIC (5,2) NOT NULL
+      vip_price NUMERIC (5,2) DEFAULT 0 NOT NULL
     );
 
     CREATE TABLE orders(
@@ -123,11 +122,11 @@ const seed = async()=> {
 
     createProduct({ name: 'Chocolate cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays'}),
     createProduct({ name: 'Fudge cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays'}),
-    createProduct({ name: 'Pumpkin cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum',category:'Holidays'}),
-    createProduct({ name: 'Strawberry short cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Holidays'}),
-    createProduct({ name: 'Strawberry cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Special Occassions'}),
-    createProduct({ name: 'Vanilla Cupcakes', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Cup Cakes'}),
-    createProduct({ name: 'CHEESECAKE CUPCAKES', price: 425.00, description:'Yum, Yummy, Yummy, Yum',category:'Cup Cakes'})
+    createProduct({ name: 'Pumpkin cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Holidays'}),
+    createProduct({ name: 'Strawberry short cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Holidays'}),
+    createProduct({ name: 'Strawberry cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Special Occassions'}),
+    createProduct({ name: 'Vanilla Cupcakes', price: 425.00, description:'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Cup Cakes'}),
+    createProduct({ name: 'CHEESECAKE CUPCAKES', price: 425.00, description:'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Cup Cakes'})
 
   ]);
 

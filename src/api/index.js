@@ -120,9 +120,10 @@ const addNewProduct = async (product,setProducts)=>{
 }
 
 //updateProducts in db 
-const updateProduct = async(product, setProducts)=> {
+const updateProduct = async(product, products, setProducts)=> {
  const response = await axios.put(`/api/products/${product.product_id}`,product, getHeaders());
 //use setProducts() to update the state refer to linenumber 111
+//setProducts(products.map(product))
 }; 
 
 
@@ -140,8 +141,8 @@ const fetchWishlistItems = async(setWishlistItems) => {
 };
 
 //add product to a users wishlist
-const createWishlistItem = async({user, product, wishlistItems, setWishlistItems})=> {
-  const response = await axios.post('/api/wishlist', {
+const createWishlistItem = async(user, product, wishlistItems, setWishlistItems)=> {
+  const response = await axios.post(`/api/wishlist/${product.id}`, {
     user_id: user.id,
     product_id: product.id 
   }, getHeaders());
@@ -149,7 +150,7 @@ const createWishlistItem = async({user, product, wishlistItems, setWishlistItems
 };
 
 //delete a product from a users wishlist
-const deleteWishlistItem = async({ wishlistItem, wishlistItems, setWishlistItems }) => {
+const deleteWishlistItem = async( wishlistItem, wishlistItems, setWishlistItems ) => {
   const response = await axios.delete(`/api/wishlist/${wishlistItem.id}`, getHeaders());
   setWishlistItems(wishlistItems.filter(_wishlistItem => _wishlistItem.id !== wishlistItem.id));
 };

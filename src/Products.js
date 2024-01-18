@@ -10,7 +10,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 
-const Products = ({ products, cartItems, createLineItem, updateLineItem, isLoggedIn, isAdmin }) => {
+
+const Products = ({ products, cartItems, createLineItem, updateLineItem, isLoggedIn, isAdmin, createWishlistItem, deleteWishlistItem }) => {
   const [searchResults, setSearchResults] = useState();
   const navigate = useNavigate();
   const [queryParams] = useSearchParams();
@@ -73,20 +74,21 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
                 {displayPrice.format(product.price)}
               </Typography>
               <Typography variant="caption" className="vipDiscount">
-                {product.vip_price ? `${displayPrice.format(product.vip_price)}  **VIP only discount!**` : ""}
+                {product.vip_price > 0 ? `${displayPrice.format(product.vip_price)}  **VIP only discount!**` : ""}
               </Typography>
             </CardContent>
 
             {
               isLoggedIn && (
                 <CardActions>
-                  <Tooltip title="Remove from wishlist">
-                    <IconButton size="small" sx={{ color: 'red' }}><FavoriteIcon /></IconButton>
+                  <Tooltip title="I want this cake someday!">
+                    <IconButton size="small" sx={{ color: 'red' }} onClick={() => { cartItem ? createWishlistItem(cartItem) : createWishlistItem(product) }}><FavoriteIcon /></IconButton>
                   </Tooltip>
-                  <Tooltip title="Add to wishlist">
-                    <IconButton size="small" sx={{ color: 'red' }}><FavoriteBorderIcon /></IconButton>
+                  <Tooltip title="I changed my mind!">
+                    <IconButton size="small" sx={{ color: 'red' }} onClick={() => {cartItem ? createWishlistItem(cartItem) : deleteWishlistItem(product)}}><FavoriteBorderIcon /></IconButton>
+                    {/* cartItem ? createWishlistItem(cartItem) : deleteWishlistItem(product)  */}
                   </Tooltip>
-                  <Tooltip title="Add to Cart">
+                  <Tooltip title="Add to cart!">
                     <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(product) }}><ShoppingCartIcon /></IconButton>
                   </Tooltip>
                   {
