@@ -75,7 +75,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
                 {displayPrice.format(product.price)}
               </Typography>
               <Typography variant="caption" className="vipDiscount">
-                {product.vip_price ? `${displayPrice.format(product.vip_price)}  **VIP only discount!**` : ""}
+                {product.vip_price > 0 ? `${displayPrice.format(product.vip_price)}  **VIP only discount!**` : ""}
               </Typography>
             </CardContent>
 
