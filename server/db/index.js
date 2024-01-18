@@ -68,7 +68,7 @@ const seed = async()=> {
       price NUMERIC (5,2) NOT NULL,
       description TEXT NOT NULL,
       category VARCHAR(100),
-      vip_price NUMERIC (5,2) NOT NULL
+      vip_price NUMERIC (5,2) DEFAULT 0 NOT NULL
     );
 
     CREATE TABLE orders(

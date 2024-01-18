@@ -27,15 +27,15 @@ const AppFooter = () => {
         <Typography variant="body1">
           Store Hours: M-F 10am-7pm, Sat 10am-4pm, Sun Closed
         </Typography>
-        <IconButton color="inherit">
+        <IconButton href="https://www.facebook.com/" color="inherit">
           <FacebookIcon fontSize='large' />
         </IconButton>
-        <IconButton color="inherit">
+        <IconButton href= "https://www.instagram.com/"color="inherit">
           <InstagramIcon fontSize='large' />
         </IconButton>
         <IconButton href="https://www.pinterest.com/" color="inherit">
           <PinterestIcon fontSize='large' />
-        </IconButton>
+        </IconButton> 
         <Copyright />
       </Container>
     </Box>

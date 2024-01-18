@@ -28,6 +28,7 @@ const UserProfile = ({ user, wishlistItems, products }) => {
               
           { isVip ? <p>Thank you for being a VIP customer!</p> : null }
           <Wishlist user={user} wishlistItems={wishlistItems} products={products} />
+
         </div>
     </div>
   )
