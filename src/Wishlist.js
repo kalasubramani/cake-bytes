@@ -2,7 +2,7 @@ import React , {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const Wishlist = ({ wishlistItems, products }) => {
+const Wishlist = ({ user, wishlistItems, products }) => {
 
   const productIdArray = wishlistItems?.map((wishlistItem) => {
     return wishlistItem.product_id;

@@ -27,6 +27,7 @@ import AddNewProduct from './AddNewProduct';
 import AllCustomers from './AllCustomers';
 import ProfileSettings from './ProfileSettings';
 import Orders from './Orders';
+import Wishlist from './Wishlist';
 import ThankYou from './ThankYou';
 import SignUp from './SignUp';
 
@@ -143,16 +144,15 @@ const Home = ({ user, logout, setUser }) => {
     return (acc += item.quantity);
   }, 0);
 
-  //create an api route to add an item to a users wishlist
-  const createWishlistItem = async (product) => {
-    await api.createWishlistItem({ user, product, wishlistItems, setWishlistItems });
-  };
-
-  //create an api route to delete an item from a users wishlist
-  const deleteWishlistItem = async (wishlistItem) => {
-    await api.deleteWishlistItem({ wishlistItem, wishlistItems, setWishlistItems })
-  };
-
+    //create an api route to add an item to a users wishlist
+    const createWishlistItem = async (product) => {
+      await api.createWishlistItem( user, product, wishlistItems, setWishlistItems );
+    };
+  
+    //create an api route to delete an item from a users wishlist
+    const deleteWishlistItem = async (wishlistItem) => {
+      await api.deleteWishlistItem( wishlistItem, wishlistItems, setWishlistItems )
+    };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -194,6 +194,8 @@ const Home = ({ user, logout, setUser }) => {
                     cartItems={cartItems}
                     createLineItem={createLineItem}
                     updateLineItem={updateLineItem}
+                    createWishlistItem={createWishlistItem}
+                    deleteWishlistItem={deleteWishlistItem}
                   />
                 }
               />
@@ -232,6 +234,11 @@ const Home = ({ user, logout, setUser }) => {
                     path="/products/:id/review"
                     element={<AddProductReview products={products} />}
                   />
+                  {/* added route for wishlist */}
+                  <Route
+                    path="/wishlist"
+                    element={<Wishlist Wishlist={Wishlist} wishlistItems={wishlistItems} products={products}/>}
+                  />
                   <Route path="/thankforreview" element={<ThankForReview />} />
                   <Route path="/settings" element={<ProfileSettings user={user} setUser={setUser} />}></Route>
                   <Route
@@ -242,8 +249,8 @@ const Home = ({ user, logout, setUser }) => {
                         products={products}
                         lineItems={lineItems}
                       />
-
                     }
+                
                   />
                   {isAdmin && (
                     <>

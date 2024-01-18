@@ -33,7 +33,7 @@ const AppFooter = () => {
         <IconButton href= "https://www.instagram.com/"color="inherit">
           <InstagramIcon fontSize='large' />
         </IconButton>
-        <IconButton color="inherit">
+        <IconButton href="https://www.pinterest.com/" color="inherit">
           <PinterestIcon fontSize='large' />
         </IconButton> 
         <Copyright />

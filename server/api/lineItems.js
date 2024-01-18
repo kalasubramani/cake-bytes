@@ -3,6 +3,7 @@ const {
   createLineItem,
   updateLineItem,
   deleteLineItem,
+  updateNewCart
 } = require('../db');
 
 const express = require('express');
@@ -44,6 +45,16 @@ app.delete('/:id', isLoggedIn, async(req, res, next)=> {
     //TODO make sure the order's user_id is req.user.id 
     await deleteLineItem({ id: req.params.id });
     res.sendStatus(204);
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.post('/', isLoggedIn, async(req, res, next)=> {
+  try {
+    //TODO make sure the order's user_id is req.user.id 
+    res.send(await createLineItem(req.body));
   }
   catch(ex){
     next(ex);
