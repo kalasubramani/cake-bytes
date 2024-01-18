@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import UserProfile from './UserProfile';
@@ -16,13 +13,11 @@ import FeaturedProducts from './FeaturedProducts';
 import FrequentlyBought from './FrequentlyBought';
 import api from './api';
 import Cart from './Cart';
-import { ContactSupportOutlined } from '@mui/icons-material';
 import Products from './Products';
 import ProductDetails from './ProductDetails';
 import EditAProduct from './EditAProduct';
 import AddProductReview from './AddProductReview';
 import ThankForReview from './ThankForReview';
-import AllOrders from './AllOrders';
 import AddNewProduct from './AddNewProduct';
 import AllCustomers from './AllCustomers';
 import ProfileSettings from './ProfileSettings';
@@ -203,8 +198,12 @@ const Home = ({ user, logout, setUser }) => {
                 path="/products/:id"
                 element={
                   <ProductDetails
-                    products={products}
                     isLoggedIn={isLoggedIn}
+                    isAdmin={isAdmin}
+                    products={products}
+                    cartItems={cartItems}
+                    createLineItem={createLineItem}
+                    updateLineItem={updateLineItem}
                   />
                 }
               />
@@ -254,9 +253,7 @@ const Home = ({ user, logout, setUser }) => {
                   />
                   {isAdmin && (
                     <>
-                      <Route path="/orders-admin" element={<AllOrders isLoggedIn={isLoggedIn}
-                        isAdmin={isAdmin}
-                        setAllOrders={setAllOrders} />} />
+                      <Route path='/orders-admin' element={<Orders orders={orders} products={products} lineItems={lineItems} />} />
                       <Route path="/add-product" element={<AddNewProduct setProducts={setProducts} />} />
                       <Route path="/customers" element={<AllCustomers isLoggedIn={isLoggedIn} isAdmin={isAdmin} />} />
                     </>

@@ -13,8 +13,6 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 
 const Products = ({ products, cartItems, createLineItem, updateLineItem, isLoggedIn, isAdmin, createWishlistItem, deleteWishlistItem }) => {
   const [searchResults, setSearchResults] = useState();
-  const dbcategory = "Birthday"
-
   const navigate = useNavigate();
   const [queryParams] = useSearchParams();
   const productCategory = queryParams.get("category");

@@ -90,8 +90,9 @@ const seed = async()=> {
     CREATE TABLE reviews(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
+      title VARCHAR(255) NOT NULL,
       comments VARCHAR(255) NOT NULL,
-      ratings INTEGER NOT NULL,
+      ratings NUMERIC NOT NULL,
       product_id UUID REFERENCES products(id) NOT NULL,
       CHECK (ratings>0 AND ratings<6)
     );
@@ -140,10 +141,10 @@ const seed = async()=> {
 
    //create review records
    await Promise.all([
-    createReview({ comments: 'comments pencil tips breaks frequetly', ratings : 1,product_id: foo.id}),
-    createReview({ comments: 'comments writes smoothly. Tips dont break',ratings : 5,product_id: foo.id }),
-    createReview({ comments: 'comments Sturdy and strong for kids daily work',ratings : 5,product_id: bar.id }),
-    createReview({ comments: 'comments marker dries off quickly',ratings : 2 ,product_id: quq.id}),
+    createReview({ title:'Disappointed',comments: 'Cake was very soggy.	', ratings : 1,product_id: foo.id}),
+    createReview({ title:'Awesome',comments: 'Oh! Heavenly cake !',ratings : 5,product_id: foo.id }),
+    createReview({ title:'Loved it',comments: 'Was a hit at the bday party',ratings : 5,product_id: bar.id }),
+    createReview({ title:'Good',comments: 'what a wonderfully dellicious cake.	',ratings : 4 ,product_id: quq.id}),
   ]);
 
   //Created wishlist items for current users

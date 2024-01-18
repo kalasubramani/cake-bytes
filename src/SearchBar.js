@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 const SearchBar =({searchList, onSearch}) =>{
     const [searchText, setSearchText] = useState ('')
-
+   console.log("searchtext",searchText.toLowerCase())
     const handleSearch = (e) => {
       //set search string to state
       const searchString= e.target.value;
@@ -14,7 +14,7 @@ const SearchBar =({searchList, onSearch}) =>{
 
       //filter products that contains search string
       const filteredProducts = searchList?.filter((product) => {
-        return product.name.indexOf( searchString) !== -1
+        return product.name.toLowerCase().indexOf( searchString.toLowerCase()) !== -1
     })
 
     //if onSearch fn is passed from calling component, call onSearch() with filtered products as args
