@@ -12,9 +12,6 @@ const Orders = ({ orders, products, lineItems, displayPrice })=> {
     
     return date;
   }
-  const calculateLineItemTotal =(productPrice, quantity) => {
-    return productPrice * quantity
-  }
 
   //get list of placed orders
  const placedOrders=  orders.filter(order => !order.is_cart).map((order)=>{return order.id});
@@ -29,6 +26,13 @@ const Orders = ({ orders, products, lineItems, displayPrice })=> {
     
 }); 
 // console.log("orderedproducts", orderedProducts)
+
+
+
+/* added the total order price to be diplayed for each order */
+const calculateLineItemTotal =(productPrice, quantity) => {
+   return productPrice * quantity
+}
 
 
 const showSearchResults = (searchResults) => {
@@ -80,11 +84,10 @@ const showOrderDetails=(orderId)=>{
                 </div>
   )});
 
-  const grandTotal= productsInOrder.reduce((accumulator, product) => {
-    console.log("products in order", productsInOrder)
-    return accumulator + calculateLineItemTotal(product.quantity, product.price)
-  },0)
- 
+ const grandTotal = productsInOrder.reduce((total,product)=>{
+      return total + calculateLineItemTotal(product.price, product.quantity);
+ },0)
+
   //for displaying app products under the order date heading - form the html elements
   const orderData = <div className='orderData'>
     {/* add in the grand total for each order after the Order placed on  */}

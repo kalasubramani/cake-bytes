@@ -14,11 +14,11 @@ const fetchProducts = async()=> {
 //Added price and description into SQL
 const createProduct = async(product)=> {
   const SQL = `
-    INSERT INTO products (id, name, price, description, vip_price) 
-    VALUES($1, $2, $3, $4, $5)
+    INSERT INTO products (id, name, price, description, vip_price,category) 
+    VALUES($1, $2, $3, $4, $5,$6)
     RETURNING *
   `;
-  const response = await client.query(SQL, [ uuidv4(), product.name, product.price, product.description, product.vip_price]);
+  const response = await client.query(SQL, [ uuidv4(), product.name, product.price, product.description, product.vip_price,product.category]);
   return response.rows[0];
 };
 //declared updateProduct SQL... exported

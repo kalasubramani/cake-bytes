@@ -2,14 +2,14 @@ import React , {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const Wishlist = ({ auth, wishlistItems, products }) => {
+const Wishlist = ({ wishlistItems, products }) => {
 
-  const productIdArray = wishlistItems.map((wishlistItem) => {
+  const productIdArray = wishlistItems?.map((wishlistItem) => {
     return wishlistItem.product_id;
   })
 
   //use the product ids to create an array of the wishlist products
-  const wishlistProducts = products.filter((product) => {
+  const wishlistProducts = products?.filter((product) => {
     return productIdArray.includes(product.id)
   })
 
@@ -18,9 +18,9 @@ const Wishlist = ({ auth, wishlistItems, products }) => {
     <div>
       <h2>My Wishlist</h2>
       <ul>
-        { wishlistProducts.length > 0 ? 
+        { wishlistProducts?.length > 0 ? 
           (
-            wishlistProducts.map((product) => {
+            wishlistProducts?.map((product) => {
               return (
                 <li key={product.id}>
                   <Link to={`/products/${product.id}`}>{product.name}</Link>

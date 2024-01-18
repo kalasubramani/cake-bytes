@@ -30,7 +30,7 @@ const Register = () => {
         user
       );
 
-      navigate("/completeRegistration");
+      navigate("/thankyou");
     } catch (error) {
       setError(error.response.data.message);
     }

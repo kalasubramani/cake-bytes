@@ -27,6 +27,8 @@ import AddNewProduct from './AddNewProduct';
 import AllCustomers from './AllCustomers';
 import ProfileSettings from './ProfileSettings';
 import Orders from './Orders';
+import ThankYou from './ThankYou';
+import SignUp from './SignUp';
 
 // https://www.svgrepo.com/svg/419438/baked-cake-cup
 // https://www.svgrepo.com/svg/404839/birthday-cake
@@ -141,6 +143,16 @@ const Home = ({ user, logout, setUser }) => {
     return (acc += item.quantity);
   }, 0);
 
+  //create an api route to add an item to a users wishlist
+  const createWishlistItem = async (product) => {
+    await api.createWishlistItem({ user, product, wishlistItems, setWishlistItems });
+  };
+
+  //create an api route to delete an item from a users wishlist
+  const deleteWishlistItem = async (wishlistItem) => {
+    await api.deleteWishlistItem({ wishlistItem, wishlistItems, setWishlistItems })
+  };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -164,14 +176,14 @@ const Home = ({ user, logout, setUser }) => {
 
           <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Routes>
-             {/* display landing page as home page for all users */}
+              {/* display landing page as home page for all users */}
               <Route path="/" element={
                 <>
                   <FeaturedProducts />
                   <FrequentlyBought />
                 </>
               }></Route>
-               {/* display products for all users */}
+              {/* display products and product details for all users */}
               <Route
                 path="/products"
                 element={
@@ -185,6 +197,17 @@ const Home = ({ user, logout, setUser }) => {
                   />
                 }
               />
+              <Route
+                path="/products/:id"
+                element={
+                  <ProductDetails
+                    products={products}
+                    isLoggedIn={isLoggedIn}
+                  />
+                }
+              />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/thankyou" element={<ThankYou />} />
               {isLoggedIn &&
                 <>
                   <Route path="/user-profile" element={<UserProfile user={user} />}></Route>
@@ -203,15 +226,7 @@ const Home = ({ user, logout, setUser }) => {
                       />
                     }
                   />
-                  <Route
-                    path="/products/:id"
-                    element={
-                      <ProductDetails
-                        products={products}
-                        isLoggedIn={isLoggedIn}
-                      />
-                    }
-                  />
+
                   <Route path="/products/:id/edit" element={<EditAProduct products={products} />} />
                   <Route
                     path="/products/:id/review"
@@ -242,6 +257,7 @@ const Home = ({ user, logout, setUser }) => {
 
                 </>
               }
+
             </Routes>
           </Container>
         </Box>
