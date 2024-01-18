@@ -29,6 +29,7 @@ import ProfileSettings from './ProfileSettings';
 import Orders from './Orders';
 import Wishlist from './Wishlist';
 
+
 // https://www.svgrepo.com/svg/419438/baked-cake-cup
 // https://www.svgrepo.com/svg/404839/birthday-cake
 // https://www.svgrepo.com/svg/501917/cake
@@ -142,6 +143,15 @@ const Home = ({ user, logout, setUser }) => {
     return (acc += item.quantity);
   }, 0);
 
+    //create an api route to add an item to a users wishlist
+    const createWishlistItem = async (product) => {
+      await api.createWishlistItem( user, product, wishlistItems, setWishlistItems );
+    };
+  
+    //create an api route to delete an item from a users wishlist
+    const deleteWishlistItem = async (wishlistItem) => {
+      await api.deleteWishlistItem( wishlistItem, wishlistItems, setWishlistItems )
+    };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -183,6 +193,8 @@ const Home = ({ user, logout, setUser }) => {
                     cartItems={cartItems}
                     createLineItem={createLineItem}
                     updateLineItem={updateLineItem}
+                    createWishlistItem={createWishlistItem}
+                    deleteWishlistItem={deleteWishlistItem}
                   />
                 }
               />

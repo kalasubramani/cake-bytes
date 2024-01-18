@@ -109,6 +109,16 @@ const fetchAllOrders = async ()=>{
   return response.rows;
 }
 
+// //to SQL TO ADD Product TO wishlist 
+// const updateNewCart = async(lineItem)=> {
+//   await ensureCart(lineItem);
+//   const SQL = `
+//   INSERT INTO wishlist (product_id, order_id, id) VALUES($1, $2, $3) RETURNING *
+// `;
+//  response = await client.query(SQL, [ lineItem.product_id, lineItem.order_id, uuidv4()]);
+//   return response.rows[0];
+// };
+
 
 
 
