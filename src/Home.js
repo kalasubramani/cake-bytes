@@ -27,6 +27,8 @@ import AddNewProduct from './AddNewProduct';
 import AllCustomers from './AllCustomers';
 import ProfileSettings from './ProfileSettings';
 import Orders from './Orders';
+import ThankYou from './ThankYou';
+import SignUp from './SignUp';
 
 // https://www.svgrepo.com/svg/419438/baked-cake-cup
 // https://www.svgrepo.com/svg/404839/birthday-cake
@@ -141,6 +143,16 @@ const Home = ({ user, logout, setUser }) => {
     return (acc += item.quantity);
   }, 0);
 
+  //create an api route to add an item to a users wishlist
+  const createWishlistItem = async (product) => {
+    await api.createWishlistItem({ user, product, wishlistItems, setWishlistItems });
+  };
+
+  //create an api route to delete an item from a users wishlist
+  const deleteWishlistItem = async (wishlistItem) => {
+    await api.deleteWishlistItem({ wishlistItem, wishlistItems, setWishlistItems })
+  };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -194,6 +206,8 @@ const Home = ({ user, logout, setUser }) => {
                   />
                 }
               />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/thankyou" element={<ThankYou />} />
               {isLoggedIn &&
                 <>
                   <Route path="/user-profile" element={<UserProfile user={user} />}></Route>
@@ -243,6 +257,7 @@ const Home = ({ user, logout, setUser }) => {
 
                 </>
               }
+
             </Routes>
           </Container>
         </Box>
