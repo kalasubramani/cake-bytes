@@ -12,7 +12,6 @@ const { isLoggedIn } = require('./middleware');
 app.get('/', isLoggedIn, async(req, res, next) => {
     try {
         res.send(await fetchWishlistItems(req.user.id))
-        console.log(req.user.id)
     } catch(ex) {
         next(ex);
     }
