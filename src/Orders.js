@@ -1,119 +1,172 @@
 import React, { useState } from 'react';
 import SearchBar from './SearchBar';
 import { useNavigate } from "react-router-dom";
+import { Badge, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Container, IconButton, Tooltip, Typography } from '@mui/material';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { displayPrice } from './Util';
 
-const Orders = ({ orders, products, lineItems, displayPrice })=> {
-  const [searchResults,setSearchResults] = useState();
+const Orders = ({ orders, products, lineItems,getCartItem,createLineItem,updateLineItem }) => {
+  const [searchResults, setSearchResults] = useState();
   const navigate = useNavigate();
-
+ 
   // finds the order date for given order id
-  const getOrderDate = (orderId)=>{
-    const date= orders.find((order)=>{ return order.id===orderId})?.created_at;
-    
+  const getOrderDate = (orderId) => {
+    const date = orders.find((order) => { return order.id === orderId })?.created_at;
+
     return date;
   }
 
   //get list of placed orders
- const placedOrders=  orders.filter(order => !order.is_cart).map((order)=>{return order.id});
- //For all placed orders - get product id from line item
- const orderLineItems = lineItems.filter((lineItem)=>placedOrders.includes(lineItem.order_id)) ;
- //for each filtered line item, get all required data from products (name,quantity purchased,order id, order , product id)
- /* passed in price:product.price to pull price info from products to be caluculated in the total order price*/
- const orderedProducts = orderLineItems.map((lineItem)=>{  
- 
-  const product = products.find(product => product.id === lineItem.product_id);
-    return {name:product.name,quantity:lineItem.quantity,price:product.price,orderId:lineItem.order_id,orderDate:getOrderDate(lineItem.order_id),productId:product.id}
-    
-}); 
-// console.log("orderedproducts", orderedProducts)
+  const placedOrders = orders.filter(order => !order.is_cart).map((order) => { return order.id });
+  const hasOrders = placedOrders?.length > 0;
+  //For all placed orders - get product id from line item
+  const orderLineItems = lineItems.filter((lineItem) => placedOrders.includes(lineItem.order_id));
+  //for each filtered line item, get all required data from products (name,quantity purchased,order id, order , product id)
+  /* passed in price:product.price to pull price info from products to be caluculated in the total order price*/
+  const orderedProducts = orderLineItems.map((lineItem) => {
+
+    const product = products.find(product => product.id === lineItem.product_id);
+    return { name: product.name, description: product.description, quantity: lineItem.quantity, price: product.price, orderId: lineItem.order_id, orderDate: getOrderDate(lineItem.order_id), id: product.id }
+
+  });
+
+  /* added the total order price to be diplayed for each order */
+  const calculateLineItemTotal = (productPrice, quantity) => {
+    return productPrice * quantity
+  }
+
+  const renderMessage = () => {
+    return(    
+    <Card sx={{ mt: "1rem", p: "1rem",width:"50rem" }} variant="outlined">
+      <Typography variant='h6'>
+        There are no products that matches the search.
+      </Typography>
+    </Card>
+    );
+  }
+
+  const showSearchResults = (searchResults) => {
+    return searchResults?.length > 0 ? showProductDetails(searchResults) : renderMessage()
+   }
+
+  const showProductDetails = (products) => products.map((product) => {
+    const cartItem =getCartItem(product.id);
+    return (
+      <Card key={`card-for-product-${product.id}`} sx={{ display: 'flex', mb: "1rem" }} variant='outlined'>
+        <Badge badgeContent={`Qty:${product.quantity}`} color='secondary' overlap='circular'>
+          <CardMedia
+            sx={{ p: "1rem", width: "200px", height: "200px", cursor: 'pointer' }}
+            image={`https://source.unsplash.com/random/?${product?.name}`}
+            component="img"
+            onClick={() => { navigate(`/products/${product.id}`); }}
+          />
+        </Badge>
+        <CardContent sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
+          <Typography gutterBottom variant="caption" component="span">
+            {product?.name}
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            {product?.description}
+          </Typography>
+
+          <CardActions>
+            <Tooltip title="Add to wishlist">
+              <IconButton size="small" sx={{ color: 'red' }}><FavoriteBorderIcon /></IconButton>
+            </Tooltip>
+            <Tooltip title="Buy it again">
+              <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(product) }}> 
+              <ShoppingCartIcon/>
+              </IconButton>              
+            </Tooltip>
+          </CardActions>
+
+          <Box sx={{ mt: "auto", alignSelf: "end" }}>
+            <Button sx={{ width: "fit-content", m: "auto" }} onClick={() => { navigate(`/products/${product.id}/review`) }}>Write a product review</Button>
+          </Box>
+
+        </CardContent>
+      </Card>
+    )
+  });
 
 
+  const showOrderDetails = (orderId) => {
+    //get order placed date
+    const orderDate = getOrderDate(orderId)
+    //get all products in an order
+    const productsInOrder = orderedProducts.filter((order) => {
+      return (
+        order.orderId === orderId
+      )
+    })
 
-/* added the total order price to be diplayed for each order */
-const calculateLineItemTotal =(productPrice, quantity) => {
-   return productPrice * quantity
-}
-
-
-const showSearchResults = (searchResults) => {
-  return (
-       searchResults.map((product)=>{return (
-      <div key={product.id}>  
-          <div
-            className="product"
-            onClick={() => {
-              navigate(`/products/${product.productId}`);
-            }}
-          >
-            {product.name}
-          </div>
-          {/* added the total order price to be diplayed for each order */}
-      Quantity Purchased : {product.quantity} |
-      Line Item Total : ${calculateLineItemTotal(product.price, product.quantity)}|
-      Order ID : {product.orderId}
-  </div>
-       )}
-  ))
-}
-
-
-const showOrderDetails=(orderId)=>{
-  //get order placed date
-  const orderDate = getOrderDate(orderId)
-  //get all products in an order
- const productsInOrder = orderedProducts.filter((order)=>{return (
-    order.orderId === orderId
-  )})
-
-  //for each product in the order, form the product details elements to be displayed 
-  //This returns all products in a given order
- const productData= productsInOrder.map((product)=>{return (
-                  <div key={product.id}>   
-                      <div
-                            className="product"
-                            onClick={() => {
-                              navigate(`/products/${product.productId}`);
-                            }}
-                          >
-                        {product.name} 
-                    </div> |
-                    {/* added the total order price to be diplayed for each order */}
-                    Quantity Purchased : {product.quantity} |
-                    Line Item Total : ${calculateLineItemTotal(product.price, product.quantity)}|
-                    Order ID : {product.orderId}
-                </div>
-  )});
-
- const grandTotal = productsInOrder.reduce((total,product)=>{
+    const grandTotal = productsInOrder.reduce((total, product) => {
       return total + calculateLineItemTotal(product.price, product.quantity);
- },0)
+    }, 0)
 
-  //for displaying app products under the order date heading - form the html elements
-  const orderData = <div className='orderData'>
-    {/* add in the grand total for each order after the Order placed on  */}
-                        Order Placed On :  <span >{ new Date(orderDate).toString().slice(0,15) }</span>
-                        {/* added the grand total here */}
-      <h4> Order Grand Total: ${grandTotal} </h4>
-                        {productData}
-                    </div>
- return orderData;
-}
 
-          
+    //for each product in the order, form the product details elements to be displayed 
+    //This returns all products in a given order
+    const productData = showProductDetails(productsInOrder);
+
+    //for displaying app products under the order date heading - form the html elements
+    const orderData = (
+      <Card key={`card-for-order-${orderId}`} sx={{ mb: "1rem" }}>
+        <CardHeader sx={{ backgroundColor: "#ffc107" }} subheader={
+          <Container sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography>Order placed on</Typography>
+              <Typography>{new Date(orderDate).toString().slice(0, 15)}</Typography>
+            </Box>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography>Total</Typography>
+              <Typography>{displayPrice.format(grandTotal)}</Typography>
+            </Box>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography>Order # {orderId}</Typography>
+              <Typography></Typography>
+            </Box>
+          </Container>
+        } />
+        <CardContent key={`content-for-order-${orderId}`}>
+          {productData}
+        </CardContent>
+      </Card>
+    );
+    return orderData;
+  }
+
+  const showOrders = () => {
+    return (
+      hasOrders ?
+        placedOrders.map((order) => {
+          return showOrderDetails(order)
+        })
+        :
+        <Card sx={{ mt: "1rem", p: "1rem" }} variant="outlined">
+          <Typography>
+            There are no orders to display.
+          </Typography>
+        </Card>)
+  }
+
   return (
-    <div>
-      <h2>Orders</h2>
-      <SearchBar searchList={orderedProducts} onSearch={(results)=>{setSearchResults(results)}}/> 
-      <ul>
+    <Container maxWidth="xl">
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: "2rem 0" }}>
+        <Typography variant='h5'>Orders</Typography>
         {
-          // display order details by default. If the searchResults are available, then display only search results
-          searchResults ? showSearchResults(searchResults) 
-          : placedOrders.map((order)=>{return ( 
-                      <li key={order}>{showOrderDetails(order)}</li>
-           )})
+          hasOrders &&
+          <SearchBar searchList={orderedProducts} onSearch={(results) => { setSearchResults(results) }} />
         }
-      </ul>
-    </div>
+      </Box>
+      {
+        // display order details by default. If the searchResults are available, then display only search results
+        searchResults ? showSearchResults(searchResults)
+          : showOrders()
+      }
+
+    </Container>
   );
 };
 
