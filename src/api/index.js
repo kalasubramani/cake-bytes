@@ -107,7 +107,7 @@ const logout = (setAuth)=> {
 }
 
 //fetch all customers to display in admin tab
-const fetchAllCustomers = async (setCustomers)=>{
+const fetchAllCustomers = async (setCustomers, user)=>{
   const response = await axios.get('/api/customers',getHeaders());
   setCustomers(response.data); 
 }
@@ -153,6 +153,12 @@ const deleteWishlistItem = async({ wishlistItem, wishlistItems, setWishlistItems
   const response = await axios.delete(`/api/wishlist/${wishlistItem.id}`, getHeaders());
   setWishlistItems(wishlistItems.filter(_wishlistItem => _wishlistItem.id !== wishlistItem.id));
 };
+//update user, can also update VIP status
+const updateVipStatus = async(user, setUser) =>{
+   const response = await axios.put(`/api/users/${user.id}/updatevipstatus`,user, getHeaders());
+  //setUser(response.data)
+  console.log("set customers in index api", response.data)
+}; 
 
 
 
@@ -178,7 +184,8 @@ const api = {
   updateProfile,
   fetchWishlistItems,
   createWishlistItem,
-  deleteWishlistItem
+  deleteWishlistItem,
+  updateVipStatus
 };
 
 export default api;

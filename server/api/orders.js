@@ -19,8 +19,7 @@ app.put('/:id', isLoggedIn, async(req, res, next)=> {
 }); 
 
 app.get('/', isLoggedIn, async(req, res, next)=> {
-  console.log("existing fetch orders")
-  try {
+   try {
     res.send(await fetchOrders(req.user.id));
   }
   catch(ex){
@@ -30,8 +29,7 @@ app.get('/', isLoggedIn, async(req, res, next)=> {
 
 //fetch all orders, created a new route called /current for admin user
 app.get('/current', isLoggedIn, isAdmin, async(req, res, next)=> {
-  console.log("aimee's function to fetch all orders")
-  try {
+   try {
     res.send(await fetchAllOrders());
   }
   catch(ex){
