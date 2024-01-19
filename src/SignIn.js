@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -31,6 +31,8 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const SignIn = ({ login }) => {
+  const [error, setError] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -39,6 +41,7 @@ const SignIn = ({ login }) => {
     }
     catch(ex){
       console.log(ex.response.data);
+      setError("Incorrect username or password.")
     }
   };
 
@@ -98,6 +101,7 @@ const SignIn = ({ login }) => {
                 id="password"
                 autoComplete="current-password"
               />
+              { error && <Box variant='h3' sx={{color: 'red'}}>{error}</Box>}
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
