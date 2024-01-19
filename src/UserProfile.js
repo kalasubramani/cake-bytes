@@ -2,8 +2,9 @@ import React , {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Wishlist from "./Wishlist";
+import WishlistMui from "./WishlistMui";
 
-const UserProfile = ({ user, wishlistItems, products }) => {
+const UserProfile = ({ user, wishlistItems, products, cartItems, createWishlistItem, deleteWishlistItem}) => {
   const isVip = user?.is_vip;
   const productIdArray = wishlistItems?.map((wishlistItem) => {
     return wishlistItem.product_id;
@@ -12,8 +13,7 @@ const UserProfile = ({ user, wishlistItems, products }) => {
   const wishlistProducts = products?.filter((product) => {
     return productIdArray.includes(product.id)
   })
-
-
+ 
   //displays wishlist
   return (
     <div>
@@ -27,7 +27,9 @@ const UserProfile = ({ user, wishlistItems, products }) => {
             </ul>
               
           { isVip ? <p>Thank you for being a VIP customer!</p> : null }
-          <Wishlist user={user} wishlistItems={wishlistItems} products={products} />
+         <WishlistMui wishlistItems={wishlistItems} products={products} cartItems={cartItems} createWishlistItem={createWishlistItem} deleteWishlistItem={deleteWishlistItem}/>
+          {/* <Wishlist wishlistItems={wishlistItems} products={products} cartItems={cartItems}  createWishlistItem={createWishlistItem}
+                    deleteWishlistItem={deleteWishlistItem} /> */}
 
         </div>
     </div>

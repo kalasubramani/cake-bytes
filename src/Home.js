@@ -56,6 +56,8 @@ const Home = ({ user, logout, setUser }) => {
   const navigate = useNavigate();
   const [allOrders, setAllOrders] = useState([]);
 
+
+
   //fetch all products from db
   useEffect(() => {
     const fetchData = async () => {
@@ -101,8 +103,10 @@ const Home = ({ user, logout, setUser }) => {
         await api.fetchWishlistItems(setWishlistItems);
       };
       fetchData();
-    }
+    } 
   }, [isLoggedIn]);
+
+
 
   //create new line  in db
   const createLineItem = async (product) => {
@@ -148,6 +152,11 @@ const Home = ({ user, logout, setUser }) => {
     const deleteWishlistItem = async (wishlistItem) => {
       await api.deleteWishlistItem( wishlistItem, wishlistItems, setWishlistItems )
     };
+
+    //checks product already in cart and return the corresponding line item
+    const getCartItem = (productId)=>{
+             return cartItems.find(lineItem => lineItem.product_id === productId);
+    }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -211,7 +220,8 @@ const Home = ({ user, logout, setUser }) => {
               <Route path="/thankyou" element={<ThankYou />} />
               {isLoggedIn &&
                 <>
-                  <Route path="/user-profile" element={<UserProfile user={user} />}></Route>
+                  <Route path="/user-profile" element={<UserProfile user={user} wishlistItems={wishlistItems} products={products}  cartItems={cartItems}  createWishlistItem={createWishlistItem}
+                    deleteWishlistItem={deleteWishlistItem}/>}></Route>
                   <Route
                     path="/cart"
                     element={
@@ -234,10 +244,10 @@ const Home = ({ user, logout, setUser }) => {
                     element={<AddProductReview products={products} />}
                   />
                   {/* added route for wishlist */}
-                  <Route
+                  {/* <Route
                     path="/wishlist"
-                    element={<Wishlist Wishlist={Wishlist} wishlistItems={wishlistItems} products={products}/>}
-                  />
+                    element={<Wishlist wishlistItems={wishlistItems} products={products}/>}
+                  /> */}
                   <Route path="/thankforreview" element={<ThankForReview />} />
                   <Route path="/settings" element={<ProfileSettings user={user} setUser={setUser} />}></Route>
                   <Route
@@ -247,13 +257,21 @@ const Home = ({ user, logout, setUser }) => {
                         orders={orders}
                         products={products}
                         lineItems={lineItems}
+                        getCartItem={getCartItem}
+                        createLineItem={createLineItem}
+                        updateLineItem={updateLineItem}
                       />
                     }
                 
                   />
                   {isAdmin && (
                     <>
-                      <Route path='/orders-admin' element={<Orders orders={orders} products={products} lineItems={lineItems} />} />
+                      <Route path='/orders-admin' element={<Orders orders={orders} 
+                                                            products={products} 
+                                                            lineItems={lineItems}
+                                                            getCartItem={getCartItem}
+                                                            createLineItem={createLineItem}
+                                                            updateLineItem={updateLineItem} />} />
                       <Route path="/add-product" element={<AddNewProduct setProducts={setProducts} />} />
                       <Route path="/customers" element={<AllCustomers isLoggedIn={isLoggedIn} isAdmin={isAdmin} />} />
                     </>

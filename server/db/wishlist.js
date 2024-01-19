@@ -11,6 +11,7 @@ const fetchWishlistItems = async(userId)=> {
     `;
     const response = await client.query(SQL, [ userId ]);
     return response.rows;
+
 };
 
 const createWishlistItem = async(wishlistItem)=> {
