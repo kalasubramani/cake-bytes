@@ -149,6 +149,11 @@ const Home = ({ user, logout, setUser }) => {
       await api.deleteWishlistItem( wishlistItem, wishlistItems, setWishlistItems )
     };
 
+    //checks product already in cart and return the corresponding line item
+    const getCartItem = (productId)=>{
+             return cartItems.find(lineItem => lineItem.product_id === productId);
+    }
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex', minHeight: "100vh" }}>
@@ -247,13 +252,21 @@ const Home = ({ user, logout, setUser }) => {
                         orders={orders}
                         products={products}
                         lineItems={lineItems}
+                        getCartItem={getCartItem}
+                        createLineItem={createLineItem}
+                        updateLineItem={updateLineItem}
                       />
                     }
                 
                   />
                   {isAdmin && (
                     <>
-                      <Route path='/orders-admin' element={<Orders orders={orders} products={products} lineItems={lineItems} />} />
+                      <Route path='/orders-admin' element={<Orders orders={orders} 
+                                                            products={products} 
+                                                            lineItems={lineItems}
+                                                            getCartItem={getCartItem}
+                                                            createLineItem={createLineItem}
+                                                            updateLineItem={updateLineItem} />} />
                       <Route path="/add-product" element={<AddNewProduct setProducts={setProducts} />} />
                       <Route path="/customers" element={<AllCustomers isLoggedIn={isLoggedIn} isAdmin={isAdmin} />} />
                     </>

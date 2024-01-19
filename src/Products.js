@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import SearchBar from './SearchBar';
@@ -17,26 +17,80 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
   const [queryParams] = useSearchParams();
   const productCategory = queryParams.get("category");
 
+  //to clear search as the user navigates along the menu items
+  useEffect(()=>{
+    setSearchResults('');
+  },[productCategory])
+
   //display search results in the page
   const showSearchResults = (searchResults) => {
-    return (
-      searchResults.map((product) => {
-        return (
-          <div key={product.id}>
-            <div
-              className="product"
-              onClick={() => {
-                navigate(`/products/${product.id}`);
-              }}
-            >
-              {product.name}
-            </div>
-            {displayPrice.format(product.price)}
-          </div>
-        )
-      }
-      ))
+    console.log(searchResults)
+    return searchResults?.length > 0 ? renderProducts(searchResults) : renderMessage();
   }
+
+  const renderMessage = () => {
+    return(    
+    <Card sx={{ mt: "1rem", p: "1rem",width:"50rem" }} variant="outlined">
+      <Typography variant='h6'>
+        There are no products that matches the search.
+      </Typography>
+    </Card>
+    );
+  }
+
+  const renderProducts = (productsToDisplay) => {
+    return productsToDisplay?.map((product, index) => {
+      const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
+      return (
+        <Card key={product.id} sx={{ width: "14rem" }}>
+          <CardMedia
+            sx={{ height: "12rem", cursor: 'pointer' }}
+            image={`https://source.unsplash.com/random/?${product.name}[${index}]`}
+            title={"Click to view details"}
+            onClick={() => { navigate(`/products/${product.id}`) }}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="caption" component="span">
+              {product.name}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              {product.description}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {displayPrice.format(product.price)}
+            </Typography>
+            <Typography variant="caption" className="vipDiscount">
+              {product.vip_price > 0 ? `${displayPrice.format(product.vip_price)}  **VIP only discount!**` : ""}
+            </Typography>
+          </CardContent>
+
+          {
+            isLoggedIn && (
+              <CardActions>
+                <Tooltip title="I want this cake someday!">
+                  <IconButton size="small" sx={{ color: 'red' }} onClick={() => { cartItem ? createWishlistItem(cartItem) : createWishlistItem(product) }}><FavoriteIcon /></IconButton>
+                </Tooltip>
+                <Tooltip title="I changed my mind!">
+                  <IconButton size="small" sx={{ color: 'red' }} onClick={() => { cartItem ? createWishlistItem(cartItem) : deleteWishlistItem(product) }}><FavoriteBorderIcon /></IconButton>
+                  {/* cartItem ? createWishlistItem(cartItem) : deleteWishlistItem(product)  */}
+                </Tooltip>
+                <Tooltip title="Add to cart!">
+                  <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(product) }}><ShoppingCartIcon /></IconButton>
+                </Tooltip>
+                {
+                  isAdmin && (
+                    <Tooltip title="Edit Product">
+                      <IconButton size="small" onClick={() => { navigate(`/products/${product.id}/edit`) }}><EditNoteIcon /></IconButton>
+                    </Tooltip>
+                  )
+                }
+              </CardActions>
+            )}
+        </Card>
+      );
+    })
+  }
+
   //Display products based on category selected from side menu
   const showProducts = (category) => {
     let productsToDisplay;
@@ -49,68 +103,15 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
       productsToDisplay = products;
     }
 
-
-
-    const allProducts = productsToDisplay?.map((product, index) => {
-      const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
-          return (
-        <>
-
-          <Card sx={{ width: "14rem" }}>
-            <CardMedia
-              sx={{ height: "12rem", cursor: 'pointer' }}
-              image={`https://source.unsplash.com/random/?${product.name}[${index}]`}
-              title={"Click to view details"}
-              onClick={() => { navigate(`/products/${product.id}`) }}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="caption" component="span">
-                {product.name}
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                {product.description}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {displayPrice.format(product.price)}
-              </Typography>
-              <Typography variant="caption" className="vipDiscount">
-                {product.vip_price > 0 ? `${displayPrice.format(product.vip_price)}  **VIP only discount!**` : ""}
-              </Typography>
-            </CardContent>
-
-            {
-              isLoggedIn && (
-                <CardActions>
-                  <Tooltip title="I want this cake someday!">
-                    <IconButton size="small" sx={{ color: 'red' }} onClick={() => { cartItem ? createWishlistItem(cartItem) : createWishlistItem(product) }}><FavoriteIcon /></IconButton>
-                  </Tooltip>
-                  <Tooltip title="I changed my mind!">
-                    <IconButton size="small" sx={{ color: 'red' }} onClick={() => {cartItem ? createWishlistItem(cartItem) : deleteWishlistItem(product)}}><FavoriteBorderIcon /></IconButton>
-                    {/* cartItem ? createWishlistItem(cartItem) : deleteWishlistItem(product)  */}
-                  </Tooltip>
-                  <Tooltip title="Add to cart!">
-                    <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(product) }}><ShoppingCartIcon /></IconButton>
-                  </Tooltip>
-                  {
-                    isAdmin && (
-                      <Tooltip title="Edit Product">
-                        <IconButton size="small" onClick={() => { navigate(`/products/${product.id}/edit`) }}><EditNoteIcon /></IconButton>
-                      </Tooltip>
-                    )
-                  }
-                </CardActions>
-              )}
-          </Card>         
-        </>
-      );
-    })
+    const allProducts = renderProducts(productsToDisplay)
     return allProducts;
   }
 
   return (
     <div>
       <h2>Products</h2>
-      <SearchBar searchList={products} onSearch={(results) => { setSearchResults(results) }} />
+      {/* key renders new searchbar everytime the product category changes */}
+      <SearchBar key={`searchbar-for-${productCategory}`} searchList={products} onSearch={(results) => { setSearchResults(results) }} />
       {
         isAdmin && (
           <Tooltip title={"Add new product"}>
