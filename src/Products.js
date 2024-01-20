@@ -19,12 +19,11 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
 
   //to clear search as the user navigates along the menu items
   useEffect(()=>{
-    setSearchResults('');
+    setSearchResults();
   },[productCategory])
 
   //display search results in the page
   const showSearchResults = (searchResults) => {
-    console.log(searchResults)
     return searchResults?.length > 0 ? renderProducts(searchResults) : renderMessage();
   }
 
