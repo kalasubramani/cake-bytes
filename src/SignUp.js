@@ -44,7 +44,7 @@ function Copyright(props) {
             "/api/users/register",
             user
           );    
-          navigate("/thankyou");
+          navigate("/thankyou?sentFrom=SignUp");
         } catch (error) {
           setError(error.response.data.message);
         }
@@ -79,6 +79,8 @@ function Copyright(props) {
                             id="firstName"
                             label="First Name"
                             autoFocus
+                            maxLength={12}
+                            minLength={3}
                             onChange={(e) => {setFirstname(e.target.value)}}
                             />
                         </Grid>
@@ -90,6 +92,8 @@ function Copyright(props) {
                             label="Last Name"
                             name="lastName"
                             autoComplete="family-name"
+                            maxLength={12}
+                            minLength={3}
                             onChange={(e) => {setLastname(e.target.value)}}
                             />
                         </Grid>
@@ -101,6 +105,8 @@ function Copyright(props) {
                             label="Email Address or Username"
                             name="email_username"
                             autoComplete="email"
+                            maxLength={25}
+                            minLength={6}
                             onChange={(e) => {setUsername(e.target.value)}}
                             />
                         </Grid>
@@ -113,6 +119,8 @@ function Copyright(props) {
                             type="password"
                             id="password"
                             autoComplete="new-password"
+                            maxLength={11}
+                            minLength={6}
                             onChange={(e) => {setPassword(e.target.value)}}
                             />
                         </Grid>

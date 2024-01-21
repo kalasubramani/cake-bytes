@@ -1,7 +1,31 @@
 import React from "react";
+import { useSearchParams } from 'react-router-dom'
 import { Box, Link, Typography, } from "@mui/material";
 
 const ThankYou = ()=>{
+    const [queryParams] = useSearchParams();
+    const previousPage = queryParams.get('sentFrom');
+    
+    const inputArray = [
+        {   
+            name: 'SignUp',
+            reason: `for joining the Cake {Code}`,
+            request: `Please `,
+            sendTo: '/#/sign-in',
+            location: 'log in' 
+        },
+        {
+            name: 'Review',
+            reason: 'for leaving a review',
+            request: `Review other purchases? `,
+            sendTo: '/#/orders',
+            location: 'Go to orders.'
+        }
+    ]
+
+    const inputToDisplay = inputArray.find((previous) => {
+        return previous.name === previousPage
+    })
 
   return(
     <>
@@ -17,7 +41,7 @@ const ThankYou = ()=>{
                 Thank you
             </Typography>
             <Typography variant="h3" >
-                {`for joining the Cake {Code}`}
+                {inputToDisplay.reason}
             </Typography>   
             <Box
                 component="img"
@@ -31,9 +55,9 @@ const ThankYou = ()=>{
             >
             </Box>
             <Typography variant="h4" sx={{mt: 1}}>
-                Please 
-                <Link href="/#/sign-in" variant="inherit" underline= 'none' sx={{color: 'blue'}}>
-                    {` log in`}
+                {inputToDisplay.request} 
+                <Link href={inputToDisplay.sendTo} variant="inherit" underline= 'none' sx={{color: 'blue'}}>
+                    {inputToDisplay.location}
                 </Link>
             </Typography> 
 

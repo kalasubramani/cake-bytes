@@ -57,7 +57,7 @@ const AddProductReview = ({ products }) => {
     setTitle('');
     setComments('');
 
-    navigate("/thankforreview");
+    navigate("/thankyou?sentFrom=Review");
   }
   return (
       <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }} maxWidth="xl">
