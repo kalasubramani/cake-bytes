@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Wishlist from "./Wishlist";
 import WishlistMui from "./WishlistMui";
 
-const UserProfile = ({ user, wishlistItems, products, cartItems, createWishlistItem, deleteWishlistItem}) => {
+const UserProfile = ({ user, wishlistItems, products, lineItems, cartItems, getCartItem, createLineItem, updateLineItem}) => {
   const isVip = user?.is_vip;
   const productIdArray = wishlistItems?.map((wishlistItem) => {
     return wishlistItem.product_id;
@@ -27,10 +27,16 @@ const UserProfile = ({ user, wishlistItems, products, cartItems, createWishlistI
             </ul>
               
           { isVip ? <p>Thank you for being a VIP customer!</p> : null }
-         <WishlistMui wishlistItems={wishlistItems} products={products} cartItems={cartItems} createWishlistItem={createWishlistItem} deleteWishlistItem={deleteWishlistItem}/>
+         <WishlistMui 
+         wishlistItems={wishlistItems} 
+         products={products}
+         lineItems={lineItems}
+         cartItems={cartItems}
+         getCartItem={getCartItem}
+         createLineItem={createLineItem}
+         updateLineItem={updateLineItem}/>
           {/* <Wishlist wishlistItems={wishlistItems} products={products} cartItems={cartItems}  createWishlistItem={createWishlistItem}
                     deleteWishlistItem={deleteWishlistItem} /> */}
-
         </div>
     </div>
   )

@@ -3,7 +3,8 @@ const {
   findUserByToken,
   createUser,
   fetchAllCustomers,
-  updateUser
+  updateUser,
+  updateVipStatus
 } = require('../db');
 
 const express = require('express');
@@ -55,6 +56,16 @@ app.get('/customers',isLoggedIn, isAdmin,async (req,res,next)=>{
 app.put('/users/:id', isLoggedIn, async(req, res, next) => {
   try {
       res.send(await updateUser({...req.body, id: req.params.id}));
+  } catch (ex) {
+    next(ex);
+  }
+
+})
+
+//update customers vip status in db
+app.put('/users/:id/updatevipstatus', isLoggedIn, isAdmin, async(req, res, next) => {
+    try {
+      res.send(await updateVipStatus({...req.body, id: req.params.id}));
   } catch (ex) {
     next(ex);
   }

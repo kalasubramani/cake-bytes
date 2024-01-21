@@ -6,10 +6,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { displayPrice } from './Util';
 
-const Orders = ({ orders, products, lineItems,getCartItem,createLineItem,updateLineItem }) => {
+const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, updateLineItem }) => {
   const [searchResults, setSearchResults] = useState();
   const navigate = useNavigate();
- 
+
   // finds the order date for given order id
   const getOrderDate = (orderId) => {
     const date = orders.find((order) => { return order.id === orderId })?.created_at;
@@ -37,23 +37,24 @@ const Orders = ({ orders, products, lineItems,getCartItem,createLineItem,updateL
   }
 
   const renderMessage = () => {
-    return(    
-    <Card sx={{ mt: "1rem", p: "1rem",width:"50rem" }} variant="outlined">
-      <Typography variant='h6'>
-        There are no products that matches the search.
-      </Typography>
-    </Card>
+    return (
+      <Card sx={{ mt: "1rem", p: "1rem", width: "50rem" }} variant="outlined">
+        <Typography variant='h6'>
+          There are no products that matches the search.
+        </Typography>
+      </Card>
     );
   }
 
   const showSearchResults = (searchResults) => {
     return searchResults?.length > 0 ? showProductDetails(searchResults) : renderMessage()
-   }
+  }
 
   const showProductDetails = (products) => products.map((product) => {
-    const cartItem =getCartItem(product.id);
+    const cartItem = getCartItem(product.id);
     return (
-      <Card key={`card-for-product-${product.id}`} sx={{ display: 'flex', mb: "1rem" }} variant='outlined'>
+      <Card key={`card-for-order-${product.orderId}-product-${product.id}`}
+        sx={{ display: 'flex', mb: "1rem" }} variant='outlined'>
         <Badge badgeContent={`Qty:${product.quantity}`} color='secondary' overlap='circular'>
           <CardMedia
             sx={{ p: "1rem", width: "200px", height: "200px", cursor: 'pointer' }}
@@ -75,9 +76,9 @@ const Orders = ({ orders, products, lineItems,getCartItem,createLineItem,updateL
               <IconButton size="small" sx={{ color: 'red' }}><FavoriteBorderIcon /></IconButton>
             </Tooltip>
             <Tooltip title="Buy it again">
-              <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(product) }}> 
-              <ShoppingCartIcon/>
-              </IconButton>              
+              <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(product) }}>
+                <ShoppingCartIcon />
+              </IconButton>
             </Tooltip>
           </CardActions>
 

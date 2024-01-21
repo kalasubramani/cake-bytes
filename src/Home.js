@@ -25,7 +25,9 @@ import Orders from './Orders';
 import Wishlist from './Wishlist';
 import ThankYou from './ThankYou';
 import SignUp from './SignUp';
+import Checkout from './Checkout';
 import UserProfileMUI from './UserProfileMUI';
+
 
 // https://www.svgrepo.com/svg/419438/baked-cake-cup
 // https://www.svgrepo.com/svg/404839/birthday-cake
@@ -104,7 +106,7 @@ const Home = ({ user, logout, setUser }) => {
         await api.fetchWishlistItems(setWishlistItems);
       };
       fetchData();
-    } 
+    }
   }, [isLoggedIn]);
 
 
@@ -144,20 +146,40 @@ const Home = ({ user, logout, setUser }) => {
     return (acc += item.quantity);
   }, 0);
 
-    //create an api route to add an item to a users wishlist
-    const createWishlistItem = async (product) => {
-      await api.createWishlistItem( user, product, wishlistItems, setWishlistItems );
-    };
-  
-    //create an api route to delete an item from a users wishlist
-    const deleteWishlistItem = async (wishlistItem) => {
-      await api.deleteWishlistItem( wishlistItem, wishlistItems, setWishlistItems )
-    };
+  //create an api route to add an item to a users wishlist
+  const createWishlistItem = async (product) => {
+    await api.createWishlistItem(user, product, wishlistItems, setWishlistItems);
+  };
 
-    //checks product already in cart and return the corresponding line item
-    const getCartItem = (productId)=>{
-             return cartItems.find(lineItem => lineItem.product_id === productId);
-    }
+  //create an api route to delete an item from a users wishlist
+  const deleteWishlistItem = async (wishlistItem) => {
+    await api.deleteWishlistItem(wishlistItem, wishlistItems, setWishlistItems)
+  };
+
+  //checks product already in cart and return the corresponding line item
+  const getCartItem = (productId) => {
+    return cartItems.find(lineItem => lineItem.product_id === productId);
+  }
+
+  const getOrderDetails = () => {
+    //get list of placed orders
+    const placedOrders = orders.filter(order => order.is_cart).map((order) => { return order.id });
+    const hasOrders = placedOrders?.length > 0;
+    //For all placed orders - get product id from line item
+    const orderLineItems = lineItems.filter((lineItem) => placedOrders.includes(lineItem.order_id));
+    //for each filtered line item, get all required data from products (name,quantity purchased,order id, order , product id)
+    /* passed in price:product.price to pull price info from products to be caluculated in the total order price*/
+    const orderedProducts = orderLineItems.map((lineItem) => {
+
+      const product = products.find(product => product.id === lineItem.product_id);
+      return { name: product.name, description: product.description, quantity: lineItem.quantity, price: product.price, orderId: lineItem.order_id, id: product.id }
+    })
+    return orderedProducts;
+  }
+
+  const placeOrder=()=>{
+    updateOrder({...cart, is_cart: false });
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -221,8 +243,18 @@ const Home = ({ user, logout, setUser }) => {
               <Route path="/thankyou" element={<ThankYou />} />
               {isLoggedIn &&
                 <>
-                  <Route path="/user-profile" element={<UserProfile user={user} wishlistItems={wishlistItems} products={products}  cartItems={cartItems}  createWishlistItem={createWishlistItem}
-                    deleteWishlistItem={deleteWishlistItem}/>}></Route>
+                  <Route path="/user-profile" 
+                  element={
+                  <UserProfile user={user}
+                    wishlistItems={wishlistItems} 
+                    orders={orders}
+                    products={products}  
+                    lineItems={lineItems} 
+                    cartItems={cartItems}
+                    getCartItem={getCartItem}
+                    createLineItem={createLineItem}
+                    updateLineItem={updateLineItem}/>}></Route>
+
                   <Route 
                     path="/user-profile_mui" 
                     element={
@@ -241,6 +273,7 @@ const Home = ({ user, logout, setUser }) => {
                       />
                     }>
                   </Route>
+
                   <Route
                     path="/cart"
                     element={
@@ -269,17 +302,30 @@ const Home = ({ user, logout, setUser }) => {
                   /> */}
                   <Route path="/thankforreview" element={<ThankForReview />} />
                   <Route path="/settings" element={<ProfileSettings user={user} setUser={setUser} />}></Route>
-
+                  <Route
+                    path="/orders"
+                    element={
+                      <Orders
+                        orders={orders}
+                        products={products}
+                        lineItems={lineItems}
+                        getCartItem={getCartItem}
+                        createLineItem={createLineItem}
+                        updateLineItem={updateLineItem}
+                      />
+                    }
+                  />
+                  <Route path="/:orderid/checkout" element={<Checkout getOrderDetails={getOrderDetails} placeOrder={placeOrder}/>} />
                   {isAdmin && (
                     <>
-                      <Route path='/orders-admin' element={<Orders orders={orders} 
-                                                            products={products} 
-                                                            lineItems={lineItems}
-                                                            getCartItem={getCartItem}
-                                                            createLineItem={createLineItem}
-                                                            updateLineItem={updateLineItem} />} />
+                      <Route path='/orders-admin' element={<Orders orders={orders}
+                        products={products}
+                        lineItems={lineItems}
+                        getCartItem={getCartItem}
+                        createLineItem={createLineItem}
+                        updateLineItem={updateLineItem} />} />
                       <Route path="/add-product" element={<AddNewProduct setProducts={setProducts} />} />
-                      <Route path="/customers" element={<AllCustomers isLoggedIn={isLoggedIn} isAdmin={isAdmin} />} />
+                      <Route path="/customers" element={<AllCustomers isLoggedIn={isLoggedIn} isAdmin={isAdmin} isVip={isVip} user={user} setUser={setUser}/>} />
                     </>
                   )}
 

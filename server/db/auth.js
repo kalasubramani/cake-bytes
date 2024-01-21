@@ -67,7 +67,7 @@ const createUser = async(user)=> {
 //gets all customers
 const fetchAllCustomers = async(user)=>{
   const SQL = `
-  SELECT id,username,is_admin,is_vip
+  SELECT id, firstname, lastname, username, is_admin, is_vip
   FROM users
       `;
 const response = await client.query(SQL);
@@ -82,7 +82,7 @@ const updateUser = async(user)=> {
     SET  firstname = $1,
     lastname = $2,
     username = $3,
-    password =$4
+    password = $4,
     WHERE id = $5
     RETURNING *
   `;
@@ -90,10 +90,26 @@ const updateUser = async(user)=> {
   return response.rows[0];
 };
 
+//Admin to be able to make or remove User VIP status
+//vipUser has userId and vipStatus
+const updateVipStatus = async(vipUser) =>{
+   const SQL = `
+  UPDATE users
+  SET 
+  is_vip = $1
+  WHERE id = $2
+  RETURNING *
+   `;
+   const response = await client.query( SQL, [ vipUser.is_vip, vipUser.id]);
+   return response.rows[0];
+
+}
+
 module.exports = {
   createUser,
   authenticate,
   findUserByToken,
   fetchAllCustomers,
-  updateUser
+  updateUser,
+  updateVipStatus
 };

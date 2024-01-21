@@ -1,9 +1,13 @@
 import React from 'react';
 import Products from './Products';
 import { displayPrice } from './Util';
+import { Button } from '@mui/material';
+import { ContentCutOutlined } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 
 const Cart = ({ updateOrder, removeFromCart, updateLineItem, removeOneItem, lineItems, cart, products, isVip })=> {
+  const navigate = useNavigate();
   //adds grand total price in the cart to display to user
   const sum = lineItems.reduce((accumulator, lineItem) => {
     const findProduct = products.find((product) =>{
@@ -27,6 +31,10 @@ const Cart = ({ updateOrder, removeFromCart, updateLineItem, removeOneItem, line
       return productPrice * quantity
     }
   }
+const handleCheckout = (e)=>{
+  e.preventDefault();
+   navigate(`/${cart.id}/checkout`)
+}
 
   return (
     <div>
@@ -55,10 +63,11 @@ const Cart = ({ updateOrder, removeFromCart, updateLineItem, removeOneItem, line
       {/* added the grand total here */}
       <h3> Grand Total: {displayPrice.format(sum)} </h3>
       {
-        lineItems.filter(lineItem => lineItem.order_id === cart.id ).length ? <button onClick={()=> {
-          updateOrder({...cart, is_cart: false });
-        }}>Create Order</button>: null
+        // lineItems.filter(lineItem => lineItem.order_id === cart.id ).length ? <button onClick={()=> {
+        //   updateOrder({...cart, is_cart: false });
+        // }}>Create Order</button>: null        
       }
+      <Button onClick={handleCheckout}>Checkout</Button>
     </div>
   );
 };

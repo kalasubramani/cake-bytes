@@ -83,7 +83,7 @@ const Register = () => {
           <input
             type="password"
             value={password}
-            maxLength={11}
+            maxLength={15}
             minLength={6}
             onChange={(event) => {
               setPassword(event.target.value);
