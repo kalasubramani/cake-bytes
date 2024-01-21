@@ -10,23 +10,34 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const WishlistMui = ({wishlistItems, products, cartItems, createWishlistItem, deleteWishlistItem}) => {
+
+  const productIdArray = wishlistItems?.map((wishlistItem) => {
+    return wishlistItem.product_id;
+  })
+
+  //use the product ids to create an array of the wishlist products
+  const wishlistProducts = products?.filter((product) => {
+    return productIdArray.includes(product.id)
+  })
+  console.log(wishlistProducts)
+
   return (
     <ImageList sx={{ width: 950 , height: 700 }}>
       <ImageListItem  key="Subheader" cols={2}>
         <ListSubheader sx={{backgroundColor: "#ffc107"}} component="div">My Wishlist</ListSubheader> 
       </ImageListItem>
-      {itemData.map((item) => (
-        <ImageListItem color= "black" key={item.img}>
+      {wishlistProducts.map((item, index) => (
+        <ImageListItem color= "black" key={item.id}>
           <img
-            srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            src={`${item.img}?w=248&fit=crop&auto=format`}
-            alt={item.title}
+            srcSet={`https://source.unsplash.com/random/?${item.name}[${index}]?w=248&fit=crop&auto=format&dpr=2 2x`}
+            src={`https://source.unsplash.com/random/?${item.name}[${index}]?w=248&fit=crop&auto=format`}
+            alt={item.name}
             loading="lazy"
           />
           <ImageListItemBar
             sx={{backgroundColor: "rgba(255,255,255,0.8)"}}
-            title={item.title}
-            subtitle={item.author}
+            title={item.name}
+            subtitle={item.description}
             actionIcon={
             <>
             <Tooltip title="I changed my mind!">
