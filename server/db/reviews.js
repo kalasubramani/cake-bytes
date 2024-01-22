@@ -6,11 +6,11 @@ const uuidv4 = v4;
 //insert reviews into table 
 const createReview = async(review)=> {
   const SQL = `
-  INSERT INTO reviews (comments,ratings,product_id,id) 
-  VALUES($1, $2, $3,$4) 
+  INSERT INTO reviews (title,comments,ratings,product_id,id) 
+  VALUES($1, $2, $3,$4,$5) 
   RETURNING *;
 `;   
- const response = await client.query(SQL, [review.comments,review.ratings, review.product_id,uuidv4()]);
+ const response = await client.query(SQL, [review.title,review.comments,review.ratings, review.product_id,uuidv4()]);
  
   return response.rows[0];
 };

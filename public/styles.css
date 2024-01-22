@@ -123,3 +123,6 @@ form > * {
 /* .productCard:hover{
   cursor: pointer;
 } */
+.reviews{
+align-self: flex-end;
+}

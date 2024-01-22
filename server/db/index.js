@@ -1,4 +1,6 @@
 const client = require('./client')
+const path = require('path')
+const fs=require('fs')
 
 const {
   fetchProducts,
@@ -21,7 +23,7 @@ const {
   deleteLineItem,
   updateOrder,
   fetchOrders,
-  fetchAllOrders,
+  fetchAllOrders
 } = require('./cart');
 
 const {
@@ -32,16 +34,34 @@ const {
 const {
   createWishlistItem,
   fetchWishlistItems,  
-  deleteWishlistItem,
-  updateNewCart,
+  deleteWishlistItem
 } = require('./wishlist')
 
+//load product images
+const loadImage = (filepath)=>{
+  return new Promise((resolve,reject)=>{
+    const fullPath=path.join(__dirname,filepath);
+
+    //read file
+    fs.readFile(fullPath,'base64',(err,result)=>{
+        if(err){
+          reject(err) //sends back the error msg
+        }else{
+          resolve(`data:image/jpg;base64,${result}`) //read file and send back
+        }
+    })
+
+  })
+}
 
 // add price and description into the products table..//add firstname and lastname to users table//add img to Product table
 // added vip boolean into the users table
 // modified vip boolean to price in the products table
 
 const seed = async()=> {
+  const product_image = await loadImage('./images/Chocolate.jpg');
+  const skittle_image = await loadImage('./images/Skittles.jpg');
+
   const SQL = `
     DROP TABLE IF EXISTS wishlist;
     DROP TABLE IF EXISTS line_items;
@@ -69,7 +89,8 @@ const seed = async()=> {
       price NUMERIC (5,2) NOT NULL,
       description TEXT NOT NULL,
       category VARCHAR(100),
-      vip_price NUMERIC (5,2) NOT NULL
+      vip_price NUMERIC (5,2) DEFAULT 0 NOT NULL,
+      product_image TEXT
     );
 
     CREATE TABLE orders(
@@ -91,8 +112,9 @@ const seed = async()=> {
     CREATE TABLE reviews(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
+      title VARCHAR(255) NOT NULL,
       comments VARCHAR(255) NOT NULL,
-      ratings INTEGER NOT NULL,
+      ratings NUMERIC NOT NULL,
       product_id UUID REFERENCES products(id) NOT NULL,
       CHECK (ratings>0 AND ratings<6)
     );
@@ -120,13 +142,13 @@ const seed = async()=> {
   //Added category to each product
   const [foo, bar, bazz,quq] = await Promise.all([
 
-    createProduct({ name: 'Chocolate cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays'}),
-    createProduct({ name: 'Fudge cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays'}),
-    createProduct({ name: 'Pumpkin cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:0,category:'Holidays'}),
-    createProduct({ name: 'Strawberry short cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum', vip_price:0,category:'Holidays'}),
-    createProduct({ name: 'Strawberry cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum', vip_price:0,category:'Special Occassions'}),
-    createProduct({ name: 'Vanilla Cupcakes', price: 425.00, description:'Yum, Yummy, Yummy, Yum', vip_price:0,category:'Cup Cakes'}),
-    createProduct({ name: 'CHEESECAKE CUPCAKES', price: 425.00, description:'Yum, Yummy, Yummy, Yum', vip_price:0,category:'Cup Cakes'})
+    createProduct({ name: 'Chocolate cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays',productImage:product_image}),
+    createProduct({ name: 'Fudge cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays',productImage:skittle_image}),
+    createProduct({ name: 'Pumpkin cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Holidays'}),
+    createProduct({ name: 'Strawberry short cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Holidays'}),
+    createProduct({ name: 'Strawberry cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Special Occassions'}),
+    createProduct({ name: 'Vanilla Cupcakes', price: 425.00, description:'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Cup Cakes'}),
+    createProduct({ name: 'CHEESECAKE CUPCAKES', price: 425.00, description:'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Cup Cakes'})
 
   ]);
 
@@ -141,10 +163,10 @@ const seed = async()=> {
 
    //create review records
    await Promise.all([
-    createReview({ comments: 'comments pencil tips breaks frequetly', ratings : 1,product_id: foo.id}),
-    createReview({ comments: 'comments writes smoothly. Tips dont break',ratings : 5,product_id: foo.id }),
-    createReview({ comments: 'comments Sturdy and strong for kids daily work',ratings : 5,product_id: bar.id }),
-    createReview({ comments: 'comments marker dries off quickly',ratings : 2 ,product_id: quq.id}),
+    createReview({ title:'Disappointed',comments: 'Cake was very soggy.	', ratings : 1,product_id: foo.id}),
+    createReview({ title:'Awesome',comments: 'Oh! Heavenly cake !',ratings : 5,product_id: foo.id }),
+    createReview({ title:'Loved it',comments: 'Was a hit at the bday party',ratings : 5,product_id: bar.id }),
+    createReview({ title:'Good',comments: 'what a wonderfully dellicious cake.	',ratings : 4 ,product_id: quq.id}),
   ]);
 
   //Created wishlist items for current users

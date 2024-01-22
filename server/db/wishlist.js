@@ -11,6 +11,7 @@ const fetchWishlistItems = async(userId)=> {
     `;
     const response = await client.query(SQL, [ userId ]);
     return response.rows;
+
 };
 
 const createWishlistItem = async(wishlistItem)=> {
@@ -21,28 +22,17 @@ const createWishlistItem = async(wishlistItem)=> {
     return response.rows[0];
 };
 
-const deleteWishlistItem = async(wishlistItem) => {
+const deleteWishlistItem = async(wishlistItemId) => {
     const SQL = `
         DELETE FROM wishlist
-        WHERE id = $1
+        WHERE product_id = $1;
     `;
-    response = await client.query(SQL, [wishlistItem.id]);
-    console.log("delete", response);
+    const response = await client.query(SQL, [wishlistItemId]);
 };
 
-//to SQL TO UPDATE NEWCART WITH WISHLIST ITEM
-const updateNewCart = async(product)=> {
-    const SQL = `
-    UPDATE orders SET is_cart = $1 WHERE id = $2 RETURNING *
-    `;
-    const response = await client.query(SQL, [order.is_cart, order.id]);
-    return response.rows[0];
-  };
 
 module.exports = {
     createWishlistItem,
     fetchWishlistItems,
-    deleteWishlistItem,
-    updateNewCart
-    
+    deleteWishlistItem,  
 };

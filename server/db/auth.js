@@ -35,7 +35,7 @@ const authenticate = async(credentials)=> {
     FROM users
     WHERE username = $1
   `;
-  const response = await client.query(SQL, [credentials.username]);
+  const response = await client.query(SQL, [credentials.username.trim()]);
   if(!response.rows.length){
     const error = Error('bad credentials');
     error.status = 401;

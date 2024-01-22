@@ -10,16 +10,6 @@ const App = () => {
   const [auth, setAuth] = useState({});
   const navigate = useNavigate();
 
-  //create an api route to add an item to a users wishlist
-  const createWishlistItem = async (product) => {
-    await api.createWishlistItem({ user, product, wishlistItems, setWishlistItems });
-  };
-
-  //create an api route to delete an item from a users wishlist
-  const deleteWishlistItem = async (wishlistItem) => {
-    await api.deleteWishlistItem({ wishlistItem, wishlistItems, setWishlistItems })
-  };
-
   const login = async (credentials) => {
     await api.login({ credentials, setAuth });
     navigate("/");
