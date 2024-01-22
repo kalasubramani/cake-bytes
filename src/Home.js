@@ -220,8 +220,17 @@ const Home = ({ user, logout, setUser }) => {
               <Route path="/thankyou" element={<ThankYou />} />
               {isLoggedIn &&
                 <>
-                  <Route path="/user-profile" element={<UserProfile user={user} wishlistItems={wishlistItems} products={products}  cartItems={cartItems}  createWishlistItem={createWishlistItem}
-                    deleteWishlistItem={deleteWishlistItem}/>}></Route>
+                  <Route path="/user-profile" 
+                  element={
+                  <UserProfile user={user}
+                    wishlistItems={wishlistItems} 
+                    orders={orders}
+                    products={products}  
+                    lineItems={lineItems} 
+                    cartItems={cartItems}
+                    getCartItem={getCartItem}
+                    createLineItem={createLineItem}
+                    updateLineItem={updateLineItem}/>}></Route>
                   <Route
                     path="/cart"
                     element={
