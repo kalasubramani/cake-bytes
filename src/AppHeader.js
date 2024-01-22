@@ -45,7 +45,7 @@ const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
               <IconButton
                 color="inherit"
                 aria-label={"user profile"}
-                onClick={() => navigate("/user-profile")}
+                onClick={() => navigate("/user-profile_mui")}
               >
                 <AccountCircleIcon />
               </IconButton>

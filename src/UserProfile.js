@@ -37,7 +37,6 @@ const UserProfile = ({ user, wishlistItems, products, lineItems, cartItems, getC
          updateLineItem={updateLineItem}/>
           {/* <Wishlist wishlistItems={wishlistItems} products={products} cartItems={cartItems}  createWishlistItem={createWishlistItem}
                     deleteWishlistItem={deleteWishlistItem} /> */}
-
         </div>
     </div>
   )

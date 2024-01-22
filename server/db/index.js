@@ -1,4 +1,6 @@
 const client = require('./client')
+const path = require('path')
+const fs=require('fs')
 
 const {
   fetchProducts,
@@ -10,8 +12,8 @@ const {
   createUser,
   authenticate,
   fetchAllCustomers,
-  
-  findUserByToken
+  findUserByToken,
+  updateVipStatus
 } = require('./auth');
 
 const {
@@ -35,12 +37,31 @@ const {
   deleteWishlistItem
 } = require('./wishlist')
 
+//load product images
+const loadImage = (filepath)=>{
+  return new Promise((resolve,reject)=>{
+    const fullPath=path.join(__dirname,filepath);
+
+    //read file
+    fs.readFile(fullPath,'base64',(err,result)=>{
+        if(err){
+          reject(err) //sends back the error msg
+        }else{
+          resolve(`data:image/jpg;base64,${result}`) //read file and send back
+        }
+    })
+
+  })
+}
 
 // add price and description into the products table..//add firstname and lastname to users table//add img to Product table
 // added vip boolean into the users table
 // modified vip boolean to price in the products table
 
 const seed = async()=> {
+  const product_image = await loadImage('./images/Chocolate.jpg');
+  const skittle_image = await loadImage('./images/Skittles.jpg');
+
   const SQL = `
     DROP TABLE IF EXISTS wishlist;
     DROP TABLE IF EXISTS line_items;
@@ -68,7 +89,8 @@ const seed = async()=> {
       price NUMERIC (5,2) NOT NULL,
       description TEXT NOT NULL,
       category VARCHAR(100),
-      vip_price NUMERIC (5,2) DEFAULT 0 NOT NULL
+      vip_price NUMERIC (5,2) DEFAULT 0 NOT NULL,
+      product_image TEXT
     );
 
     CREATE TABLE orders(
@@ -120,8 +142,8 @@ const seed = async()=> {
   //Added category to each product
   const [foo, bar, bazz,quq] = await Promise.all([
 
-    createProduct({ name: 'Chocolate cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays'}),
-    createProduct({ name: 'Fudge cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays'}),
+    createProduct({ name: 'Chocolate cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays',productImage:product_image}),
+    createProduct({ name: 'Fudge cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays',productImage:skittle_image}),
     createProduct({ name: 'Pumpkin cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Holidays'}),
     createProduct({ name: 'Strawberry short cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Holidays'}),
     createProduct({ name: 'Strawberry cake', price: 425.00, description:'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Special Occassions'}),
@@ -175,5 +197,6 @@ module.exports = {
   createWishlistItem,
   fetchWishlistItems,
   deleteWishlistItem,
+  updateVipStatus,
   client
 };

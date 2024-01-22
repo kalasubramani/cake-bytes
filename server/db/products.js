@@ -14,11 +14,11 @@ const fetchProducts = async()=> {
 //Added price and description into SQL
 const createProduct = async(product)=> {
   const SQL = `
-    INSERT INTO products (id, name, price, description, vip_price,category) 
-    VALUES($1, $2, $3, $4, $5,$6)
+    INSERT INTO products (id, name, price, description, vip_price,category,product_image) 
+    VALUES($1, $2, $3, $4, $5,$6,$7)
     RETURNING *
   `;
-  const response = await client.query(SQL, [ uuidv4(), product.name, product.price, product.description, product.vip_price,product.category]);
+  const response = await client.query(SQL, [ uuidv4(), product.name, product.price, product.description, product.vip_price,product.category,product.productImage]);
   return response.rows[0];
 };
 //declared updateProduct SQL... exported
@@ -28,11 +28,12 @@ const updateProduct = async(product)=> {
     SET  name = $1,
     price = $2,
     description = $3,
-    vip_price =$4
-    WHERE id = $5
+    vip_price =$4,
+    product_image = $5
+    WHERE id = $6
     RETURNING *
   `;
-  const response = await client.query(SQL, [ product.name,product.price,product.description,product.vip_price,product.id]);
+  const response = await client.query(SQL, [ product.name,product.price,product.description,product.vip_price,product.productImage,product.id]);
   return response.rows[0];
 };
 

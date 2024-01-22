@@ -2,18 +2,13 @@ import { Box, TextField } from "@mui/material"
 import React, { useState } from "react"
 import SearchIcon from '@mui/icons-material/Search';
 
-// dependencies use numbers, so you can use the product.id as a variable to watch for in useEffect
-//Creating a search bar so we can see the results
-
 const SearchBar = ({ searchList, onSearch }) => {
   const [searchText, setSearchText] = useState('')
 
-  const handleSearch = (e) => {
-    //set search string to state
+  const handleSearch = (e) => {  
     const searchString = e.target.value;
     setSearchText(searchString);
 
-    //filter products that contains search string
     const filteredProducts = searchList?.filter((product) => {
       return product.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1
     })
@@ -26,7 +21,6 @@ const SearchBar = ({ searchList, onSearch }) => {
     }
   }
 
-  //below is the input field that the user will add the search term into
   return (
     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
       <SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
