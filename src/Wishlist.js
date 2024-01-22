@@ -18,6 +18,7 @@ const Wishlist = ({ wishlistItems, products, cartItems, createWishlistItem, dele
   const wishlistProducts = products?.filter((product) => {
     return productIdArray.includes(product.id)
   })
+  console.log("wishlist products are" , wishlistProducts)
 
   const allProducts = products?.map((product, index) => {
     const cartItem = cartItems.find(lineItem => lineItem.product_id === product.id);
