@@ -43,8 +43,8 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
       return (
         <Card key={product.id} sx={{ width: "14rem" }}>
           <CardMedia
-            sx={{ height: "12rem", cursor: 'pointer' }}
-            image={`https://source.unsplash.com/random/?${product.name}[${index}]`}
+            sx={{ height: "12rem", cursor: 'pointer' }}                     
+            image= {product.product_image??`https://source.unsplash.com/random/?${product.name}[${index}]`}            
             title={"Click to view details"}
             onClick={() => { navigate(`/products/${product.id}`) }}
           />
