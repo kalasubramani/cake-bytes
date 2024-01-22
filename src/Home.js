@@ -15,7 +15,7 @@ import api from './api';
 import Cart from './Cart';
 import Products from './Products';
 import ProductDetails from './ProductDetails';
-import EditAProduct from './EditAProduct';
+import EditAProductMUI from './EditAProductMUI';
 import AddProductReview from './AddProductReview';
 import ThankForReview from './ThankForReview';
 import AddNewProduct from './AddNewProduct';
@@ -25,6 +25,7 @@ import Orders from './Orders';
 import Wishlist from './Wishlist';
 import ThankYou from './ThankYou';
 import SignUp from './SignUp';
+import UserProfileMUI from './UserProfileMUI';
 
 // https://www.svgrepo.com/svg/419438/baked-cake-cup
 // https://www.svgrepo.com/svg/404839/birthday-cake
@@ -222,6 +223,24 @@ const Home = ({ user, logout, setUser }) => {
                 <>
                   <Route path="/user-profile" element={<UserProfile user={user} wishlistItems={wishlistItems} products={products}  cartItems={cartItems}  createWishlistItem={createWishlistItem}
                     deleteWishlistItem={deleteWishlistItem}/>}></Route>
+                  <Route 
+                    path="/user-profile_mui" 
+                    element={
+                      <UserProfileMUI 
+                        user={user} 
+                        wishlistItems={wishlistItems} 
+                        products={products}  
+                        cartItems={cartItems}  
+                        createWishlistItem={createWishlistItem}
+                        deleteWishlistItem={deleteWishlistItem}
+                        orders={orders} 
+                        lineItems={lineItems} 
+                        getCartItem={getCartItem} 
+                        createLineItem={createLineItem} 
+                        updateLineItem={updateLineItem}
+                      />
+                    }>
+                  </Route>
                   <Route
                     path="/cart"
                     element={
@@ -238,7 +257,7 @@ const Home = ({ user, logout, setUser }) => {
                     }
                   />
 
-                  <Route path="/products/:id/edit" element={<EditAProduct products={products} />} />
+                  <Route path="/products/:id/edit" element={<EditAProductMUI products={products} setProducts={setProducts} />} />
                   <Route
                     path="/products/:id/review"
                     element={<AddProductReview products={products} />}
@@ -250,20 +269,7 @@ const Home = ({ user, logout, setUser }) => {
                   /> */}
                   <Route path="/thankforreview" element={<ThankForReview />} />
                   <Route path="/settings" element={<ProfileSettings user={user} setUser={setUser} />}></Route>
-                  <Route
-                    path="/orders"
-                    element={
-                      <Orders
-                        orders={orders}
-                        products={products}
-                        lineItems={lineItems}
-                        getCartItem={getCartItem}
-                        createLineItem={createLineItem}
-                        updateLineItem={updateLineItem}
-                      />
-                    }
-                
-                  />
+
                   {isAdmin && (
                     <>
                       <Route path='/orders-admin' element={<Orders orders={orders} 
