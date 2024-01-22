@@ -142,6 +142,7 @@ const seed = async()=> {
   //Added category to each product
   const [foo, bar, bazz,quq] = await Promise.all([
 
+
     createProduct({ name: 'Chocolate cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays',productImage:product_image}),
     createProduct({ name: 'Fudge cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum', vip_price:382.5,category:'Birthdays',productImage:skittle_image}),
     createProduct({ name: 'Pumpkin cake', price: 425.00, description: 'Yum, Yummy, Yummy, Yum',vip_price:382.5,category:'Holidays'}),
