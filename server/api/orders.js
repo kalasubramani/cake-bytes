@@ -19,7 +19,6 @@ app.put('/:id', isLoggedIn, async(req, res, next)=> {
 }); 
 
 app.get('/', isLoggedIn, async(req, res, next)=> {
-
   try {
     res.send(await fetchOrders(req.user.id));
   }
@@ -30,7 +29,6 @@ app.get('/', isLoggedIn, async(req, res, next)=> {
 
 //fetch all orders, created a new route called /current for admin user
 app.get('/current', isLoggedIn, isAdmin, async(req, res, next)=> {
-  
   try {
     res.send(await fetchAllOrders());
   }

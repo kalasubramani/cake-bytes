@@ -314,7 +314,7 @@ const Home = ({ user, logout, setUser }) => {
                         createLineItem={createLineItem}
                         updateLineItem={updateLineItem} />} />
                       <Route path="/add-product" element={<AddNewProduct setProducts={setProducts} />} />
-                      <Route path="/customers" element={<AllCustomers isLoggedIn={isLoggedIn} isAdmin={isAdmin} />} />
+                      <Route path="/customers" element={<AllCustomers isLoggedIn={isLoggedIn} isAdmin={isAdmin} isVip={isVip} user={user} setUser={setUser}/>} />
                     </>
                   )}
 

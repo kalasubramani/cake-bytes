@@ -27,10 +27,10 @@ const UserProfile = ({ user, wishlistItems, products, cartItems, createWishlistI
             </ul>
               
           { isVip ? <p>Thank you for being a VIP customer!</p> : null }
+          
          <WishlistMui wishlistItems={wishlistItems} products={products} cartItems={cartItems} createWishlistItem={createWishlistItem} deleteWishlistItem={deleteWishlistItem}/>
           {/* <Wishlist wishlistItems={wishlistItems} products={products} cartItems={cartItems}  createWishlistItem={createWishlistItem}
                     deleteWishlistItem={deleteWishlistItem} /> */}
-
         </div>
     </div>
   )
