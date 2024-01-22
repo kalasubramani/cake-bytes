@@ -29,21 +29,8 @@ console.log("is this the wishlist products", productIdArray)
   // })
   // console.log("This is all", allProducts)
 
-    return (
-    <Card>
-const WishlistMui = ({wishlistItems, products, cartItems, createWishlistItem, deleteWishlistItem}) => {
-
-  const productIdArray = wishlistItems?.map((wishlistItem) => {
-    return wishlistItem.product_id;
-  })
-
-  //use the product ids to create an array of the wishlist products
-  const wishlistProducts = products?.filter((product) => {
-    return productIdArray.includes(product.id)
-  })
-  console.log(wishlistProducts)
-
   return (
+    <Card>
     <ImageList sx={{ width: 950 , height: 700 }}>
       <ImageListItem  key="Subheader" cols={2}>
         <ListSubheader sx={{backgroundColor: "#ffc107"}} component="div">My Wishlist</ListSubheader> 

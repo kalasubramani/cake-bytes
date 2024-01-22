@@ -128,8 +128,8 @@ const updateProduct = async(product, products, setProducts)=> {
 
 
 //updateUser in db use 
-const updateProfile = async(user,setAuth)=> {
-  const response = await axios.put(`/api/users/${user.user_id}`,user, getHeaders());
+const updateProfile = async (user, setAuth) => {
+  const response = await axios.put(`/api/users/${user.user_id}`, user, getHeaders());
   //use setAuth() to update the state 
   setAuth(response.data)
 };
@@ -160,6 +160,12 @@ const updateVipStatus = async(user, setUser) =>{
   //setUser(response.data)
   console.log("set customers in index api", response.data)
 }; 
+//update user, can also update VIP status
+const updateAddress = async(user, setUser) =>{
+  const response = await axios.put(`/api/users/${user.id}/address`,user, getHeaders());
+ //setUser(response.data)
+ console.log("set address in index api", response.data)
+}; 
 
 
 
@@ -186,7 +192,8 @@ const api = {
   fetchWishlistItems,
   createWishlistItem,
   deleteWishlistItem,
-  updateVipStatus
+  updateVipStatus,
+  updateAddress
 };
 
 export default api;

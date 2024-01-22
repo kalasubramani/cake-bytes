@@ -60,7 +60,6 @@ const Home = ({ user, logout, setUser }) => {
   const [allOrders, setAllOrders] = useState([]);
 
 
-
   //fetch all products from db
   useEffect(() => {
     const fetchData = async () => {
@@ -243,23 +242,13 @@ const Home = ({ user, logout, setUser }) => {
               <Route path="/thankyou" element={<ThankYou />} />
               {isLoggedIn &&
                 <>
-                  <Route path="/user-profile" 
-                  element={
-                  <UserProfile user={user}
-                    wishlistItems={wishlistItems} 
-                    orders={orders}
-                    products={products}  
-                    lineItems={lineItems} 
-                    cartItems={cartItems}
-                    getCartItem={getCartItem}
-                    createLineItem={createLineItem}
-                    updateLineItem={updateLineItem}/>}></Route>
 
                   <Route 
                     path="/user-profile_mui" 
                     element={
                       <UserProfileMUI 
                         user={user} 
+                        setUser={setUser}
                         wishlistItems={wishlistItems} 
                         products={products}  
                         cartItems={cartItems}  
@@ -300,8 +289,8 @@ const Home = ({ user, logout, setUser }) => {
                     path="/wishlist"
                     element={<Wishlist wishlistItems={wishlistItems} products={products}/>}
                   /> */}
-                  <Route path="/thankforreview" element={<ThankForReview />} />
-                  <Route path="/settings" element={<ProfileSettings user={user} setUser={setUser} />}></Route>
+                  
+                  
                   <Route
                     path="/orders"
                     element={

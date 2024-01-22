@@ -90,7 +90,6 @@ const EditAProduct = ({products, setProducts}) => {
                         fullWidth
                         id="name"
                         label="Name of Cake"
-                        placeholder={product.name}
                         autoFocus
                         onChange={(e)=>{setName(e.target.value)}}
                         defaultValue={product.name}
