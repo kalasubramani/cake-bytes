@@ -6,10 +6,13 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import { useNavigate} from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams} from "react-router-dom";
 
 const AppSideMenu = ({ isAdmin }) => {
   const navigate = useNavigate();
+  const [queryParams] = useSearchParams();
+  const productCategory = queryParams.get("category");
+  const location = useLocation();
  
   return (
     <Drawer sx={{ width: "15rem" }} variant="permanent" open>
@@ -18,7 +21,7 @@ const AppSideMenu = ({ isAdmin }) => {
         {["Birthdays", "Holidays", "Cup Cakes", "Special Occassions", "All Cakes"].map((category) => {
           return (
             <React.Fragment key={`key-for-${category}`}>
-              <ListItemButton onClick={()=>navigate(`/products?category=${category}`)}>
+              <ListItemButton onClick={()=>navigate(`/products?category=${category}`)} selected={category===productCategory}>
                 <ListItemIcon>
                   <CakeIcon />
                 </ListItemIcon>
@@ -33,19 +36,19 @@ const AppSideMenu = ({ isAdmin }) => {
           <> 
             <Divider sx={{ my: 1 }} />
             <Typography variant='h6' sx={{ pl: '1em' }}>Admin Menu</Typography>
-            <ListItemButton onClick={() => navigate("/products")}>
+            <ListItemButton onClick={() => navigate("/products")} selected={!productCategory && location.pathname==='/products'}>
               <ListItemIcon>
                 <QrCode2Icon />
               </ListItemIcon>
               <ListItemText primary="All Products" />
             </ListItemButton>            
-            <ListItemButton onClick={()=>navigate("/orders-admin")}>
+            <ListItemButton onClick={()=>navigate("/orders-admin")} selected={!productCategory && location.pathname==='/orders-admin'}>
               <ListItemIcon>
                 <MonetizationOnIcon />
               </ListItemIcon>
               <ListItemText primary="All Orders" />
             </ListItemButton>
-            <ListItemButton onClick={()=>navigate("/customers")}>
+            <ListItemButton onClick={()=>navigate("/customers")} selected={!productCategory && location.pathname==='/customers'}>
               <ListItemIcon>
                 <GroupsIcon />
               </ListItemIcon>

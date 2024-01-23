@@ -29,11 +29,12 @@ const updateProduct = async(product)=> {
     price = $2,
     description = $3,
     vip_price =$4,
-    product_image = $5
-    WHERE id = $6
+    product_image = $5,
+    category = $6
+    WHERE id = $7
     RETURNING *
   `;
-  const response = await client.query(SQL, [ product.name,product.price,product.description,product.vip_price,product.productImage,product.id]);
+  const response = await client.query(SQL, [ product.name,product.price,product.description,product.vip_price,product.productImage, product.category,product.id]);
   return response.rows[0];
 };
 
