@@ -6,6 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import { Avatar, Badge } from '@mui/material';
+import { displayPrice } from './Util';
 
 const products = [
   {
@@ -39,10 +40,24 @@ const payments = [
   { name: 'Expiry date', detail: '04/2024' },
 ];
 
-export default function Review({orderDetails}) {
- const orderTotal = orderDetails?.reduce((total,order)=>{
-  return total+ (order.price*order.quantity)
- },0)
+export default function Review({orderDetails, isVip}) {
+ //grand total
+ const orderTotal = orderDetails?.reduce((total, cartItem) => {
+  let itemPrice = cartItem.price;
+  if (isVip && cartItem.vipPrice > 0) {
+    itemPrice = cartItem.vipPrice;
+  }
+  
+  return total + (itemPrice * cartItem.quantity)
+}, 0)
+
+const calculateLineItemTotal = (productPrice, vipPrice, quantity) => {
+  if (isVip && vipPrice > 0) {
+    return vipPrice * quantity
+  } else {
+    return productPrice * quantity
+  }
+}
 
   return (
     <React.Fragment>
@@ -54,7 +69,6 @@ export default function Review({orderDetails}) {
           <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
             <ListItemAvatar sx={{mr:'1rem'}}>
               <Badge
-                // overlap="circular"
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 badgeContent={product.quantity}
                 color="secondary"
@@ -63,15 +77,15 @@ export default function Review({orderDetails}) {
               </Badge>
             </ListItemAvatar>
 
-            <ListItemText primary={product.name} secondary={product.price} />
-            <Typography variant="body2">{product.price * product.quantity}</Typography>
+            <ListItemText primary={product.name} secondary={isVip && product.vipPrice > 0 ? product.vipPrice : product.price} />
+            <Typography variant="body2">{displayPrice.format(calculateLineItemTotal(product.price, product.vipPrice, product.quantity))}</Typography>
 
           </ListItem>
         ))}
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" inset primaryTypographyProps={{sx:{fontWeight: 700,pl:'10rem'}}} />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            ${orderTotal}
+            {displayPrice.format(orderTotal)}
           </Typography>
         </ListItem>
       </List>

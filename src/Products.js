@@ -5,22 +5,21 @@ import SearchBar from './SearchBar';
 import { displayPrice } from './Util';
 import { Card, CardActions, CardContent, CardMedia, Container, Fab, IconButton, Tooltip, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 
 
-const Products = ({ products, cartItems, createLineItem, updateLineItem, isLoggedIn, isAdmin, createWishlistItem, deleteWishlistItem }) => {
+const Products = ({ products, cartItems, createLineItem, updateLineItem, isLoggedIn, isAdmin, createWishlistItem, deleteWishlistItem, isProductInWishlist }) => {
   const [searchResults, setSearchResults] = useState();
   const navigate = useNavigate();
   const [queryParams] = useSearchParams();
   const productCategory = queryParams.get("category");
 
   //to clear search as the user navigates along the menu items
-  useEffect(()=>{
+  useEffect(() => {
     setSearchResults();
-  },[productCategory])
+  }, [productCategory])
 
   //display search results in the page
   const showSearchResults = (searchResults) => {
@@ -28,12 +27,12 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
   }
 
   const renderMessage = () => {
-    return(    
-    <Card sx={{ mt: "1rem", p: "1rem",width:"50rem" }} variant="outlined">
-      <Typography variant='h6'>
-        There are no products that matches the search.
-      </Typography>
-    </Card>
+    return (
+      <Card sx={{ mt: "1rem", p: "1rem", width: "50rem" }} variant="outlined">
+        <Typography variant='h6'>
+          There are no products that matches the search.
+        </Typography>
+      </Card>
     );
   }
 
@@ -43,8 +42,8 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
       return (
         <Card key={product.id} sx={{ width: "14rem" }}>
           <CardMedia
-            sx={{ height: "12rem", cursor: 'pointer' }}                     
-            image= {product.product_image??`https://source.unsplash.com/random/?${product.name}[${index}]`}            
+            sx={{ height: "12rem", cursor: 'pointer' }}
+            image={product.product_image ?? `https://source.unsplash.com/random/?${product.name}[${index}]`}
             title={"Click to view details"}
             onClick={() => { navigate(`/products/${product.id}`) }}
           />
@@ -66,13 +65,19 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
           {
             isLoggedIn && (
               <CardActions>
-                <Tooltip title="I want this cake someday!">
-                  <IconButton size="small" sx={{ color: 'red' }} onClick={() => { cartItem ? createWishlistItem(cartItem) : createWishlistItem(product) }}><FavoriteIcon /></IconButton>
-                </Tooltip>
-                <Tooltip title="I changed my mind!">
-                  <IconButton size="small" sx={{ color: 'red' }} onClick={() => { cartItem ? createWishlistItem(cartItem) : deleteWishlistItem(product) }}><FavoriteBorderIcon /></IconButton>
-                  {/* cartItem ? createWishlistItem(cartItem) : deleteWishlistItem(product)  */}
-                </Tooltip>
+                {
+                  isProductInWishlist(product) ?
+                    <Tooltip title="I changed my mind! Remove from Wishlist.">
+                      <IconButton size="small" sx={{ color: 'red' }} onClick={() => { deleteWishlistItem(product) }}><FavoriteIcon /></IconButton>
+                    </Tooltip>
+                    :
+                    <Tooltip title="I want this cake someday! Add to Wishlist.">
+                      <IconButton size="small" onClick={() => { createWishlistItem(product) }}><FavoriteIcon /></IconButton>
+                    </Tooltip>
+                }
+
+
+
                 <Tooltip title="Add to cart!">
                   <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(product) }}><ShoppingCartIcon /></IconButton>
                 </Tooltip>
@@ -107,8 +112,8 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
   }
 
   return (
-    <div>
-      <h2>Products</h2>
+    <div>     
+      <h2>{productCategory??"All Products"}</h2>
       {/* key renders new searchbar everytime the product category changes */}
       <SearchBar key={`searchbar-for-${productCategory}`} searchList={products} onSearch={(results) => { setSearchResults(results) }} />
       {

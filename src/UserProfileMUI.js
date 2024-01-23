@@ -16,7 +16,8 @@ const UserProfileMUI = ({
     lineItems, 
     getCartItem, 
     createLineItem, 
-    updateLineItem}) => {
+    updateLineItem,
+    isProductInWishlist}) => {
 
 
 
@@ -70,7 +71,12 @@ const UserProfileMUI = ({
             </Box>
         </AccordionSummary>
         <AccordionDetails>
-          <Orders orders={orders} products={products} lineItems={lineItems} getCartItem={getCartItem} createLineItem={createLineItem} updateLineItem={updateLineItem} />
+          <Orders orders={orders} products={products} lineItems={lineItems} getCartItem={getCartItem} 
+          createLineItem={createLineItem} updateLineItem={updateLineItem} 
+          createWishlistItem={createWishlistItem}
+          deleteWishlistItem={deleteWishlistItem}
+          isProductInWishlist={isProductInWishlist}
+          />
         </AccordionDetails>
       </Accordion>
       <Accordion elevation={5} sx={{ mt: 0, mb: 4}} >
@@ -91,7 +97,10 @@ const UserProfileMUI = ({
             </Box>
         </AccordionSummary>
         <AccordionDetails>
-            <WishlistMui wishlistItems={wishlistItems} products={products} cartItems={cartItems} createWishlistItem={createWishlistItem} deleteWishlistItem={deleteWishlistItem}/>
+            <WishlistMui wishlistItems={wishlistItems} products={products} getCartItem={getCartItem} 
+            cartItems={cartItems} createLineItem={createLineItem} updateLineItem={updateLineItem} 
+            deleteWishlistItem={deleteWishlistItem}
+            />
         </AccordionDetails>
       </Accordion>
     </Container>

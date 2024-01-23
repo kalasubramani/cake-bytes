@@ -31,7 +31,6 @@ const isVip = (req, res, next)=> {
     error.status = 401;
     next(error);
   }
-  console.log("is VIP", isVip)
 };
 
 module.exports = { isLoggedIn, isAdmin, isVip }

@@ -8,7 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 
-const ProductDetails = ({ products, cartItems, createLineItem, updateLineItem, isLoggedIn, isAdmin  }) => {
+const ProductDetails = ({ products, cartItems, createLineItem, updateLineItem, isLoggedIn, isAdmin, isProductInWishlist, createWishlistItem, deleteWishlistItem }) => {
   const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
 
@@ -73,34 +73,42 @@ const ProductDetails = ({ products, cartItems, createLineItem, updateLineItem, i
                 {selectedProduct?.vip_price ? `${displayPrice.format(selectedProduct?.vip_price)}  **VIP only discount!**` : ""}
               </Typography>
 
-              <CardActions>
-                  <Tooltip title="Remove from wishlist">
-                    <IconButton size="small" sx={{ color: 'red' }}><FavoriteIcon /></IconButton>
-                  </Tooltip>
-                  <Tooltip title="Add to wishlist">
-                    <IconButton size="small" sx={{ color: 'red' }}><FavoriteBorderIcon /></IconButton>
-                  </Tooltip>
-                  <Tooltip title="Add to Cart">
-                    <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(selectedProduct) }}><ShoppingCartIcon /></IconButton>
-                  </Tooltip>
-                  {
-                    isAdmin && (
-                      <Tooltip title="Edit Product">
-                        <IconButton size="small" onClick={() => { navigate(`/products/${selectedProduct.id}/edit`) }}><EditNoteIcon /></IconButton>
-                      </Tooltip>
-                    )
-                  }
-                </CardActions>
-
               {isLoggedIn &&
-                <Box sx={{ mt: "auto", alignSelf: "end" }}>
+                <>
+                  <CardActions>
+                    {
+                      isProductInWishlist(selectedProduct) ?
+                        <Tooltip title="I changed my mind! Remove from Wishlist.">
+                          <IconButton size="small" sx={{ color: 'red' }} onClick={() => { deleteWishlistItem(selectedProduct) }}><FavoriteIcon /></IconButton>
+                        </Tooltip>
+                        :
+                        <Tooltip title="I want this cake someday! Add to Wishlist.">
+                          <IconButton size="small" onClick={() => { createWishlistItem(selectedProduct) }}><FavoriteIcon /></IconButton>
+                        </Tooltip>
+                    }
 
-                  <Typography variant="h6" >Review this product
-                  </Typography>
-                  <Typography variant="body2">Share your thoughts with other customers</Typography>
-                  <Button sx={{ width: "fit-content", m: "auto" }} onClick={()=>{navigate(`/products/${selectedProduct.id}/review`)}}>Write a product review</Button>
+                    <Tooltip title="Add to Cart">
+                      <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(selectedProduct) }}><ShoppingCartIcon /></IconButton>
+                    </Tooltip>
+                    {
+                      isAdmin && (
+                        <Tooltip title="Edit Product">
+                          <IconButton size="small" onClick={() => { navigate(`/products/${selectedProduct.id}/edit`) }}><EditNoteIcon /></IconButton>
+                        </Tooltip>
+                      )
+                    }
+                  </CardActions>
 
-                </Box>
+                  <Box sx={{ mt: "auto", alignSelf: "end" }}>
+
+                    <Typography variant="h6" >Review this product
+                    </Typography>
+                    <Typography variant="body2">Share your thoughts with other customers</Typography>
+                    <Button sx={{ width: "fit-content", m: "auto" }} onClick={() => { navigate(`/products/${selectedProduct.id}/review`) }}>Write a product review</Button>
+
+                  </Box>
+                </>
+
               }
             </CardContent>
 
@@ -115,7 +123,7 @@ const ProductDetails = ({ products, cartItems, createLineItem, updateLineItem, i
           {productReviews?.length > 0 ? productReviews :
             <Card sx={{ mt: "1rem", p: "1rem" }} variant="outlined">
               <Typography>
-                There are no reviews for this product. 
+                There are no reviews for this product.
               </Typography>
             </Card>
           }

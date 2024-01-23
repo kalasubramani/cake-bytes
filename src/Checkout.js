@@ -9,50 +9,35 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 import { useParams } from 'react-router-dom';
 
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
-function getStepContent(step,orderDetails,placeOrder) {
+function getStepContent(step, orderDetails, placeOrder, isVip) {
   switch (step) {
     case 0:
       return <AddressForm />;
     case 1:
       return <PaymentForm />;
     case 2:
-      return <Review orderDetails={orderDetails} placeOrder={placeOrder}/>
+      return <Review orderDetails={orderDetails} isVip={isVip}/>
     default:
       throw new Error('Unknown step');
   }
 }
 
-export default function Checkout({getOrderDetails,placeOrder}) {
+export default function Checkout({ getItemsInCart, placeOrder, isVip }) {
   const [activeStep, setActiveStep] = React.useState(0);
-  const orderDetails=getOrderDetails();
-  const {orderid} = useParams();
+  const orderDetails = getItemsInCart();
+  const { orderid } = useParams();
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    if(activeStep === steps.length - 1 ){
+    if (activeStep === steps.length - 1) {
       placeOrder();
     }
   };
@@ -97,14 +82,14 @@ export default function Checkout({getOrderDetails,placeOrder}) {
                 Thank you for your order.
               </Typography>
               <Typography variant="subtitle1" component='div'>
-                Your order number is <Box sx={{color:'#ff9100', display:'inline'}}>{orderid}</Box>. We have emailed your order
+                Your order number is <Box sx={{ color: '#ff9100', display: 'inline' }}>{orderid}</Box>. We have emailed your order
                 confirmation, and will send you an update when your order has
                 shipped.
               </Typography>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              {getStepContent(activeStep,orderDetails,placeOrder)}
+              {getStepContent(activeStep, orderDetails, placeOrder, isVip)}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
@@ -123,7 +108,6 @@ export default function Checkout({getOrderDetails,placeOrder}) {
             </React.Fragment>
           )}
         </Paper>
-        <Copyright />
       </Container>
     </React.Fragment>
   );
