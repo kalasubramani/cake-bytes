@@ -5,6 +5,7 @@ import api from './api';
 import Home from './Home';
 import SignIn from './SignIn';
 import Products from './Products';
+import SignUp from './SignUp';
 
 const App = () => {
   const [auth, setAuth] = useState({});
@@ -32,6 +33,7 @@ const App = () => {
     <Routes>
       <Route path="/*" element={<Home user={auth} logout={logout} setUser={setAuth} />} />
       <Route path="/sign-in" element={<SignIn login={login} />} />
+      <Route path="/signup" element={<SignUp />} />
     </Routes>
   )
 }

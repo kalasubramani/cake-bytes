@@ -6,18 +6,7 @@ import Switch from '@mui/material/Switch';
 
 //Need to add a search bar into All customers-Aimee
 
-const AllCustomers = ({ isLoggedIn, isAdmin, isVip, user, setUser }) => {
-  const [customers, setCustomers] = useState([]);
- 
-  useEffect(() => {
-    //if the logged in user is an admin, get customer details from db
-    if (isLoggedIn && isAdmin) {
-      const fetchCustomers = async () => {
-        api.fetchAllCustomers(setCustomers);        
-      };
-      fetchCustomers();
-    }
-  }, [isLoggedIn, isAdmin, isVip]);
+const AllCustomers = ({ customers, setCustomers }) => {
 
   useEffect(()=>{
     if(customers){
@@ -36,43 +25,17 @@ const AllCustomers = ({ isLoggedIn, isAdmin, isVip, user, setUser }) => {
         return 0;
       }))
     } 
-  },[customers])
+  },[customers, setCustomers])
 
   const updateVipStatus = async (customer) => {
 
-    const userData = {
+    const customerData = {
       id: customer.id,
       is_vip: !customer.is_vip
     }
 
-    const updatedCustomer = await api.updateVipStatus(userData, setUser)
-    const newData = customers.map((customer) => {
-      return (
-        customer.id === updatedCustomer.id ? updatedCustomer : customer
-      )
-    })
-
-    setCustomers(newData)
+    await api.updateVipStatus(customerData, customers, setCustomers)
   }
-
-  // const customerData = customers?.map((customer) => {
-  //   return (
-  //     <>
-  //       <p key={customer.id}>
-  //         First Name: {customer.firstname}  |
-  //         Last Name: {customer.lastname}  |
-  //         Username: {customer.username}  |
-  //         {customer.is_admin && <span>**ADMIN**</span>}
-
-  //         {customer.is_vip ? <button onClick={() => updateVipStatus(customer)}>Remove Vip Status</button>
-  //           : <button onClick={() => updateVipStatus(customer)}>Add Vip Status</button>}
-  //       </p>
-
-
-  //     </>
-
-  //   )
-  // })
 
   const toggleVipStatus = (customer) => {
     updateVipStatus(customer)
@@ -80,9 +43,8 @@ const AllCustomers = ({ isLoggedIn, isAdmin, isVip, user, setUser }) => {
 
   return (
     <div>
-      <h3>List of all customers</h3>
-      {/* {customerData} */}
-
+      <h3>Cake Code Customers</h3>
+    
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="view all customers">
           <TableHead>

@@ -24,6 +24,7 @@ const AddOrEditAProduct = ({ products, setProducts }) => {
   const [isVipProduct, setIsVipProduct] = useState(false);
   const [category, setCategory] = useState("");
   const [productImage, setProductImage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
   const el = useRef();
 
@@ -36,6 +37,7 @@ const AddOrEditAProduct = ({ products, setProducts }) => {
         reader.readAsDataURL(file[0]);
         reader.addEventListener('load', () => {
           setProductImage(reader.result);
+          setShowAlert(true);
         })
       }
     }
@@ -44,18 +46,20 @@ const AddOrEditAProduct = ({ products, setProducts }) => {
 
     return reader.removeEventListener('load', () => {
       setProductImage(reader.result);
+      setShowAlert(true);
     });
 
   });
 
   useEffect(() => {
-    if (product) {
+    if (product) {    
       setName(product.name)
       setPrice(product.price)
       setDescription(product.description)
       setVipPrice(product.vip_price)
       setIsVipProduct(!!Number(product.vip_price))
       setCategory(product.category)
+      setProductImage(product.product_image)
     }
 
   }, [product])
@@ -117,6 +121,7 @@ const AddOrEditAProduct = ({ products, setProducts }) => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={9}>
               <TextField
+                autoComplete="off"
                 name="name"
                 required
                 fullWidth
@@ -204,7 +209,7 @@ const AddOrEditAProduct = ({ products, setProducts }) => {
               </Button>
               </label>
               {
-                productImage &&
+                showAlert &&
                 <Alert severity="success">The selected file is loaded.</Alert>
               }
             </Grid>

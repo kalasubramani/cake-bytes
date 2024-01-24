@@ -18,13 +18,10 @@ import ProductDetails from './ProductDetails';
 import AddOrEditAProduct from './AddOrEditAProduct';
 import AddProductReview from './AddProductReview';
 import ThankForReview from './ThankForReview';
-import AddNewProduct from './AddNewProduct_old';
 import AllCustomers from './AllCustomers';
 import ProfileSettings from './ProfileSettings';
 import Orders from './Orders';
-import Wishlist from './Wishlist';
 import ThankYou from './ThankYou';
-import SignUp from './SignUp';
 import Checkout from './Checkout';
 import UserProfileMUI from './UserProfileMUI';
 
@@ -56,8 +53,19 @@ const Home = ({ user, logout, setUser }) => {
   const [orders, setOrders] = useState([]);
   const [lineItems, setLineItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  const navigate = useNavigate();
+  const [customers, setCustomers] = useState([]);
   const [allOrders, setAllOrders] = useState([]);
+  const [allLineItems, setAllLineItems] = useState([]);
+
+  useEffect(() => {
+    //if the logged in user is an admin, get customer details from db
+    if (isLoggedIn && isAdmin) {
+      const fetchCustomers = async () => {
+        api.fetchAllCustomers(setCustomers);        
+      };
+      fetchCustomers();
+    }
+  }, [isLoggedIn, isAdmin]);
 
   //fetch all products from db
   useEffect(() => {
@@ -96,6 +104,16 @@ const Home = ({ user, logout, setUser }) => {
       fetchData();
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (isLoggedIn && isAdmin) {
+      const fetchData = async () => {
+        await api.fetchAllLineItems(setAllLineItems);
+      };
+      fetchData();
+    }
+
+  }, [isLoggedIn, isAdmin]);
 
   //fetch wishlist items for the logged in user
   useEffect(() => {
@@ -253,7 +271,6 @@ const Home = ({ user, logout, setUser }) => {
                   />
                 }
               />
-              <Route path="/signup" element={<SignUp />} />
               <Route path="/thankyou" element={<ThankYou />} />
               {isLoggedIn &&
                 <>
@@ -337,19 +354,20 @@ const Home = ({ user, logout, setUser }) => {
                   <Route path="/:orderid/checkout" element={<Checkout getItemsInCart={getItemsInCart} placeOrder={placeOrder} isVip={isVip} />} />
                   {isAdmin && (
                     <>
-                      <Route path='/orders-admin' element={<Orders orders={orders}
+                      <Route path='/orders-admin' element={<Orders orders={allOrders}
                         products={products}
-                        lineItems={lineItems}
+                        lineItems={allLineItems}
                         getCartItem={getCartItem}
                         createLineItem={createLineItem}
                         updateLineItem={updateLineItem}
                         createWishlistItem={createWishlistItem}
                         deleteWishlistItem={deleteWishlistItem}
                         isProductInWishlist={isProductInWishlist}
+                        customers={customers}
                         isAdmin
                       />} />
                       <Route path="/add-product" element={<AddOrEditAProduct products={products} setProducts={setProducts} />} />
-                      <Route path="/customers" element={<AllCustomers isLoggedIn={isLoggedIn} isAdmin={isAdmin} isVip={isVip} user={user} setUser={setUser} />} />
+                      <Route path="/customers" element={<AllCustomers customers={customers} setCustomers={setCustomers} />} />
                     </>
                   )}
 

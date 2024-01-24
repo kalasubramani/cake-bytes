@@ -24,10 +24,16 @@ const fetchAllOrders = async (setAllOrders) => {
   setAllOrders(response.data);
 }
 
-
+// fetch line items for the logged in user
 const fetchLineItems = async (setLineItems) => {
   const response = await axios.get('/api/lineItems', getHeaders());
   setLineItems(response.data);
+};
+
+// fetch all line items for admin 
+const fetchAllLineItems = async (setAllLineItems) => {
+  const response = await axios.get('/api/lineItems/current', getHeaders());
+  setAllLineItems(response.data);
 };
 
 const createLineItem = async ({ product, cart, lineItems, setLineItems }) => {
@@ -154,9 +160,9 @@ const deleteWishlistItem = async (product, wishlistItems, setWishlistItems) => {
   setWishlistItems(wishlistItems.filter(_wishlistItem => _wishlistItem.product_id !== product.id));
 };
 //update user, can also update VIP status
-const updateVipStatus = async (user) => {
-  const { data } = await axios.put(`/api/users/${user.id}/updatevipstatus`, user, getHeaders());
-  return data;
+const updateVipStatus = async (customer, customers, setCustomers) => {
+  const { data } = await axios.put(`/api/users/${customer.id}/updatevipstatus`, customer, getHeaders());
+  setCustomers(customers.map((customer) => customer.id === data.id ? data : customer ));
 };
 
 
@@ -167,6 +173,7 @@ const api = {
   fetchProducts,
   fetchOrders,
   fetchLineItems,
+  fetchAllLineItems,
   createLineItem,
   updateLineItem,
   updateOrder,

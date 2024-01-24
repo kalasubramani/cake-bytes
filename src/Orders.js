@@ -6,15 +6,17 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { displayPrice } from './Util';
 
-const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, updateLineItem, isProductInWishlist, createWishlistItem, deleteWishlistItem, isAdmin }) => {
+const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, updateLineItem, isProductInWishlist, createWishlistItem, deleteWishlistItem, isAdmin, customers }) => {
   const [searchResults, setSearchResults] = useState();
   const navigate = useNavigate();
 
-  // finds the order date for given order id
-  const getOrderDate = (orderId) => {
-    const date = orders.find((order) => { return order.id === orderId })?.created_at;
+  const getOrderDetails = (orderId) => {
+    return orders.find((order) => { return order.id === orderId })
+  }
 
-    return date;
+  const getCustomerName = (customerId) => {
+    const selectedCustomer = customers.find((customer) => customer.id === customerId);
+    return `${selectedCustomer.firstname} ${selectedCustomer.lastname}`;
   }
 
   //get list of placed orders
@@ -27,7 +29,10 @@ const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, upda
   const orderedProducts = orderLineItems.map((lineItem) => {
 
     const product = products?.find(product => product.id === lineItem.product_id);
-    return { name: product?.name, description: product?.description, quantity: lineItem?.quantity, price: product?.price, orderId: lineItem?.order_id, orderDate: getOrderDate(lineItem?.order_id), id: product?.id }
+    return {
+      name: product?.name, description: product?.description, quantity: lineItem?.quantity, price: product?.price,
+      orderId: lineItem?.order_id, orderDate: getOrderDetails(lineItem?.order_id)?.created_at, id: product?.id
+    }
 
   });
 
@@ -103,8 +108,9 @@ const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, upda
 
 
   const showOrderDetails = (orderId) => {
+    const currentOrder = getOrderDetails(orderId);
     //get order placed date
-    const orderDate = getOrderDate(orderId)
+    const orderDate = currentOrder?.created_at
     //get all products in an order
     const productsInOrder = orderedProducts.filter((order) => {
       return (
@@ -136,7 +142,7 @@ const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, upda
             </Box>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography>Order # {orderId}</Typography>
-              <Typography></Typography>
+              {isAdmin && <Typography>Order placed by {getCustomerName(currentOrder.user_id)}</Typography>}
             </Box>
           </Container>
         } />
