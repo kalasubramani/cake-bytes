@@ -14,7 +14,9 @@ const {
   fetchAllCustomers,
   findUserByToken,
   updateVipStatus,
-  resetPassword
+  resetPassword,
+  fetchAddress,
+  updateAddress
 } = require('./auth');
 
 const {
@@ -81,7 +83,12 @@ const seed = async()=> {
       username VARCHAR(100) UNIQUE NOT NULL,
       password VARCHAR(100) NOT NULL,
       is_admin BOOLEAN DEFAULT false NOT NULL,
-      is_vip BOOLEAN DEFAULT false NOT NULL
+      is_vip BOOLEAN DEFAULT false NOT NULL,
+      address_line1 VARCHAR(25),
+      address_line2 VARCHAR(25),
+      city VARCHAR(15),
+      state VARCHAR(15),
+      zip_code NUMERIC (5)
     );
 
     CREATE TABLE products(
@@ -137,6 +144,14 @@ const seed = async()=> {
     createUser({firstname: "Moesha", lastname: "Norwood", username: 'moe', password: '1234', is_admin: false, is_vip: false }),
     createUser({ firstname: "Lucinda", lastname: "Hall", username: 'lucy', password: '1234', is_admin: false, is_vip: true }),
     createUser({ firstname: "Ethyleen", lastname: "Sims", username: 'ethyl', password: '1234', is_admin: true, is_vip: true })
+  ]);
+
+  //Added addresses for all current users
+  await Promise.all([
+    updateAddress({ id: moe.id, address_line1: "4482 Lady Bug Dr", city: "Bronx", state: "NY", zip_code: "10458" }),
+    updateAddress({ id: lucy.id, address_line1: "3730 Hartland Ave", city: "Fond Du Lac", state: "WI", zip_code: "54935" }),
+    updateAddress({ id: ethyl.id, address_line1: "13 Ersel St", address_line2: "Apt. 5", city: "Smithboro", state: "IL", zip_code: "62284" })
+  
   ]);
 
   //Added price and description
@@ -202,5 +217,7 @@ module.exports = {
   deleteWishlistItem,
   updateVipStatus,
   resetPassword,
+  fetchAddress,
+  updateAddress,
   client
 };

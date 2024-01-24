@@ -8,7 +8,7 @@ const findUserByToken = async (token) => {
   try {
     const payload = await jwt.verify(token, process.env.JWT);
     const SQL = `
-      SELECT id, firstname, lastname, username, is_admin, is_vip
+      SELECT id, firstname, lastname, username, is_admin, is_vip, address_line1, address_line2, city, state, zip_code
       FROM users
       WHERE id = $1
     `;
@@ -64,6 +64,21 @@ const createUser = async (user) => {
   return response.rows[0];
 };
 
+const updateAddress = async(user)=> {
+  const SQL = `
+    UPDATE users 
+    SET address_line1 = $1, 
+    address_line2 = $2, 
+    city = $3, 
+    state = $4, 
+    zip_code = $5
+    WHERE id = $6 
+    RETURNING *
+  `;
+  const response = await client.query(SQL, [ user.address_line1, user.address_line2, user.city, user.state, user.zip_code, user.user_id ]);
+  return response.rows[0];
+};
+
 //gets all customers
 const fetchAllCustomers = async (user) => {
   const SQL = `
@@ -75,18 +90,16 @@ const fetchAllCustomers = async (user) => {
 }
 
 //declared updateUsers SQL... exported
-const updateUser = async (user) => {
-  user.password = await bcrypt.hash(user.password, 5)
+const updateUser = async(user)=> {
   const SQL = `
     UPDATE users
     SET  firstname = $1,
     lastname = $2,
-    username = $3,
-    password = $4,
-    WHERE id = $5
+    username = $3
+    WHERE id = $4
     RETURNING *
   `;
-  const response = await client.query(SQL, [user.firstName, user.lastName, user.userName, user.password, user.user_id]);
+  const response = await client.query(SQL, [ user.firstName, user.lastName, user.userName, user.user_id]);
   return response.rows[0];
 };
 
@@ -113,7 +126,7 @@ const resetPassword = async (user) => {
           SET 
           password=$1
           WHERE id = $2;`;
-  const response = await client.query(SQL, [user.password, user.username])
+  const response = await client.query(SQL, [user.password, user.id])
   return response.rows[0];
 }
 
@@ -124,5 +137,6 @@ module.exports = {
   fetchAllCustomers,
   updateUser,
   updateVipStatus,
-  resetPassword
+  resetPassword,
+  updateAddress
 };

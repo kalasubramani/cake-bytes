@@ -161,7 +161,7 @@ const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, upda
           return showOrderDetails(order)
         })
         :
-        <Card sx={{ mt: "1rem", p: "1rem" }} variant="outlined">
+        <Card sx={{ mt: "1rem", p: "1rem" }} >
           <Typography>
             There are no orders to display.
           </Typography>
