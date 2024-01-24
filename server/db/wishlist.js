@@ -22,12 +22,12 @@ const createWishlistItem = async(wishlistItem)=> {
     return response.rows[0];
 };
 
-const deleteWishlistItem = async(wishlistItemId) => {
+const deleteWishlistItem = async(productId) => {
     const SQL = `
         DELETE FROM wishlist
         WHERE product_id = $1;
     `;
-    const response = await client.query(SQL, [wishlistItemId]);
+    const response = await client.query(SQL, [productId]);
 };
 
 

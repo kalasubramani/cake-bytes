@@ -1,74 +1,87 @@
 import React from 'react';
-import Products from './Products';
 import { displayPrice } from './Util';
-import { Button } from '@mui/material';
-import { ContentCutOutlined } from '@mui/icons-material';
+import { Avatar, Badge, Button, IconButton, List, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 
 
-const Cart = ({ updateOrder, removeFromCart, updateLineItem, removeOneItem, lineItems, cart, products, isVip })=> {
+const Cart = ({ removeFromCart, updateLineItem, removeOneItem, lineItems, cart, isVip, getItemsInCart }) => {
   const navigate = useNavigate();
-  //adds grand total price in the cart to display to user
-  const sum = lineItems.reduce((accumulator, lineItem) => {
-    const findProduct = products.find((product) =>{
-      return product.id === lineItem.product_id
-    })
-    if(cart.id === lineItem.order_id) {
-      if(isVip && findProduct.vip_price > 0) {
-        accumulator += findProduct.vip_price * lineItem.quantity
-      } else {
-        accumulator += findProduct.price * lineItem.quantity
-      }
-       
+  const cartItemDetails = getItemsInCart();
+  //grand total
+  const orderTotal = cartItemDetails?.reduce((total, cartItem) => {
+    let itemPrice = cartItem.price;
+    if (isVip && cartItem.vipPrice > 0) {
+      itemPrice = cartItem.vipPrice;
     }
-    return accumulator
+    
+    return total + (itemPrice * cartItem.quantity)
   }, 0)
 
-  const calculateLineItemTotal =(productPrice, vipPrice, quantity) => {
-    if(isVip && vipPrice > 0) {
+  const calculateLineItemTotal = (productPrice, vipPrice, quantity) => {
+    if (isVip && vipPrice > 0) {
       return vipPrice * quantity
     } else {
       return productPrice * quantity
     }
   }
-const handleCheckout = (e)=>{
-  e.preventDefault();
-   navigate(`/${cart.id}/checkout`)
-}
+  const handleCheckout = (e) => {
+    e.preventDefault();
+    navigate(`/${cart.id}/checkout`)
+  }
 
   return (
-    <div>
-      <h2>Cart</h2>
-      <ul>
-        {
-          lineItems.filter(lineItem=> lineItem.order_id === cart.id).map( lineItem => {
-            const product = products.find(product => product.id === lineItem.product_id) || {};
-            return (
-              <li key={ lineItem.id }>
-                { product.name } 
-                {/* added the total price for each line item in the cart here */}
-                ({ lineItem.quantity })                 
-                Total: {displayPrice.format(calculateLineItemTotal(product.price, product.vip_price, lineItem.quantity))}
-
-                <button onClick={ ()=> updateLineItem(lineItem)}>Add one</button>
-                { lineItem.quantity > 1 ?
-                  <button onClick={ ()=> removeOneItem(lineItem)}>Remove one</button> 
-                  : <button onClick={ ()=> removeFromCart(lineItem)}>Remove From Cart</button>
-                }
-              </li>
-            );
-          })
-        }
-      </ul>
-      {/* added the grand total here */}
-      <h3> Grand Total: {displayPrice.format(sum)} </h3>
-      {
-        // lineItems.filter(lineItem => lineItem.order_id === cart.id ).length ? <button onClick={()=> {
-        //   updateOrder({...cart, is_cart: false });
-        // }}>Create Order</button>: null        
-      }
-      <Button onClick={handleCheckout}>Checkout</Button>
-    </div>
+    <>
+      <Typography variant="h6" gutterBottom>
+        Order summary
+      </Typography>
+      <List >
+        {cartItemDetails?.map((product) => {
+          const currentLineItem = lineItems.find((lineItem) => { return lineItem.id === product.lineItemId })
+          const isLastItemInCart = currentLineItem.quantity <= 1;
+          return (
+            <ListItem key={product.name} sx={{ py: 1, px: "1rem" }}>
+              <ListItemAvatar sx={{ mr: '1rem' }}>
+                <Badge
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  badgeContent={product.quantity}
+                  color="secondary"
+                >
+                  <Avatar variant="square" src={`https://source.unsplash.com/random/?${product.name}`} alt={product.name} sx={{ width: '5rem', height: '5rem' }}></Avatar>
+                </Badge>
+              </ListItemAvatar>
+              <ListItemText primary={product.name} secondary={
+                <>
+                  <Typography > {product.price}</Typography>
+                  <Typography variant="caption" className="vipDiscount">
+                    {product.vipPrice > 0 ? `${displayPrice.format(product.vipPrice)}  **VIP only discount!**` : ""}
+                  </Typography>
+                  <Tooltip title="Add one">
+                    <IconButton aria-label="add" onClick={() => updateLineItem(currentLineItem)}>
+                      <AddCircleIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title={isLastItemInCart ? "Remove from cart" : "Remove one"}>
+                    <IconButton aria-label="delete" onClick={() => { isLastItemInCart ? removeFromCart(currentLineItem) : removeOneItem(currentLineItem) }}>
+                      {isLastItemInCart ? <RemoveShoppingCartIcon /> : <RemoveCircleIcon />}
+                    </IconButton>
+                  </Tooltip>
+                </>} />
+              <Typography variant="body2"> Total: {displayPrice.format(calculateLineItemTotal(product.price, product.vipPrice, product.quantity))}</Typography>
+            </ListItem>
+          )
+        })}
+        <ListItem sx={{ py: 1, px: "1rem" }}>
+          <ListItemText primary="Total: " inset primaryTypographyProps={{ sx: { width: "fit-content", fontWeight: 700, marginLeft: "auto", pr: "1rem" } }} />
+          <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+            {displayPrice.format(orderTotal)}
+          </Typography>
+        </ListItem>
+      </List>
+      <Button onClick={handleCheckout} variant='outlined' sx={{ float: "right", px: "1rem", mb: "1rem", fontWeight: "700" }}>Checkout</Button>
+    </>
   );
 };
 

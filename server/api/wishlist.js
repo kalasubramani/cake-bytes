@@ -18,7 +18,7 @@ app.get('/', isLoggedIn, async(req, res, next) => {
 });
 
 //a logged in user can add an item to their wishlist
-app.post('/:id', isLoggedIn, async(req, res, next) => {
+app.post('/', isLoggedIn, async(req, res, next) => {
     try {
       res.send(await createWishlistItem(req.body));
     } catch (ex) {

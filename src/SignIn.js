@@ -102,10 +102,10 @@ const SignIn = ({ login }) => {
                 autoComplete="current-password"
               />
               { error && <Box variant='h3' sx={{color: 'red'}}>{error}</Box>}
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth

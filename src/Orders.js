@@ -3,10 +3,10 @@ import SearchBar from './SearchBar';
 import { useNavigate } from "react-router-dom";
 import { Badge, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Container, IconButton, Tooltip, Typography } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { displayPrice } from './Util';
 
-const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, updateLineItem }) => {
+const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, updateLineItem, isProductInWishlist, createWishlistItem, deleteWishlistItem, isAdmin }) => {
   const [searchResults, setSearchResults] = useState();
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, upda
   }
 
   //get list of placed orders
-  const placedOrders = orders.filter(order => !order.is_cart).map((order) => { return order.id });
+  const placedOrders = orders?.filter(order => !order.is_cart).map((order) => { return order.id });
   const hasOrders = placedOrders?.length > 0;
   //For all placed orders - get product id from line item
   const orderLineItems = lineItems.filter((lineItem) => placedOrders.includes(lineItem.order_id));
@@ -26,8 +26,8 @@ const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, upda
   /* passed in price:product.price to pull price info from products to be caluculated in the total order price*/
   const orderedProducts = orderLineItems.map((lineItem) => {
 
-    const product = products.find(product => product.id === lineItem.product_id);
-    return { name: product.name, description: product.description, quantity: lineItem.quantity, price: product.price, orderId: lineItem.order_id, orderDate: getOrderDate(lineItem.order_id), id: product.id }
+    const product = products?.find(product => product.id === lineItem.product_id);
+    return { name: product?.name, description: product?.description, quantity: lineItem?.quantity, price: product?.price, orderId: lineItem?.order_id, orderDate: getOrderDate(lineItem?.order_id), id: product?.id }
 
   });
 
@@ -71,21 +71,31 @@ const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, upda
             {product?.description}
           </Typography>
 
-          <CardActions>
-            <Tooltip title="Add to wishlist">
-              <IconButton size="small" sx={{ color: 'red' }}><FavoriteBorderIcon /></IconButton>
-            </Tooltip>
-            <Tooltip title="Buy it again">
-              <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(product) }}>
-                <ShoppingCartIcon />
-              </IconButton>
-            </Tooltip>
-          </CardActions>
-
-          <Box sx={{ mt: "auto", alignSelf: "end" }}>
-            <Button sx={{ width: "fit-content", m: "auto" }} onClick={() => { navigate(`/products/${product.id}/review`) }}>Write a product review</Button>
-          </Box>
-
+          {
+            !isAdmin &&
+            <>
+              <CardActions>
+                {
+                  isProductInWishlist(product) ?
+                    <Tooltip title="I changed my mind! Remove from Wishlist.">
+                      <IconButton size="small" sx={{ color: 'red' }} onClick={() => { deleteWishlistItem(product) }}><FavoriteIcon /></IconButton>
+                    </Tooltip>
+                    :
+                    <Tooltip title="I want this cake someday! Add to Wishlist.">
+                      <IconButton size="small" onClick={() => { createWishlistItem(product) }}><FavoriteIcon /></IconButton>
+                    </Tooltip>
+                }
+                <Tooltip title="Buy it again">
+                  <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(product) }}>
+                    <ShoppingCartIcon />
+                  </IconButton>
+                </Tooltip>
+              </CardActions>
+              <Box sx={{ mt: "auto", alignSelf: "end" }}>
+                <Button sx={{ width: "fit-content", m: "auto" }} onClick={() => { navigate(`/products/${product.id}/review`) }}>Write a product review</Button>
+              </Box>
+            </>
+          }
         </CardContent>
       </Card>
     )
