@@ -174,15 +174,16 @@ const Home = ({ user, logout, setUser }) => {
     /* passed in price:product.price to pull price info from products to be caluculated in the total order price*/
     const cartProducts = cartLineItems.map((lineItem) => {
       const product = products.find(product => product?.id === lineItem?.product_id);
-      return { 
-        name: product?.name, 
-        description: product?.description, 
-        quantity: lineItem?.quantity, 
-        price: product?.price, 
+      return {
+        name: product?.name,
+        description: product?.description,
+        quantity: lineItem?.quantity,
+        price: product?.price,
         orderId: lineItem?.order_id,
         lineItemId: lineItem?.id,
-        id: product?.id, 
-        vipPrice: product?.vip_price }
+        id: product?.id,
+        vipPrice: product?.vip_price
+      }
     })
     return cartProducts;
   }
@@ -257,23 +258,13 @@ const Home = ({ user, logout, setUser }) => {
               <Route path="/thankyou" element={<ThankYou />} />
               {isLoggedIn &&
                 <>
-                  <Route path="/user-profile"
-                    element={
-                      <UserProfile user={user}
-                        wishlistItems={wishlistItems}
-                        orders={orders}
-                        products={products}
-                        lineItems={lineItems}
-                        cartItems={cartItems}
-                        getCartItem={getCartItem}
-                        createLineItem={createLineItem}
-                        updateLineItem={updateLineItem} />}></Route>
 
                   <Route
                     path="/user-profile_mui"
                     element={
                       <UserProfileMUI
                         user={user}
+                        setUser={setUser}
                         wishlistItems={wishlistItems}
                         products={products}
                         cartItems={cartItems}
@@ -316,9 +307,9 @@ const Home = ({ user, logout, setUser }) => {
                     path="/wishlist"
                     element={<Wishlist wishlistItems={wishlistItems} products={products}/>}
                   /> */}
-                  <Route path="/thankforreview" element={<ThankForReview />} />
-                  <Route path="/settings" element={<ProfileSettings user={user} setUser={setUser} />}></Route>
-                  {/* <Route
+
+
+                  <Route
                     path="/orders"
                     element={
                       <Orders

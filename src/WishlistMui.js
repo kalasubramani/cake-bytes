@@ -30,9 +30,9 @@ const WishlistMui = ({ wishlistItems, products, cartItems, getCartItem, createLi
     //remove item from wishlist
     deleteWishlistItem(product)
 
-       // show toast notification
-       setShowToast(true);
-       setToastMessage("Product moved to cart.") 
+    // show toast notification
+    setShowToast(true);
+    setToastMessage("Product moved to cart.")
   }
 
   const handleDeleteWishlistItem = (product) => {
@@ -57,7 +57,7 @@ const WishlistMui = ({ wishlistItems, products, cartItems, getCartItem, createLi
         onClose={handleClose}
         message={toastMessage}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        // key={product.id}
+      // key={product.id}
       />
       <ImageList sx={{ width: 950, height: 700 }}>
         <ImageListItem key="Subheader" cols={2}>

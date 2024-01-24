@@ -4,9 +4,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from "react-router-dom";
 import Orders from './Orders';
 import WishlistMui from './WishlistMui';
+import ProfileSettings from './ProfileSettings';
 
 const UserProfileMUI = ({
     user, 
+    setUser,
     wishlistItems, 
     products, 
     cartItems, 
@@ -44,13 +46,7 @@ const UserProfileMUI = ({
             </Box>
         </AccordionSummary>
         <AccordionDetails>
-            <h3> Profile  <Link to='/settings'> Settings </Link>  </h3>
-            <ul>
-              <li> Username:{ user.username }</li>
-              <li> Firstname:{ user.firstname}</li>
-              <li> Lastname: { user.lastname}</li>
-              <li> Billing Address: </li>
-            </ul>
+          <ProfileSettings user={user} setUser={setUser} />
         </AccordionDetails>
       </Accordion>
       <Accordion elevation={5} sx={{ mt: 0, mb: 4}} >

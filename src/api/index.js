@@ -154,10 +154,17 @@ const deleteWishlistItem = async (product, wishlistItems, setWishlistItems) => {
   setWishlistItems(wishlistItems.filter(_wishlistItem => _wishlistItem.product_id !== product.id));
 };
 //update user, can also update VIP status
-const updateVipStatus = async (user) => {
-  const { data } = await axios.put(`/api/users/${user.id}/updatevipstatus`, user, getHeaders());
-  return data;
-};
+const updateVipStatus = async(user, setUser) =>{
+   const response = await axios.put(`/api/users/${user.id}/updatevipstatus`,user, getHeaders());
+  //setUser(response.data)
+  console.log("set customers in index api", response.data)
+}; 
+//update user, can also update VIP status
+const updateAddress = async(user, setUser) =>{
+  const response = await axios.put(`/api/users/${user.id}/address`,user, getHeaders());
+ //setUser(response.data)
+ console.log("set address in index api", response.data)
+}; 
 
 
 
@@ -184,7 +191,8 @@ const api = {
   fetchWishlistItems,
   createWishlistItem,
   deleteWishlistItem,
-  updateVipStatus
+  updateVipStatus,
+  updateAddress
 };
 
 export default api;
