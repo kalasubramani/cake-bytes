@@ -2,10 +2,10 @@ import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import api from "./api";
 import { Box, Button, Divider, List, ListItem, ListItemButton, ListItemText, TextField, Typography } from '@mui/material';
+import PasswordDialog from "./PasswordDialog";
 
 
 const ProfileSettings = ({user, setUser}) => {
-
     const [firstName, setFirstName] = useState(user.firstname);
     const [lastName, setLastName] = useState(user.lastname);
     const [userName, setUserName] = useState(user.username);
@@ -16,6 +16,7 @@ const ProfileSettings = ({user, setUser}) => {
     const [zipCode, setZipCode] = useState(user.zip_code);
     const [displayField, setDisplayField] = useState(true);
     const [displayAddress, setDisplayAddress] = useState(true);
+    const [showPasswordDialog, setShowPasswordDialog] = useState(false);
 
     const navigate = useNavigate();
 
@@ -42,11 +43,11 @@ const ProfileSettings = ({user, setUser}) => {
         event.preventDefault();
         const updatedUserAddress = {
           user_id: user.id,  
-          firstName,
-          lastName,
-          userName,
-          is_admin: user.is_admin,
-          is_vip: user.is_vip
+          address_line1:addressLine1,
+          address_line2:addressLine2 ,
+          city,
+          state,
+          zip_code:zipCode
         }
 
         const changeAddress = async (updatedUserAddress,setUser)=>{
@@ -59,7 +60,7 @@ const ProfileSettings = ({user, setUser}) => {
 
       const profileUserInfo = () => {
         return (
-          <Box>
+          <Box sx={{flexGrow: 1,p:"1rem"}}>
             <Typography variant="h5">
               Customer Information
             </Typography>
@@ -85,6 +86,8 @@ const ProfileSettings = ({user, setUser}) => {
                 </ListItemButton>
               </ListItem>
               <Button variant="contained" onClick={()=>setDisplayField(false)}>Edit</Button>
+              <Button variant="text" sx={{fontWeight:700,float:"right"}} onClick={()=>{setShowPasswordDialog(true)}}>Change Password</Button>
+              <PasswordDialog open={showPasswordDialog} handleClose={()=>{setShowPasswordDialog(false)}} userId={user.id}/>
             </List>
           </Box>
         )
@@ -92,15 +95,14 @@ const ProfileSettings = ({user, setUser}) => {
 
       const updateUserInfo = () => {
         return (
-          <Box>
+          <Box sx={{flexGrow: 1,p:"1rem"}}>
             <Typography variant="h5">
               Edit Information
             </Typography>
             <Box component="form" onSubmit={handleUserUpdate}>
               <TextField
                 name="firstname"
-                required
-                fullWidth
+                required                
                 id="firstname"
                 label="First Name"
                 inputProps={{ minLength: 3, maxLength: 12 }}
@@ -111,8 +113,7 @@ const ProfileSettings = ({user, setUser}) => {
               />
               <TextField
                 name="lastname"
-                required
-                fullWidth
+                required                
                 id="lastname"
                 label="Last Name"
                 inputProps={{ minLength: 3, maxLength: 12 }}
@@ -124,7 +125,6 @@ const ProfileSettings = ({user, setUser}) => {
               <TextField
                 name="username"
                 required
-                fullWidth
                 id="username"
                 label="Username/Email"
                 inputProps={{ minLength: 6, maxLength: 15 }}
@@ -141,7 +141,7 @@ const ProfileSettings = ({user, setUser}) => {
 
       const profileUserAddress = () => {
         return (
-          <Box>
+          <Box sx={{flexGrow: 1,p:"1rem"}}>
             <Typography variant="h5">
               Customer Address
             </Typography>
@@ -173,7 +173,7 @@ const ProfileSettings = ({user, setUser}) => {
 
       const updateUserAddress = () => {
         return (
-          <Box>
+          <Box sx={{flexGrow: 1,p:"1rem"}}>
             <Typography variant="h5">
               Edit Address
             </Typography>
@@ -181,7 +181,6 @@ const ProfileSettings = ({user, setUser}) => {
               <TextField
                 name="address1"
                 required
-                fullWidth
                 id="address1"
                 label="Address Line 1"
                 inputProps={{ minLength: 10, maxLength: 30 }}
@@ -192,7 +191,6 @@ const ProfileSettings = ({user, setUser}) => {
               />
                <TextField
                 name="address2"
-                fullWidth
                 id="address2"
                 label="Address Line 2 (optional)"
                 inputProps={{ minLength: 3, maxLength: 30 }}
@@ -204,7 +202,6 @@ const ProfileSettings = ({user, setUser}) => {
               <TextField
                 name="city"
                 required
-                fullWidth
                 id="city"
                 label="City"
                 inputProps={{ minLength: 3, maxLength: 25 }}
@@ -216,7 +213,6 @@ const ProfileSettings = ({user, setUser}) => {
               <TextField
                 name="state"
                 required
-                fullWidth
                 id="state"
                 label="State"
                 inputProps={{ minLength: 2, maxLength: 2 }}
@@ -228,7 +224,6 @@ const ProfileSettings = ({user, setUser}) => {
               <TextField
                 name="zipCode"
                 required
-                fullWidth
                 id="zipCode"
                 label="Zip Code (5 digits)"
                 inputProps={{ minLength: 5, maxLength: 5 }}
@@ -244,14 +239,10 @@ const ProfileSettings = ({user, setUser}) => {
       }
 
 return (
-    <Box sx={{ display: 'flex', flexGrow: 1, p: 2, justifyContent: "space-around" }}>
-      <Box>
+    <Box sx={{ display: 'flex', p: 2, justifyContent: "space-evenly" }}>      
         {displayField ? profileUserInfo() : updateUserInfo()}
-      </Box>
-      <Divider orientation="vertical" variant="middle" flexItem />
-      <Box>
+      <Divider orientation="vertical" variant="middle" flexItem/>
         {displayAddress ? profileUserAddress() : updateUserAddress()}
-      </Box>        
     </Box>
 )
 

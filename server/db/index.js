@@ -14,12 +14,14 @@ const {
   fetchAllCustomers,
   findUserByToken,
   updateVipStatus,
+  resetPassword,
   fetchAddress,
   updateAddress
 } = require('./auth');
 
 const {
   fetchLineItems,
+  fetchAllLineItems,
   createLineItem,
   updateLineItem,
   deleteLineItem,
@@ -197,6 +199,7 @@ module.exports = {
   fetchProducts,
   fetchOrders,
   fetchLineItems,
+  fetchAllLineItems,
   createLineItem,
   updateLineItem,
   deleteLineItem,
@@ -213,6 +216,7 @@ module.exports = {
   fetchWishlistItems,
   deleteWishlistItem,
   updateVipStatus,
+  resetPassword,
   fetchAddress,
   updateAddress,
   client

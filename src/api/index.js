@@ -1,3 +1,4 @@
+import { Password } from '@mui/icons-material';
 import axios from 'axios';
 
 const getHeaders = () => {
@@ -24,10 +25,16 @@ const fetchAllOrders = async (setAllOrders) => {
   setAllOrders(response.data);
 }
 
-
+// fetch line items for the logged in user
 const fetchLineItems = async (setLineItems) => {
   const response = await axios.get('/api/lineItems', getHeaders());
   setLineItems(response.data);
+};
+
+// fetch all line items for admin 
+const fetchAllLineItems = async (setAllLineItems) => {
+  const response = await axios.get('/api/lineItems/current', getHeaders());
+  setAllLineItems(response.data);
 };
 
 const createLineItem = async ({ product, cart, lineItems, setLineItems }) => {
@@ -154,19 +161,21 @@ const deleteWishlistItem = async (product, wishlistItems, setWishlistItems) => {
   setWishlistItems(wishlistItems.filter(_wishlistItem => _wishlistItem.product_id !== product.id));
 };
 //update user, can also update VIP status
-const updateVipStatus = async(user, setUser) =>{
-   const response = await axios.put(`/api/users/${user.id}/updatevipstatus`,user, getHeaders());
-  //setUser(response.data)
-  console.log("set customers in index api", response.data)
-}; 
+const updateVipStatus = async (customer, customers, setCustomers) => {
+  const { data } = await axios.put(`/api/users/${customer.id}/updatevipstatus`, customer, getHeaders());
+  setCustomers(customers.map((customer) => customer.id === data.id ? data : customer ));
+};
+
 //update user, can also update VIP status
 const updateAddress = async(user, setUser) =>{
-  const response = await axios.put(`/api/users/${user.id}/address`,user, getHeaders());
- //setUser(response.data)
- console.log("set address in index api", response.data)
+  const response = await axios.put(`/api/users/${user.user_id}/address`,user, getHeaders());
+  setUser(response.data)
 }; 
 
-
+//reset user password
+const resetPassword = async(password,userId)=>{
+  const response = await axios.patch(`/api/users/${userId}/password`,{password},getHeaders());
+}
 
 const api = {
   login,
@@ -174,6 +183,7 @@ const api = {
   fetchProducts,
   fetchOrders,
   fetchLineItems,
+  fetchAllLineItems,
   createLineItem,
   updateLineItem,
   updateOrder,
@@ -192,7 +202,8 @@ const api = {
   createWishlistItem,
   deleteWishlistItem,
   updateVipStatus,
-  updateAddress
+  updateAddress,
+  resetPassword
 };
 
 export default api;

@@ -18,7 +18,7 @@ export default function PaymentForm() {
             id="cardName"
             label="Name on card"
             fullWidth
-            autoComplete="cc-name"
+            autoComplete="none"
             variant="standard"
           />
         </Grid>
@@ -28,18 +28,21 @@ export default function PaymentForm() {
             id="cardNumber"
             label="Card number"
             fullWidth
-            autoComplete="cc-number"
-            variant="standard"
+            autoComplete="none"
+            variant="standard"            
+            inputProps={{pattern:'^(?:[0-9]{16})$',title:'Please enter a 16 digit card number',maxLength:16,minLength:16}}
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <TextField
             required
             id="expDate"
-            label="Expiry date"
+            // label="Expiry date"
             fullWidth
-            autoComplete="cc-exp"
+            autoComplete="none"
             variant="standard"
+            type='month'
+            inputProps={{min:`${new Date(Date.now()).getFullYear()}-${new Date(Date.now()).getMonth()}`}}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -49,14 +52,9 @@ export default function PaymentForm() {
             label="CVV"
             helperText="Last three digits on signature strip"
             fullWidth
-            autoComplete="cc-csc"
+            autoComplete="none"
             variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
+            inputProps={{pattern:'^(?:[0-9]{3})$',title:'Please enter the 3 digit CVV on the back of your card',maxLength:3,minLength:3}}
           />
         </Grid>
       </Grid>
