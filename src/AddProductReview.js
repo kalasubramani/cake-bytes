@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "./api";
-import { Box, Button, Card, CardContent, CardMedia, Container, Rating, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, Container, Rating, TextField, Typography} from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { useForm } from "react-hook-form";
+
+
 
 const AddProductReview = ({ products }) => {
   const navigate = useNavigate();
@@ -12,7 +15,8 @@ const AddProductReview = ({ products }) => {
   const [ratings, setRatings] = useState(0);
   // const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
-
+  
+  
   const labels = {
     0.5: 'Would not recommend',
     1: 'Would not recommend',
@@ -38,7 +42,7 @@ const AddProductReview = ({ products }) => {
   //on form submit - add review to db
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
+ console.log("handleSubmit", handleSubmit )
     //create review obj to send to db
     const review = {
       title,
@@ -59,8 +63,10 @@ const AddProductReview = ({ products }) => {
 
     navigate("/thankyou?sentFrom=Review");
   }
+
+   
   return (
-      <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }} maxWidth="xl">
+      <Container component= "form" onSubmit= {handleSubmit} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }} maxWidth="xl">
         <Card sx={{ display: 'flex' }}>
           <CardMedia
             sx={{ p: "1rem", width: "200px", height: "200px" }}
@@ -81,7 +87,8 @@ const AddProductReview = ({ products }) => {
             <Typography variant="h5">Add your review for the product</Typography>
             <Box sx={{ mt: 1 }}>
               <Rating name="productRating"
-                value={ratings}
+                placeholder= "Rating is Required"
+                value={ratings}                                     
                 precision={0.5}
                 onChange={(event, newValue) => {
                   setRatings(newValue);
@@ -93,16 +100,20 @@ const AddProductReview = ({ products }) => {
               {ratings !== null && (
                 <Box sx={{ ml: ".35rem" }}>{labels[hover !== -1 ? hover : ratings]}</Box>
               )}
+            
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="title"
-                label="Add a headline for review"
-                name="title"
+                id= "title"
+                label= "Add a headline for review"
+                inputProps= {{ minLength:5, maxLength:20}}
+                name= "title"
                 autoFocus
-                value={title}
-                onChange={(event)=>{setTitle(event.target.value)}}
+                autoComplete= "none"
+                value= {title}
+                onChange= {(event)=>{setTitle(event.target.value)}}
+                placeholder= "Review is Required"
               />
               <Typography variant="h6">Add a photo or video</Typography>
               <Typography variant="body2">Shoppers find images and videos more helpful than text alone.</Typography>
@@ -117,16 +128,18 @@ const AddProductReview = ({ products }) => {
                 name="comments"
                 label="Add a review"
                 id="comments"
-                multiline
                 rows={4}
+                autoFocus
+                autoComplete= "none"
+                inputProps= {{ minLength:15, maxLength:100}}
                 value={comments}
                 onChange={(event)=>{setComments(event.target.value)}}
+                placeholder= "Review is Required"
               />
               <Button
                 type="submit"
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={handleSubmit}
               >
                 Submit Review
               </Button>
@@ -138,3 +151,5 @@ const AddProductReview = ({ products }) => {
 };
 
 export default AddProductReview;
+
+
