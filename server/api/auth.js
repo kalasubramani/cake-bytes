@@ -5,7 +5,8 @@ const {
   fetchAllCustomers,
   updateUser,
   updateVipStatus,
-  updateAddress
+  updateAddress,
+  resetPassword
 } = require('../db');
 
 const express = require('express');
@@ -74,10 +75,18 @@ app.put('/users/:id/updatevipstatus', isLoggedIn, isAdmin, async(req, res, next)
 })
 
 //update customers address in db
-app.put('/users/:id/address', isLoggedIn, isAdmin, async(req, res, next) => {
+app.put('/users/:id/address', isLoggedIn, async(req, res, next) => {
     try {
       res.send(await updateAddress({...req.body, id: req.params.id}));
   } catch (ex) {
+    next(ex);
+  }
+})
+
+app.patch('/users/:id/password',isLoggedIn,async(req,res,next)=>{
+  try{
+   res.send(await resetPassword({...req.body,id:req.params.id}));
+  }catch (ex) {
     next(ex);
   }
 })

@@ -45,7 +45,9 @@ export default function Checkout({ getItemsInCart, placeOrder, isVip }) {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-
+  const handleAddressSubmit = ()=>{
+    console.log("handleAddressSubmit fired")
+  }
   return (
     <React.Fragment>
       <CssBaseline />
@@ -88,7 +90,7 @@ export default function Checkout({ getItemsInCart, placeOrder, isVip }) {
               </Typography>
             </React.Fragment>
           ) : (
-            <React.Fragment>
+            <Container component={"form"} onSubmit={handleNext}>              
               {getStepContent(activeStep, orderDetails, placeOrder, isVip)}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (
@@ -99,13 +101,14 @@ export default function Checkout({ getItemsInCart, placeOrder, isVip }) {
 
                 <Button
                   variant="contained"
-                  onClick={handleNext}
+                  // onClick={handleNext}
                   sx={{ mt: 3, ml: 1 }}
+                  type='submit'
                 >
                   {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
                 </Button>
               </Box>
-            </React.Fragment>
+            </Container>
           )}
         </Paper>
       </Container>

@@ -4,7 +4,7 @@ const uuidv4 = v4;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const findUserByToken = async(token) => {
+const findUserByToken = async (token) => {
   try {
     const payload = await jwt.verify(token, process.env.JWT);
     const SQL = `
@@ -13,7 +13,7 @@ const findUserByToken = async(token) => {
       WHERE id = $1
     `;
     const response = await client.query(SQL, [payload.id]);
-    if(!response.rows.length){
+    if (!response.rows.length) {
       const error = Error('bad credentials');
       error.status = 401;
       throw error;
@@ -21,7 +21,7 @@ const findUserByToken = async(token) => {
 
     return response.rows[0];
   }
-  catch(ex){
+  catch (ex) {
     console.log(ex);
     const error = Error('bad credentials');
     error.status = 401;
@@ -29,20 +29,20 @@ const findUserByToken = async(token) => {
   }
 }
 
-const authenticate = async(credentials)=> {
+const authenticate = async (credentials) => {
   const SQL = `
     SELECT id, password
     FROM users
     WHERE username = $1
   `;
   const response = await client.query(SQL, [credentials.username.trim()]);
-  if(!response.rows.length){
+  if (!response.rows.length) {
     const error = Error('bad credentials');
     error.status = 401;
     throw error;
   }
   const valid = await bcrypt.compare(credentials.password, response.rows[0].password);
-  if(!valid){
+  if (!valid) {
     const error = Error('bad credentials');
     error.status = 401;
     throw error;
@@ -52,15 +52,15 @@ const authenticate = async(credentials)=> {
 };
 
 //updated to include VIP status
-const createUser = async(user)=> {
-  if(!user.username.trim() || !user.password.trim()){
+const createUser = async (user) => {
+  if (!user.username.trim() || !user.password.trim()) {
     throw Error('must have username and password');
   }
   user.password = await bcrypt.hash(user.password, 5);
   const SQL = `
     INSERT INTO users (id, firstname, lastname, username, password, is_admin, is_vip) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *
   `;
-  const response = await client.query(SQL, [ uuidv4(), user.firstname, user.lastname, user.username, user.password, user.is_admin, user.is_vip ]);
+  const response = await client.query(SQL, [uuidv4(), user.firstname, user.lastname, user.username, user.password, user.is_admin, user.is_vip]);
   return response.rows[0];
 };
 
@@ -75,18 +75,18 @@ const updateAddress = async(user)=> {
     WHERE id = $6 
     RETURNING *
   `;
-  const response = await client.query(SQL, [ user.address_line1, user.address_line2, user.city, user.state, user.zip_code, user.id ]);
+  const response = await client.query(SQL, [ user.address_line1, user.address_line2, user.city, user.state, user.zip_code, user.user_id ]);
   return response.rows[0];
 };
 
 //gets all customers
-const fetchAllCustomers = async(user)=>{
+const fetchAllCustomers = async (user) => {
   const SQL = `
   SELECT id, firstname, lastname, username, is_admin, is_vip
-  FROM users
+  FROM users ORDER BY LOWER(username)
       `;
-const response = await client.query(SQL);
-return response.rows;
+  const response = await client.query(SQL);
+  return response.rows;
 }
 
 //declared updateUsers SQL... exported
@@ -105,17 +105,29 @@ const updateUser = async(user)=> {
 
 //Admin to be able to make or remove User VIP status
 //vipUser has userId and vipStatus
-const updateVipStatus = async(vipUser) =>{
-   const SQL = `
+const updateVipStatus = async (vipUser) => {
+  const SQL = `
   UPDATE users
   SET 
   is_vip = $1
   WHERE id = $2
   RETURNING *
    `;
-   const response = await client.query( SQL, [ vipUser.is_vip, vipUser.id]);
-   return response.rows[0];
+  const response = await client.query(SQL, [vipUser.is_vip, vipUser.id]);
+  return response.rows[0];
 
+}
+
+//reset password for a registered user
+const resetPassword = async (user) => {
+  user.password = await bcrypt.hash(user.password, 5)
+  const SQL = `
+          UPDATE users
+          SET 
+          password=$1
+          WHERE id = $2;`;
+  const response = await client.query(SQL, [user.password, user.id])
+  return response.rows[0];
 }
 
 module.exports = {
@@ -125,5 +137,6 @@ module.exports = {
   fetchAllCustomers,
   updateUser,
   updateVipStatus,
+  resetPassword,
   updateAddress
 };

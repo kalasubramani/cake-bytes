@@ -6,6 +6,7 @@ const fetchProducts = async()=> {
   const SQL = `
     SELECT *
     FROM products
+    ORDER BY LOWER(name)
   `;
   const response = await client.query(SQL);
   return response.rows;
