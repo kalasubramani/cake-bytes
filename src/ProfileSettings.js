@@ -105,6 +105,7 @@ const ProfileSettings = ({user, setUser}) => {
                 required                
                 id="firstname"
                 label="First Name"
+                autoComplete="none"
                 inputProps={{ minLength: 3, maxLength: 12 }}
                 value={firstName}
                 autoFocus
@@ -116,6 +117,7 @@ const ProfileSettings = ({user, setUser}) => {
                 required                
                 id="lastname"
                 label="Last Name"
+                autoComplete="none"
                 inputProps={{ minLength: 3, maxLength: 12 }}
                 value={lastName}
                 autoFocus
@@ -127,7 +129,8 @@ const ProfileSettings = ({user, setUser}) => {
                 required
                 id="username"
                 label="Username/Email"
-                inputProps={{ minLength: 6, maxLength: 15 }}
+                autoComplete="none"
+                inputProps={{ minLength: 6, maxLength: 25 }}
                 value={userName}
                 autoFocus
                 onChange={(e)=>{setUserName(e.target.value)}}
@@ -183,6 +186,7 @@ const ProfileSettings = ({user, setUser}) => {
                 required
                 id="address1"
                 label="Address Line 1"
+                autoComplete="none"
                 inputProps={{ minLength: 10, maxLength: 30 }}
                 value={addressLine1}
                 autoFocus
@@ -193,6 +197,7 @@ const ProfileSettings = ({user, setUser}) => {
                 name="address2"
                 id="address2"
                 label="Address Line 2 (optional)"
+                autoComplete="none"
                 inputProps={{ minLength: 3, maxLength: 30 }}
                 value={addressLine2}
                 autoFocus
@@ -204,6 +209,7 @@ const ProfileSettings = ({user, setUser}) => {
                 required
                 id="city"
                 label="City"
+                autoComplete="none"
                 inputProps={{ minLength: 3, maxLength: 25 }}
                 value={city}
                 autoFocus
@@ -215,6 +221,7 @@ const ProfileSettings = ({user, setUser}) => {
                 required
                 id="state"
                 label="State"
+                autoComplete="none"
                 inputProps={{ minLength: 2, maxLength: 2 }}
                 value={state}
                 autoFocus
@@ -226,7 +233,8 @@ const ProfileSettings = ({user, setUser}) => {
                 required
                 id="zipCode"
                 label="Zip Code (5 digits)"
-                inputProps={{ minLength: 5, maxLength: 5 }}
+                autoComplete="none"
+                inputProps={{ pattern:'^(?:[0-9]{5})$',title:'Please enter a 5 digit zip code', minLength: 5, maxLength: 5 }}
                 value={zipCode}
                 autoFocus
                 onChange={(e)=>{setZipCode(e.target.value)}}
