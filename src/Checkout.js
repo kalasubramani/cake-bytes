@@ -14,13 +14,16 @@ import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 import { useParams } from 'react-router-dom';
+import Cart from './Cart'
+
+
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
-function getStepContent(step, orderDetails, placeOrder, isVip) {
+function getStepContent(step, orderDetails, placeOrder, isVip, user) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <AddressForm user={user} />;
     case 1:
       return <PaymentForm />;
     case 2:
@@ -29,8 +32,8 @@ function getStepContent(step, orderDetails, placeOrder, isVip) {
       throw new Error('Unknown step');
   }
 }
-
-export default function Checkout({ getItemsInCart, placeOrder, isVip }) {
+//add the input props from home and pass it down to AddressForm
+export default function Checkout({ getItemsInCart, placeOrder, isVip, user}) {
   const [activeStep, setActiveStep] = React.useState(0);
   const orderDetails = getItemsInCart();
   const { orderid } = useParams();
@@ -91,7 +94,7 @@ export default function Checkout({ getItemsInCart, placeOrder, isVip }) {
             </React.Fragment>
           ) : (
             <Container component={"form"} onSubmit={handleNext}>              
-              {getStepContent(activeStep, orderDetails, placeOrder, isVip)}
+              {getStepContent(activeStep, orderDetails, placeOrder, isVip, user)}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>

@@ -339,7 +339,7 @@ const Home = ({ user, logout, setUser }) => {
                       />
                     }
                   /> */}
-                  <Route path="/:orderid/checkout" element={<Checkout getItemsInCart={getItemsInCart} placeOrder={placeOrder} isVip={isVip} />} />
+                  <Route path="/:orderid/checkout" element={<Checkout getItemsInCart={getItemsInCart} placeOrder={placeOrder} isVip={isVip} user={user} />} />
                   {isAdmin && (
                     <>
                       <Route path='/orders-admin' element={<Orders orders={allOrders}
