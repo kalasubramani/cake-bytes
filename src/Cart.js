@@ -10,7 +10,7 @@ import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 const Cart = ({ removeFromCart, updateLineItem, removeOneItem, lineItems, cart, isVip, getItemsInCart }) => {
   const navigate = useNavigate();
   const cartItemDetails = getItemsInCart();
-  //grand total
+
   const orderTotal = cartItemDetails?.reduce((total, cartItem) => {
     let itemPrice = cartItem.price;
     if (isVip && cartItem.vipPrice > 0) {
@@ -73,9 +73,6 @@ const Cart = ({ removeFromCart, updateLineItem, removeOneItem, lineItems, cart, 
                     </>} />
                   <Typography variant="body2"> Total: {displayPrice.format(calculateLineItemTotal(product.price, product.vipPrice, product.quantity))}</Typography>
                 </ListItem>
-                <Card sx={{ mt: "1rem", p: "1rem" }} >
-                  <Typography variant="body2" textAlign={"center"}>To avail VIP discount please contact the store.</Typography>
-                </Card>
               </>
             )
           })
@@ -85,13 +82,20 @@ const Cart = ({ removeFromCart, updateLineItem, removeOneItem, lineItems, cart, 
           </Card>
         }
         <ListItem sx={{ py: 1, px: "1rem" }}>
+          {
+            ((isVip&&cartItemDetails?.length>0) && 
+            <Card sx={{ mt: "1rem", p: "1rem" }} >
+              <Typography variant="body2" textAlign={"center"}>To avail VIP discount please contact the store.</Typography>
+            </Card>
+            )
+          }
           <ListItemText primary="Total: " inset primaryTypographyProps={{ sx: { width: "fit-content", fontWeight: 700, marginLeft: "auto", pr: "1rem" } }} />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
             {displayPrice.format(orderTotal)}
           </Typography>
         </ListItem>
       </List >
-      <Button onClick={handleCheckout} variant='outlined' sx={{ float: "right", px: "1rem", mb: "1rem", fontWeight: "700" }}>Checkout</Button>
+      <Button onClick={handleCheckout} variant='contained' sx={{ float: "right", px: "1rem", mb: "1rem", fontWeight: "700" }}>Checkout</Button>
     </>
   );
 };
