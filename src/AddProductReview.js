@@ -3,9 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "./api";
 import { Box, Button, Card, CardContent, CardMedia, Container, Rating, TextField, Typography} from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { useForm } from "react-hook-form";
-
-
 
 const AddProductReview = ({ products }) => {
   const navigate = useNavigate();
