@@ -68,19 +68,18 @@ function Copyright(props) {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                            autoComplete="given-name"
+                            autoComplete="none"
                             name="firstName"
                             required
                             fullWidth
                             id="firstName"
                             label="First Name"
+                            inputProps={{ minLength: 3, maxLength: 12 }}
                             autoFocus
-                            maxLength={12}
-                            minLength={3}
                             onChange={(e) => {setFirstname(e.target.value)}}
                             />
                         </Grid>
@@ -91,9 +90,8 @@ function Copyright(props) {
                             id="lastName"
                             label="Last Name"
                             name="lastName"
-                            autoComplete="family-name"
-                            maxLength={12}
-                            minLength={3}
+                            autoComplete="none"
+                            inputProps={{ minLength: 3, maxLength: 12 }}
                             onChange={(e) => {setLastname(e.target.value)}}
                             />
                         </Grid>
@@ -104,9 +102,8 @@ function Copyright(props) {
                             id="email or username"
                             label="Email Address or Username"
                             name="email_username"
-                            autoComplete="email"
-                            maxLength={25}
-                            minLength={6}
+                            autoComplete="none"
+                            inputProps={{ minLength: 6, maxLength: 25 }}
                             onChange={(e) => {setUsername(e.target.value)}}
                             />
                         </Grid>
@@ -118,9 +115,8 @@ function Copyright(props) {
                             label="Password"
                             type="password"
                             id="password"
-                            autoComplete="new-password"
-                            maxLength={11}
-                            minLength={6}
+                            autoComplete="none"
+                            inputProps={{ minLength: 6, maxLength: 25 }}
                             onChange={(e) => {setPassword(e.target.value)}}
                             />
                         </Grid>
