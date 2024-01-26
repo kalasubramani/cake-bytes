@@ -31,7 +31,7 @@ const Cart = ({ removeFromCart, updateLineItem, removeOneItem, lineItems, cart, 
     e.preventDefault();
     navigate(`/${cart.id}/checkout`)
   }
-  console.log("cartItemDetails ", cartItemDetails)
+ 
   return (
     <>
       <Typography variant="h6" gutterBottom>
