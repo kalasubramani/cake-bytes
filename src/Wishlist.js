@@ -73,6 +73,7 @@ const Wishlist = ({ wishlistItems, products, getCartItem, createLineItem, update
                 sx={{ backgroundColor: "rgba(255,255,255,0.8)" }}
                 title={product.name}
                 subtitle={product.description}
+                color='black'
                 actionIcon={
                   <>
 
