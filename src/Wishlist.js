@@ -1,15 +1,11 @@
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ListSubheader from '@mui/material/ListSubheader';
-import InfoIcon from '@mui/icons-material/Info';
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { displayPrice } from './Util';
-import { Card, CardActions, CardContent, CardMedia, Container, Fab, IconButton, Tooltip, Typography, ImageList, ImageListItem, Snackbar, } from '@mui/material';
+import { Card, IconButton, Tooltip, Typography, ImageList, ImageListItem, Snackbar, } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-const WishlistMui = ({ wishlistItems, products, cartItems, getCartItem, createLineItem, updateLineItem, deleteWishlistItem }) => {
+const Wishlist = ({ wishlistItems, products, getCartItem, createLineItem, updateLineItem, deleteWishlistItem }) => {
 
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -64,11 +60,11 @@ const WishlistMui = ({ wishlistItems, products, cartItems, getCartItem, createLi
           <ListSubheader sx={{ backgroundColor: "#ffc107" }} component="div">My Wishlist</ListSubheader>
         </ImageListItem>
         {wishlistProducts?.length ?
-          wishlistProducts.map((product, index) => (
+          wishlistProducts.map((product) => (
             <ImageListItem key={product.id}>
               <img
-                srcSet={`https://source.unsplash.com/random/?${product.name}[${index}]?w=248&fit=crop&auto=format&dpr=2 2x`}
-                src={`https://source.unsplash.com/random/?${product.name}[${index}]?w=248&fit=crop&auto=format`}
+                // srcSet={`https://source.unsplash.com/random/?${product.name}[${index}]?w=248&fit=crop&auto=format&dpr=2 2x`}
+                src={product.product_image}
                 alt={product.name}
                 loading="lazy"
               />
@@ -101,4 +97,4 @@ const WishlistMui = ({ wishlistItems, products, cartItems, getCartItem, createLi
       </ImageList></Card>
   );
 }
-export default WishlistMui
+export default Wishlist

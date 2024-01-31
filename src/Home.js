@@ -20,15 +20,8 @@ import AllCustomers from './AllCustomers';
 import Orders from './Orders';
 import ThankYou from './ThankYou';
 import Checkout from './Checkout';
-import UserProfileMUI from './UserProfileMUI';
+import UserProfile from './UserProfile';
 
-
-// https://www.svgrepo.com/svg/419438/baked-cake-cup
-// https://www.svgrepo.com/svg/404839/birthday-cake
-// https://www.svgrepo.com/svg/501917/cake
-// https://www.svgrepo.com/svg/501915/dialog-box
-
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme({
   palette: {
     primary: {
@@ -197,7 +190,8 @@ const Home = ({ user, logout, setUser }) => {
         orderId: lineItem?.order_id,
         lineItemId: lineItem?.id,
         id: product?.id,
-        vipPrice: product?.vip_price
+        vipPrice: product?.vip_price,
+        product_image:product?.product_image
       }
     })
     return cartProducts;
@@ -276,7 +270,7 @@ const Home = ({ user, logout, setUser }) => {
                   <Route
                     path="/user-profile_mui"
                     element={
-                      <UserProfileMUI
+                      <UserProfile
                         user={user}
                         setUser={setUser}
                         wishlistItems={wishlistItems}

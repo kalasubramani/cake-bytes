@@ -51,7 +51,7 @@ const Cart = ({ removeFromCart, updateLineItem, removeOneItem, lineItems, cart, 
                       badgeContent={product.quantity}
                       color="secondary"
                     >
-                      <Avatar variant="square" src={`https://source.unsplash.com/random/?${product.name}`} alt={product.name} sx={{ width: '5rem', height: '5rem' }}></Avatar>
+                      <Avatar variant="square" src={product.product_image} alt={product.name} sx={{ width: '5rem', height: '5rem' }}></Avatar>
                     </Badge>
                   </ListItemAvatar>
                   <ListItemText primary={product.name} secondary={

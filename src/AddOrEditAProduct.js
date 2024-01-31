@@ -68,7 +68,7 @@ const AddOrEditAProduct = ({ products, setProducts }) => {
     { value: 'Birthdays', label: 'Birthdays' },
     { value: 'Holidays', label: 'Holidays' },
     { value: 'Special Occassions', label: 'Special Occassions' },
-    { value: 'Cup Cakes', label: 'Cup Cakes' }
+    { value: 'Cupcakes', label: 'Cupcakes' }
   ];
 
   const handleMarkAsVIPProduct = () => {

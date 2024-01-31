@@ -67,7 +67,7 @@ const AddProductReview = ({ products }) => {
         <Card sx={{ display: 'flex' }}>
           <CardMedia
             sx={{ p: "1rem", width: "200px", height: "200px" }}
-            image={`https://source.unsplash.com/random/?${product?.name}`}
+            image={product.product_image}
             component="img"
           />
           <CardContent sx={{ display: "flex", flexDirection: "column", flexGrow: "1" }}>
