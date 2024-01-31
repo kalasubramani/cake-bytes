@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { Button, Card, CardActions, CardContent, CardMedia, Container, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, Container, Typography } from "@mui/material";
 
 
 const images = [
@@ -90,14 +90,7 @@ function FrequentlyBought() {
                   <Typography gutterBottom variant="caption" component="span">
                     {image.label}
                   </Typography>
-                  {/* <Typography variant="body2" color="text.secondary">
-                    Cake description
-                  </Typography> */}
                 </CardContent>
-                {/* <CardActions>
-                  <Button size="small">Share</Button>
-                  <Button size="small">Learn More</Button>
-                </CardActions> */}
               </Card>
             </SwiperSlide>
           )

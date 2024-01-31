@@ -42,16 +42,16 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
       return (
         <Card key={product.id} sx={{ width: "14rem" }}>
           <CardMedia
-            sx={{ height: "12rem", cursor: 'pointer' }}
-            image={product.product_image ?? `https://source.unsplash.com/random/?${product.name}[${index}]`}
+            sx={{ height: "16rem", cursor: 'pointer' }}
+            image={product.product_image}
             title={"Click to view details"}
-            onClick={() => { navigate(`/products/${product.id}`) }}
+            onClick={() => { navigate(`/products/${product.id}`) }}          
           />
           <CardContent>
             <Typography gutterBottom variant="caption" component="span">
               {product.name}
             </Typography>
-            <Typography variant="body1" color="text.secondary">
+            <Typography color="text.secondary" variant="body2" noWrap>
               {product.description}
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -112,8 +112,8 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
   }
 
   return (
-    <div>     
-      <h2>{productCategory??"All Products"}</h2>
+    <div>
+      <h2>{productCategory ?? "All Products"}</h2>
       {/* key renders new searchbar everytime the product category changes */}
       <SearchBar key={`searchbar-for-${productCategory}`} searchList={products} onSearch={(results) => { setSearchResults(results) }} />
       {

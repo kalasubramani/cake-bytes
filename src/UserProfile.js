@@ -3,10 +3,10 @@ import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, C
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from "react-router-dom";
 import Orders from './Orders';
-import WishlistMui from './WishlistMui';
+import Wishlist from './Wishlist';
 import ProfileSettings from './ProfileSettings';
 
-const UserProfileMUI = ({
+const UserProfile = ({
     user, 
     setUser,
     wishlistItems, 
@@ -93,7 +93,7 @@ const UserProfileMUI = ({
             </Box>
         </AccordionSummary>
         <AccordionDetails>
-            <WishlistMui wishlistItems={wishlistItems} products={products} getCartItem={getCartItem} 
+            <Wishlist wishlistItems={wishlistItems} products={products} getCartItem={getCartItem} 
             cartItems={cartItems} createLineItem={createLineItem} updateLineItem={updateLineItem} 
             deleteWishlistItem={deleteWishlistItem}
             />
@@ -103,4 +103,4 @@ const UserProfileMUI = ({
   );
 }
 
-export default UserProfileMUI;
+export default UserProfile;

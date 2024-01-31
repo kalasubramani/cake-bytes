@@ -56,7 +56,7 @@ const ProductDetails = ({ products, cartItems, createLineItem, updateLineItem, i
           <Card sx={{ display: 'flex' }}>
             <CardMedia
               sx={{ p: "1rem", width: "300px", height: "300px" }}
-              image={`https://source.unsplash.com/random/?${selectedProduct?.name}`}
+              image={selectedProduct.product_image}
               component="img"
             />
             <CardContent sx={{ display: "flex", flexDirection: "column", flexGrow: "1" }}>
@@ -70,7 +70,7 @@ const ProductDetails = ({ products, cartItems, createLineItem, updateLineItem, i
                 {displayPrice.format(selectedProduct?.price)}
               </Typography>
               <Typography variant="caption" className="vipDiscount">
-                {selectedProduct?.vip_price ? `${displayPrice.format(selectedProduct?.vip_price)}  **VIP only discount!**` : ""}
+                {selectedProduct?.vip_price > 0 ? `${displayPrice.format(selectedProduct?.vip_price)}  **VIP only discount!**` : ""}
               </Typography>
 
               {isLoggedIn &&

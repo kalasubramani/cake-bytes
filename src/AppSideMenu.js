@@ -18,7 +18,7 @@ const AppSideMenu = ({ isAdmin }) => {
     <Drawer sx={{ width: "15rem" }} variant="permanent" open>
       <List component="nav" sx={{ paddingTop: '6rem', width: "15rem" }}>
         <Typography variant='h6' sx={{ pl: '1em' }}>Occassions</Typography>
-        {["Birthdays", "Holidays", "Cup Cakes", "Special Occassions", "All Cakes"].map((category) => {
+        {["Birthdays", "Holidays", "Cupcakes", "Special Occassions", "All Cakes"].map((category) => {
           return (
             <React.Fragment key={`key-for-${category}`}>
               <ListItemButton onClick={()=>navigate(`/products?category=${category}`)} selected={category===productCategory}>
