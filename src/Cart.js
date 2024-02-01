@@ -28,8 +28,10 @@ const Cart = ({ removeFromCart, updateLineItem, removeOneItem, lineItems, cart, 
     }
   }
   const handleCheckout = (e) => {
-    e.preventDefault();
-    navigate(`/${cart.id}/checkout`)
+    e.preventDefault();   
+    if(cartItemDetails.length>0){
+      navigate(`/${cart.id}/checkout`)
+    } 
   }
  
   return (
@@ -95,7 +97,7 @@ const Cart = ({ removeFromCart, updateLineItem, removeOneItem, lineItems, cart, 
           </Typography>
         </ListItem>
       </List >
-      <Button onClick={handleCheckout} variant='contained' sx={{ float: "right", px: "1rem", mb: "1rem", fontWeight: "700" }}>Checkout</Button>
+      <Button onClick={handleCheckout} variant='contained' sx={{ float: "right", px: "1rem", mb: "1rem", fontWeight: "700" }} disabled={!(cartItemDetails.length>0)}>Checkout</Button>
     </>
   );
 };

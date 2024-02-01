@@ -55,7 +55,7 @@ const ProductDetails = ({ products, cartItems, createLineItem, updateLineItem, i
         <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }} maxWidth="xl">
           <Card sx={{ display: 'flex' }}>
             <CardMedia
-              sx={{ p: "1rem", width: "300px", height: "300px" }}
+              sx={{ p: "1rem", width: "40rem", height: "40rem" }}
               image={selectedProduct.product_image}
               component="img"
             />

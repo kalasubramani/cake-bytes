@@ -63,20 +63,17 @@ const Wishlist = ({ wishlistItems, products, getCartItem, createLineItem, update
           wishlistProducts.map((product) => (
             <ImageListItem key={product.id}>
               <img
-                // srcSet={`https://source.unsplash.com/random/?${product.name}[${index}]?w=248&fit=crop&auto=format&dpr=2 2x`}
-                src={product.product_image}
+                src={`${product.product_image}?w=164&h=464&fit=crop&auto=format`}
                 alt={product.name}
                 loading="lazy"
               />
 
               <ImageListItemBar
-                sx={{ backgroundColor: "rgba(255,255,255,0.8)" }}
+                sx={{ backgroundColor: "rgba(0,0,0,0.6)",color:"rgb(0,0,0)" }}
                 title={product.name}
-                subtitle={product.description}
-                color='black'
+                subtitle={product.description}                
                 actionIcon={
                   <>
-
                     <Tooltip title="I changed my mind! Remove from Wishlist.">
                       <IconButton size="small" sx={{ color: 'red' }} onClick={() => { handleDeleteWishlistItem(product) }}><FavoriteIcon /></IconButton>
                     </Tooltip>
