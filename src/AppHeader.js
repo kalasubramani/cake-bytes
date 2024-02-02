@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
   const navigate = useNavigate();
   return (
-    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, height: "5rem" }}>
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, height: "7rem" }}>
       <Toolbar>
         <Tooltip title="Home">
           <IconButton
@@ -25,7 +25,7 @@ const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
             <HomeIcon fontSize='large'/>
           </IconButton>
         </Tooltip>
-        <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column',p:"2rem"}}>
           <Typography
             component="h1"
             variant="h3"
@@ -70,11 +70,11 @@ const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
           </IconButton>
         </Tooltip>  
 
-      <IconButton color="inherit">
+      {/* <IconButton color="inherit">
         <Badge badgeContent={4} color="secondary">
           <NotificationsIcon />
         </Badge>
-      </IconButton>
+      </IconButton> */}
     </Toolbar>
         </AppBar >
   )

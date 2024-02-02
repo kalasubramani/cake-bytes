@@ -67,7 +67,7 @@ const AddOrEditAProduct = ({ products, setProducts }) => {
   const categoryOptions = [
     { value: 'Birthdays', label: 'Birthdays' },
     { value: 'Holidays', label: 'Holidays' },
-    { value: 'Special Occassions', label: 'Special Occassions' },
+    { value: 'Special Occasions', label: 'Special Occasions' },
     { value: 'Cupcakes', label: 'Cupcakes' }
   ];
 
