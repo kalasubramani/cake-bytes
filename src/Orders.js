@@ -5,10 +5,12 @@ import { Badge, Box, Button, Card, CardActions, CardContent, CardHeader, CardMed
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { displayPrice } from './Util';
+import { useTheme } from '@mui/material/styles';
 
 const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, updateLineItem, isProductInWishlist, createWishlistItem, deleteWishlistItem, isAdmin, customers }) => {
   const [searchResults, setSearchResults] = useState();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const getOrderDetails = (orderId) => {
     return orders.find((order) => { return order.id === orderId })
@@ -16,7 +18,7 @@ const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, upda
 
   const getCustomerName = (customerId) => {
     const selectedCustomer = customers.find((customer) => customer.id === customerId);
-    return `${selectedCustomer.firstname} ${selectedCustomer.lastname}`;
+    return `${selectedCustomer?.firstname} ${selectedCustomer?.lastname}`;
   }
 
   //get list of placed orders
@@ -97,7 +99,7 @@ const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, upda
                 </Tooltip>
               </CardActions>
               <Box sx={{ mt: "auto", alignSelf: "end" }}>
-                <Button sx={{ width: "fit-content", m: "auto" }} onClick={() => { navigate(`/products/${product.id}/review`) }}>Write a product review</Button>
+                <Button sx={{ width: "fit-content", m: "auto",fontWeight:700 }} onClick={() => { navigate(`/products/${product.id}/review`) }}>Write a product review</Button>
               </Box>
             </>
           }
@@ -130,7 +132,7 @@ const Orders = ({ orders, products, lineItems, getCartItem, createLineItem, upda
     //for displaying app products under the order date heading - form the html elements
     const orderData = (
       <Card key={`card-for-order-${orderId}`} sx={{ mb: "1rem" }}>
-        <CardHeader sx={{ backgroundColor: "#ffc107" }} subheader={
+        <CardHeader  sx={{backgroundColor: theme.palette.primary.main}} subheader={
           <Container sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography>Order placed on</Typography>

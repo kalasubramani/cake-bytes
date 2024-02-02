@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import { Card, IconButton, Tooltip, Typography, ImageList, ImageListItem, Snackbar, } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useTheme } from '@mui/material/styles';
 
 const Wishlist = ({ wishlistItems, products, getCartItem, createLineItem, updateLineItem, deleteWishlistItem }) => {
+
+  const theme = useTheme();
 
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -57,7 +60,7 @@ const Wishlist = ({ wishlistItems, products, getCartItem, createLineItem, update
       />
       <ImageList>
         <ImageListItem key="Subheader" cols={2}>
-          <ListSubheader sx={{ backgroundColor: "#ffc107" }} component="div">My Wishlist</ListSubheader>
+          <ListSubheader sx={{backgroundColor: theme.palette.primary.main}} component="div">My Wishlist</ListSubheader>
         </ImageListItem>
         {wishlistProducts?.length ?
           wishlistProducts.map((product) => (

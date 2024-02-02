@@ -25,7 +25,7 @@ import UserProfile from './UserProfile';
 const defaultTheme = createTheme({
   palette: {
     primary: {
-      main: '#ffc107'
+      main: '#f2d277'//'#faca43'
     },
     secondary: {
       main: '#ff9100'
@@ -51,7 +51,7 @@ const Home = ({ user, logout, setUser }) => {
     //if the logged in user is an admin, get customer details from db
     if (isLoggedIn && isAdmin) {
       const fetchCustomers = async () => {
-        api.fetchAllCustomers(setCustomers);        
+        api.fetchAllCustomers(setCustomers);
       };
       fetchCustomers();
     }
@@ -191,7 +191,7 @@ const Home = ({ user, logout, setUser }) => {
         lineItemId: lineItem?.id,
         id: product?.id,
         vipPrice: product?.vip_price,
-        product_image:product?.product_image
+        product_image: product?.product_image
       }
     })
     return cartProducts;
@@ -205,7 +205,7 @@ const Home = ({ user, logout, setUser }) => {
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex', minHeight: "100vh" }}>
         <CssBaseline />
-        <AppHeader isLoggedIn={isLoggedIn} logout={logout} cartCount={cartCount} />
+        <AppHeader isLoggedIn={isLoggedIn} logout={logout} cartCount={cartCount} user={user} />
         <AppSideMenu isAdmin={isAdmin} />
         <Box
           component="main"
@@ -309,12 +309,6 @@ const Home = ({ user, logout, setUser }) => {
                     path="/products/:id/review"
                     element={<AddProductReview products={products} />}
                   />
-                  {/* added route for wishlist */}
-                  {/* <Route
-                    path="/wishlist"
-                    element={<Wishlist wishlistItems={wishlistItems} products={products}/>}
-                  /> */}
-
 
                   <Route
                     path="/orders"
@@ -331,7 +325,7 @@ const Home = ({ user, logout, setUser }) => {
                         isProductInWishlist={isProductInWishlist}
                       />
                     }
-                  /> */}
+                  />
                   <Route path="/:orderid/checkout" element={<Checkout getItemsInCart={getItemsInCart} placeOrder={placeOrder} isVip={isVip} user={user} />} />
                   {isAdmin && (
                     <>
@@ -351,7 +345,6 @@ const Home = ({ user, logout, setUser }) => {
                       <Route path="/customers" element={<AllCustomers customers={customers} setCustomers={setCustomers} />} />
                     </>
                   )}
-
                 </>
               }
 

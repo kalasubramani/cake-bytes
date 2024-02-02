@@ -19,7 +19,7 @@ const Copyright = (props) => {
 
 const AppFooter = () => {
   return (
-    <Box component={'footer'} position="sticky" sx={{ display: 'flex', zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: '#ffc107', height: "8rem" }}>
+    <Box component={'footer'} position="sticky" sx={{ display: 'flex', zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: (theme)=>theme.palette.primary.main, height: "8rem" }}>
       <Container sx={{ flexGrow: 1, textAlign: 'center' }} maxWidth="sm">
         <Typography variant="body1">
           Visit us at: 1148 W. Main Ave, Chicago, IL 6065
