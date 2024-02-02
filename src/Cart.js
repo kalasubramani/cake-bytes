@@ -39,14 +39,14 @@ const Cart = ({ removeFromCart, updateLineItem, removeOneItem, lineItems, cart, 
       <Typography variant="h6" gutterBottom>
         Order summary
       </Typography>
-      <List >
+      <List>
         {cartItemDetails?.length ?
           cartItemDetails?.map((product) => {
             const currentLineItem = lineItems.find((lineItem) => { return lineItem.id === product.lineItemId })
             const isLastItemInCart = currentLineItem.quantity <= 1;
             return (
               <>
-                <ListItem key={product.name} sx={{ py: 1, px: "1rem" }}>
+                <ListItem key={product.id} sx={{ py: 1, px: "1rem" }}>
                   <ListItemAvatar sx={{ mr: '1rem' }}>
                     <Badge
                       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}

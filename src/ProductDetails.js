@@ -104,7 +104,7 @@ const ProductDetails = ({ products, cartItems, createLineItem, updateLineItem, i
                     <Typography variant="h6" >Review this product
                     </Typography>
                     <Typography variant="body2">Share your thoughts with other customers</Typography>
-                    <Button sx={{ width: "fit-content", m: "auto" }} onClick={() => { navigate(`/products/${selectedProduct.id}/review`) }}>Write a product review</Button>
+                    <Button sx={{ width: "fit-content", m: "auto", fontWeight: 700 }} onClick={() => { navigate(`/products/${selectedProduct.id}/review`) }}>Write a product review</Button>
 
                   </Box>
                 </>

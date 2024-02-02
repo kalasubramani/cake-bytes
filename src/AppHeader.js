@@ -8,7 +8,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
 
-const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
+const AppHeader = ({ isLoggedIn, logout, cartCount,user }) => {
   const navigate = useNavigate();
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, height: "7rem" }}>
@@ -22,10 +22,10 @@ const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
               marginRight: '36px',
             }}
           >
-            <HomeIcon fontSize='large'/>
+            <HomeIcon fontSize='large' />
           </IconButton>
         </Tooltip>
-        <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column',p:"2rem"}}>
+        <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column', p: "2rem" }}>
           <Typography
             component="h1"
             variant="h3"
@@ -40,7 +40,10 @@ const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
         </Box>
         {isLoggedIn && (
           <>
-           {/* display user profile */}
+            <Typography variant="h6" align="center" sx={{ m: 4 }} >
+              Welcome {user.firstname}!
+            </Typography>
+            {/* display user profile */}
             <Tooltip title={"User profile"}>
               <IconButton
                 color="inherit"
@@ -52,12 +55,12 @@ const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
             </Tooltip>
             {/* display cart */}
             <Tooltip title="Cart">
-          <IconButton color="inherit" onClick={()=>{navigate("/cart")}}>
-          <Badge badgeContent={cartCount} color="secondary">
-            <ShoppingCartIcon />
-          </Badge>  
-        </IconButton>
-      </Tooltip>
+              <IconButton color="inherit" onClick={() => { navigate("/cart") }}>
+                <Badge badgeContent={cartCount} color="secondary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </Tooltip>
           </>
         )}
         <Tooltip title={isLoggedIn ? "Logout" : "Login"}>
@@ -68,15 +71,15 @@ const AppHeader = ({ isLoggedIn, logout ,cartCount}) => {
           >
             {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
           </IconButton>
-        </Tooltip>  
+        </Tooltip>
 
-      {/* <IconButton color="inherit">
+        {/* <IconButton color="inherit">
         <Badge badgeContent={4} color="secondary">
           <NotificationsIcon />
         </Badge>
       </IconButton> */}
-    </Toolbar>
-        </AppBar >
+      </Toolbar>
+    </AppBar >
   )
 }
 
