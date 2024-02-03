@@ -17,7 +17,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="http://localhost:3050/">
+      <Link color="inherit" href="https://cake-bytes.onrender.com/">
         Cake Bytes
       </Link>{' '}
       {new Date().getFullYear()}
@@ -25,8 +25,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
@@ -37,9 +35,9 @@ const SignIn = ({ login }) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
-      await login({ username: data.get('username'), password: data.get('password') });      
+      await login({ username: data.get('username'), password: data.get('password') });
     }
-    catch(ex){
+    catch (ex) {
       console.log(ex.response.data);
       setError("Incorrect username or password.")
     }
@@ -55,8 +53,7 @@ const SignIn = ({ login }) => {
           sm={4}
           md={7}
           sx={{
-            // backgroundImage: 'url(https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8Y2FrZXx8fHx8fDE3MDUyODA0MTQ&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080)',
-            backgroundImage: 'url(public/assets/Skittles.jpg)',
+            backgroundImage: 'url(https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8Y2FrZXx8fHx8fDE3MDUyODA0MTQ&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -101,11 +98,7 @@ const SignIn = ({ login }) => {
                 id="password"
                 autoComplete="current-password"
               />
-              { error && <Box variant='h3' sx={{color: 'red'}}>{error}</Box>}
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
+              {error && <Box variant='h3' sx={{ color: 'red' }}>{error}</Box>}
               <Button
                 type="submit"
                 fullWidth
