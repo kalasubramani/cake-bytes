@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -16,27 +16,34 @@ import Review from './Review';
 import { useParams } from 'react-router-dom';
 import Cart from './Cart'
 
-
-
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
-function getStepContent(step, orderDetails, placeOrder, isVip, user) {
+function getStepContent(step, orderDetails, placeOrder, isVip, user,deliveryAddress,setDeliveryAddress,paymentDetails,setPaymentDetails) {
   switch (step) {
     case 0:
-      return <AddressForm user={user} />;
+      return <AddressForm deliveryAddress={deliveryAddress} setDeliveryAddress={setDeliveryAddress} />;
     case 1:
-      return <PaymentForm />;
+      return <PaymentForm paymentDetails={paymentDetails} setPaymentDetails={setPaymentDetails}/>;
     case 2:
-      return <Review orderDetails={orderDetails} isVip={isVip}/>
+      return <Review orderDetails={orderDetails} isVip={isVip} paymentDetails={paymentDetails} deliveryAddress={deliveryAddress}/>
     default:
       throw new Error('Unknown step');
   }
 }
 //add the input props from home and pass it down to AddressForm
 export default function Checkout({ getItemsInCart, placeOrder, isVip, user}) {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const orderDetails = getItemsInCart();
   const { orderid } = useParams();
+
+  const [deliveryAddress,setDeliveryAddress]=useState({});
+  const [paymentDetails,setPaymentDetails]=useState({});
+
+  useEffect(()=>{
+     if(user){
+      setDeliveryAddress(user);
+     }
+  },[user])
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -94,7 +101,7 @@ export default function Checkout({ getItemsInCart, placeOrder, isVip, user}) {
             </React.Fragment>
           ) : (
             <Container component={"form"} onSubmit={handleNext}>              
-              {getStepContent(activeStep, orderDetails, placeOrder, isVip, user)}
+              {getStepContent(activeStep, orderDetails, placeOrder, isVip, user,deliveryAddress,setDeliveryAddress,paymentDetails,setPaymentDetails)}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>

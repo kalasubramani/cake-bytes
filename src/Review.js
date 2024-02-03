@@ -32,15 +32,18 @@ import { displayPrice } from './Util';
 //   { name: 'Shipping', desc: '', price: 'Free' },
 // ];
 
-const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
+
+
+export default function Review({orderDetails, isVip,paymentDetails,deliveryAddress}) {
+
+const addresses = [deliveryAddress.address_line1, deliveryAddress.address_line2, deliveryAddress.city, deliveryAddress.state, deliveryAddress.zip_code];
 const payments = [
   { name: 'Card type', detail: 'Visa' },
-  { name: 'Card holder', detail: 'Mr John Smith' },
-  { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date', detail: '04/2024' },
+  { name: 'Card holder', detail: `${paymentDetails?.nameOnCard}` },
+  { name: 'Card number', detail: `xxxx-xxxx-xxxx-${paymentDetails.cardNumber.slice(-4)}` },
+  { name: 'Expiry date', detail: paymentDetails.cardExpiry },
 ];
 
-export default function Review({orderDetails, isVip}) {
  //grand total
  const orderTotal = orderDetails?.reduce((total, cartItem) => {
   let itemPrice = cartItem.price;
@@ -94,7 +97,7 @@ const calculateLineItemTotal = (productPrice, vipPrice, quantity) => {
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Shipping
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
+          <Typography gutterBottom>{deliveryAddress?.firstname} {deliveryAddress?.lastname}</Typography>
           <Typography gutterBottom>{addresses.join(', ')}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
