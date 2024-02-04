@@ -1,14 +1,15 @@
 import React from "react";
-import { Box, Container, IconButton, Link, Typography } from "@mui/material";
+import { Box, Container, IconButton, Typography } from "@mui/material";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import PinterestIcon from '@mui/icons-material/Pinterest';
+import {Link} from 'react-router-dom';
 
 const Copyright = (props) => {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="http://localhost:3050/">
+      <Link color="inherit" to="/" >
         Cake Bytes
       </Link>{' '}
       {new Date().getFullYear()}
@@ -19,7 +20,7 @@ const Copyright = (props) => {
 
 const AppFooter = () => {
   return (
-    <Box component={'footer'} position="sticky" sx={{ display: 'flex', zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: (theme)=>theme.palette.primary.main, height: "8rem" }}>
+    <Box component={'footer'} position="sticky" sx={{ display: 'flex', zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: (theme)=>theme.palette.primary.main, height: "9rem",pt:"0.5rem",pb:"0.5rem" }}>
       <Container sx={{ flexGrow: 1, textAlign: 'center' }} maxWidth="sm">
         <Typography variant="body1">
           Visit us at: 1148 W. Main Ave, Chicago, IL 6065
