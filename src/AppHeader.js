@@ -72,12 +72,6 @@ const AppHeader = ({ isLoggedIn, logout, cartCount,user }) => {
             {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
           </IconButton>
         </Tooltip>
-
-        {/* <IconButton color="inherit">
-        <Badge badgeContent={4} color="secondary">
-          <NotificationsIcon />
-        </Badge>
-      </IconButton> */}
       </Toolbar>
     </AppBar >
   )
