@@ -2,7 +2,6 @@ import { Card, Typography } from "@mui/material";
 import React from "react";
 
 const ErrorHandling = () => {
-  console.log("Error handling")
   return (
     <Card sx={{ mt: "1rem", p: "1rem", width: "58rem" }} variant="outlined">
       <Typography variant='h6'>

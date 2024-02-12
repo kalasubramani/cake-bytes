@@ -2,19 +2,19 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+// import { MonthCalendar } from '@mui/x-date-pickers/MonthCalendar';
 
-export default function PaymentForm({paymentDetails,setPaymentDetails}) {
- const handlePaymentDetailsChange=(paymentData)=>{   
-   setPaymentDetails({...paymentDetails,...paymentData})
+export default function PaymentForm({ paymentDetails, setPaymentDetails }) {
+  const handlePaymentDetailsChange = (paymentData) => {
+    setPaymentDetails({ ...paymentDetails, ...paymentData })
   }
- 
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
         Payment method
       </Typography>
+      
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <TextField
@@ -26,8 +26,8 @@ export default function PaymentForm({paymentDetails,setPaymentDetails}) {
             variant="standard"
             value={paymentDetails.nameOnCard}
             onChange={
-              (e)=>{
-                handlePaymentDetailsChange({nameOnCard:e.target.value})
+              (e) => {
+                handlePaymentDetailsChange({ nameOnCard: e.target.value })
               }
             }
           />
@@ -39,32 +39,32 @@ export default function PaymentForm({paymentDetails,setPaymentDetails}) {
             label="Card number"
             fullWidth
             autoComplete="none"
-            variant="standard"            
-            inputProps={{pattern:'^(?:[0-9]{16})$',title:'Please enter a 16 digit card number',maxLength:16,minLength:16}}
+            variant="standard"
+            inputProps={{ pattern: '^(?:[0-9]{16})$', title: 'Please enter a 16 digit card number', maxLength: 16, minLength: 16 }}
             value={paymentDetails.cardNumber}
             onChange={
-              (e)=>{
-                handlePaymentDetailsChange({cardNumber:e.target.value})
+              (e) => {
+                handlePaymentDetailsChange({ cardNumber: e.target.value })
               }
             }
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField
+             <TextField
             required
-            id="expDate"
-            // label="Expiry date"
+            id="expDate"            
             fullWidth
             autoComplete="none"
             variant="standard"
             type='month'
-            inputProps={{min:`${new Date(Date.now()).getFullYear()}-${new Date(Date.now()).getMonth()}`}}
+            inputProps={{ min: `${new Date().toISOString().substring(0, 7)}`, max: `${new Date().getFullYear()+5}-${new Date().toISOString().substring(5,7)}` }}
             value={paymentDetails.cardExpiry}
             onChange={
-              (e)=>{
-                handlePaymentDetailsChange({cardExpiry:e.target.value})
+              (e) => {
+                handlePaymentDetailsChange({ cardExpiry: e.target.value })
               }
             }
+            helperText="Card expiry date"
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -76,11 +76,11 @@ export default function PaymentForm({paymentDetails,setPaymentDetails}) {
             fullWidth
             autoComplete="none"
             variant="standard"
-            inputProps={{pattern:'^(?:[0-9]{3})$',title:'Please enter the 3 digit CVV on the back of your card',maxLength:3,minLength:3}}
+            inputProps={{ pattern: '^(?:[0-9]{3})$', title: 'Please enter the 3 digit CVV on the back of your card', maxLength: 3, minLength: 3 }}
             value={paymentDetails.cvv}
             onChange={
-              (e)=>{
-                handlePaymentDetailsChange({cvv:e.target.value})
+              (e) => {
+                handlePaymentDetailsChange({ cvv: e.target.value })
               }
             }
           />
