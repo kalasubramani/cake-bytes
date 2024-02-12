@@ -118,6 +118,10 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
         isValidCategory ?
           <div>
             <h2>{productCategory ?? "All Products"}</h2>
+            {
+              !isLoggedIn &&
+              <Typography sx={{ float: 'right', paddingRight: '10rem', paddingTop: '0rem', color: 'blue' }}>Please login/register to make your purchase.</Typography>
+            }
             {/* key renders new searchbar everytime the product category changes */}
             <SearchBar key={`searchbar-for-${productCategory}`} searchList={products} onSearch={(results) => { setSearchResults(results) }} />
             {
