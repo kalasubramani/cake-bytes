@@ -4,7 +4,6 @@ import { HashRouter, useNavigate, Route, Routes } from 'react-router-dom';
 import api from './api';
 import Home from './Home';
 import SignIn from './SignIn';
-import Products from './Products';
 import SignUp from './SignUp';
 
 const App = () => {
@@ -30,10 +29,10 @@ const App = () => {
   }, []);
 
   return (
-    <Routes>
-      <Route path="/*" element={<Home user={auth} logout={logout} setUser={setAuth} />} />
+    <Routes>      
+      <Route path="/*" element={<Home user={auth} logout={logout} setUser={setAuth} />} />          
       <Route path="/sign-in" element={<SignIn login={login} />} />
-      <Route path="/signup" element={<SignUp />} />
+      <Route path="/signup" element={<SignUp />}   /> 
     </Routes>
   )
 }
