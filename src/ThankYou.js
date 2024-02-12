@@ -37,24 +37,24 @@ const ThankYou = ()=>{
                 textAlign: 'center'
             }}
         >           
-            <Typography variant="h1">
+            <Typography variant="h6">
                 Thank you
             </Typography>
-            <Typography variant="h3" >
+            <Typography variant="body1" >
                 {inputToDisplay.reason}
             </Typography>   
             <Box
                 component="img"
                 sx={{
-                    height: 400,
-                    maxHeight: {xs: 400, md: 250},
+                    height: 100,
+                    // maxHeight: {xs: 200, md: 250},
                     m: 2
                 }}
                 alt="graphic of a cupcake"
                 src="/public/assets/cupcake_icon_colored.png"
             >
             </Box>
-            <Typography variant="h4" sx={{mt: 1}}>
+            <Typography variant="h6" sx={{mt: 1}}>
                 {inputToDisplay.request} 
                 <Link href={inputToDisplay.sendTo} variant="inherit" underline= 'none' sx={{color: 'blue'}}>
                     {inputToDisplay.location}

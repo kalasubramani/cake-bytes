@@ -21,6 +21,7 @@ import Orders from './Orders';
 import ThankYou from './ThankYou';
 import Checkout from './Checkout';
 import UserProfile from './UserProfile';
+import ErrorHandling from './ErrorHandling';
 
 const defaultTheme = createTheme({
   palette: {
@@ -347,7 +348,7 @@ const Home = ({ user, logout, setUser }) => {
                   )}
                 </>
               }
-
+            <Route path="*" element={<ErrorHandling/>} />  
             </Routes>
           </Container>
         </Box>

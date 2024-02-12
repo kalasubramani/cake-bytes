@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import ErrorHandling from './ErrorHandling';
 
 
 const Products = ({ products, cartItems, createLineItem, updateLineItem, isLoggedIn, isAdmin, createWishlistItem, deleteWishlistItem, isProductInWishlist }) => {
@@ -15,6 +16,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
   const navigate = useNavigate();
   const [queryParams] = useSearchParams();
   const productCategory = queryParams.get("category");
+  const isValidCategory = ["Birthdays", "Holidays", "Cupcakes", "Special Occasions", "All Cakes"].includes(productCategory);
 
   //to clear search as the user navigates along the menu items
   useEffect(() => {
@@ -45,7 +47,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
             sx={{ height: "16rem", cursor: 'pointer' }}
             image={product.product_image}
             title={"Click to view details"}
-            onClick={() => { navigate(`/products/${product.id}`) }}          
+            onClick={() => { navigate(`/products/${product.id}`) }}
           />
           <CardContent>
             <Typography gutterBottom variant="caption" component="span">
@@ -76,8 +78,6 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
                     </Tooltip>
                 }
 
-
-
                 <Tooltip title="Add to cart!">
                   <IconButton size="small" onClick={() => { cartItem ? updateLineItem(cartItem) : createLineItem(product) }}><ShoppingCartIcon /></IconButton>
                 </Tooltip>
@@ -98,6 +98,7 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
   //Display products based on category selected from side menu
   const showProducts = (category) => {
     let productsToDisplay;
+
     if (category && category !== "All Cakes") {
       productsToDisplay = products.filter((product) => {
         return (product.category === category)
@@ -106,32 +107,37 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
       //for "all cakes" and /producs path - display all products   
       productsToDisplay = products;
     }
-
-    const allProducts = renderProducts(productsToDisplay)
+    const allProducts = renderProducts(productsToDisplay);
     return allProducts;
+
   }
 
   return (
-    <div>
-      <h2>{productCategory ?? "All Products"}</h2>
-      {/* key renders new searchbar everytime the product category changes */}
-      <SearchBar key={`searchbar-for-${productCategory}`} searchList={products} onSearch={(results) => { setSearchResults(results) }} />
+    <>
       {
-        isAdmin && (
-          <Tooltip title={"Add new product"}>
-            <Fab color="primary" aria-label="add" sx={{ float: 'right' }} onClick={() => navigate("/add-product")}>
-              <AddIcon />
-            </Fab>
-          </Tooltip>
-        )}
-      <Container sx={{ display: 'flex', gap: '1rem', flexWrap: "wrap" }} maxWidth="xl">
-        {
-          // display order details by default. If the searchResults are available, then display only search results
-          searchResults ? showSearchResults(searchResults)
-            : showProducts(productCategory)
-        }
-      </Container>
-    </div>
+        isValidCategory && <div>
+          <h2>{productCategory ?? "All Products"}</h2>
+          {/* key renders new searchbar everytime the product category changes */}
+          <SearchBar key={`searchbar-for-${productCategory}`} searchList={products} onSearch={(results) => { setSearchResults(results) }} />
+          {
+            isAdmin && (
+              <Tooltip title={"Add new product"}>
+                <Fab color="primary" aria-label="add" sx={{ float: 'right' }} onClick={() => navigate("/add-product")}>
+                  <AddIcon />
+                </Fab>
+              </Tooltip>
+            )}
+          <Container sx={{ display: 'flex', gap: '1rem', flexWrap: "wrap" }} maxWidth="xl">
+            {
+              // display order details by default. If the searchResults are available, then display only search results
+              searchResults ? showSearchResults(searchResults)
+                : showProducts(productCategory)
+            }
+          </Container>
+        </div>
+      }
+      <ErrorHandling/>
+    </>
   );
 };
 
