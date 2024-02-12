@@ -115,28 +115,30 @@ const Products = ({ products, cartItems, createLineItem, updateLineItem, isLogge
   return (
     <>
       {
-        isValidCategory && <div>
-          <h2>{productCategory ?? "All Products"}</h2>
-          {/* key renders new searchbar everytime the product category changes */}
-          <SearchBar key={`searchbar-for-${productCategory}`} searchList={products} onSearch={(results) => { setSearchResults(results) }} />
-          {
-            isAdmin && (
-              <Tooltip title={"Add new product"}>
-                <Fab color="primary" aria-label="add" sx={{ float: 'right' }} onClick={() => navigate("/add-product")}>
-                  <AddIcon />
-                </Fab>
-              </Tooltip>
-            )}
-          <Container sx={{ display: 'flex', gap: '1rem', flexWrap: "wrap" }} maxWidth="xl">
+        isValidCategory ?
+          <div>
+            <h2>{productCategory ?? "All Products"}</h2>
+            {/* key renders new searchbar everytime the product category changes */}
+            <SearchBar key={`searchbar-for-${productCategory}`} searchList={products} onSearch={(results) => { setSearchResults(results) }} />
             {
-              // display order details by default. If the searchResults are available, then display only search results
-              searchResults ? showSearchResults(searchResults)
-                : showProducts(productCategory)
-            }
-          </Container>
-        </div>
+              isAdmin && (
+                <Tooltip title={"Add new product"}>
+                  <Fab color="primary" aria-label="add" sx={{ float: 'right' }} onClick={() => navigate("/add-product")}>
+                    <AddIcon />
+                  </Fab>
+                </Tooltip>
+              )}
+            <Container sx={{ display: 'flex', gap: '1rem', flexWrap: "wrap" }} maxWidth="xl">
+              {
+                // display order details by default. If the searchResults are available, then display only search results
+                searchResults ? showSearchResults(searchResults)
+                  : showProducts(productCategory)
+              }
+            </Container>
+          </div>
+          :
+          <ErrorHandling />
       }
-      <ErrorHandling/>
     </>
   );
 };
