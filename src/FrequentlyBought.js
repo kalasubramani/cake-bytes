@@ -11,52 +11,52 @@ import { Card, CardContent, CardMedia, Container, Typography } from "@mui/materi
 
 const images = [
   {
-    label: 'cake',
+    label: 'Decadent',
     imgPath:
       'https://source.unsplash.com/random/?cake[1]',
   },
   {
-    label: 'cake',
+    label: 'Scrumptious',
     imgPath:
       'https://source.unsplash.com/random/?cake[2]',
   },
   {
-    label: 'cake',
+    label: 'Exquisite',
     imgPath:
       'https://source.unsplash.com/random/?cake[3]',
   },
   {
-    label: 'cake',
+    label: 'Irresistible',
     imgPath:
       'https://source.unsplash.com/random/?cake[4]',
   },
   {
-    label: 'cake',
+    label: 'Delectable',
     imgPath:
       'https://source.unsplash.com/random/?cake[5]',
   },
   {
-    label: 'cake',
+    label: 'Divine',
     imgPath:
       'https://source.unsplash.com/random/?cake[6]',
   },
   {
-    label: 'cake',
+    label: 'Delightful',
     imgPath:
       'https://source.unsplash.com/random/?cake[7]',
   },
   {
-    label: 'cake',
+    label: 'Indulgent',
     imgPath:
       'https://source.unsplash.com/random/?cake[8]',
   },
   {
-    label: 'cake',
+    label: 'Gourmet',
     imgPath:
       'https://source.unsplash.com/random/?cake[9]',
   },
   {
-    label: 'cup cake',
+    label: 'I want it!',
     imgPath:
       'https://source.unsplash.com/random/?cupcake',
   },
