@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Avatar, Button, Container, CssBaseline, TextField, Link, Box, Grid, Typography } from '@mui/material'; 
+import { Avatar, Button, Container, CssBaseline, TextField, Box, Grid, Typography } from '@mui/material'; 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
         {'Copyright © '}
-        <Link color="inherit" href="http://localhost:3050/">
+        <Link color="inherit" to="/">
           Cake Bytes
         </Link>{' '}
         {new Date().getFullYear()}
