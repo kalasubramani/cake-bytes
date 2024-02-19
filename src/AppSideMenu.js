@@ -36,7 +36,7 @@ const AppSideMenu = ({ isAdmin }) => {
           <> 
             <Divider sx={{ my: 1 }} />
             <Typography variant='h6' sx={{ pl: '1em' }}>Admin Menu</Typography>
-            <ListItemButton onClick={() => navigate("/products")} selected={!productCategory && location.pathname==='/products'}>
+            <ListItemButton onClick={() => navigate("/products?category=All Cakes")} selected={!productCategory && location.pathname==='/products'}>
               <ListItemIcon>
                 <QrCode2Icon />
               </ListItemIcon>
