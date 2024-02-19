@@ -13,7 +13,8 @@ const FeaturedProducts = () => {
           flexDirection: 'row',
           justifyContent: 'center',
           height: "20rem",
-          backgroundImage: 'url(/public/assets/valentines-background.png)',
+          // backgroundImage: 'url(/public/assets/valentines-background.png)',
+          backgroundImage:'url(https://images.unsplash.com/photo-1617054069669-c2ee9edeef85?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -25,14 +26,14 @@ const FeaturedProducts = () => {
           sx={{             
             display: 'flex', 
             flexDirection: 'column', 
-            justifyContent: 'center',
+            // justifyContent: 'center',
             alignItems: 'center',
             color: 'white', 
             fontWeight: 'bold', 
             zIndex: 4,
             height: "20rem"
           }}>
-          <Typography sx={{ fontSize: "5vw", fontWeight: 900, mb: "-.3em" }}>
+          {/* <Typography sx={{ fontSize: "5vw", fontWeight: 900, mb: "-.3em" }}>
             VALENTINE'S
           </Typography>
           <Typography sx={{ fontSize: "5vw", fontWeight: 900, mt: "-.3em" }}>
@@ -40,12 +41,12 @@ const FeaturedProducts = () => {
           </Typography>
           <Typography sx={{ fontSize: "2vw", fontWeight: 700, mb: "-.2em" }}>
             is just around the corner
-          </Typography>
-          <Typography sx={{ fontSize: "3vw", fontWeight: 700, mt: "-.2em" }}>
+          </Typography> */}
+          <Typography sx={{ fontSize: "3vw", fontWeight: 700,top:"10",color: "#8E44AD"  }}>
             ORDER YOUR CAKE TODAY!
           </Typography>
         </Box>
-        <Box
+        {/* <Box
           component="img"
           sx={{
               justifyContent: 'right',
@@ -57,9 +58,9 @@ const FeaturedProducts = () => {
               bottom: '-1rem'
           }}
           alt="Valentine's Cake"
-          src="/public/assets/valentines-cake-cover2.png"        
+          src="/public/assets/EasterCake.jpg"        
         >          
-        </Box>
+        </Box> */}
       </Paper>
       
     </Container>
