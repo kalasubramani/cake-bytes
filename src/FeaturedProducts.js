@@ -26,13 +26,14 @@ const FeaturedProducts = () => {
           sx={{             
             display: 'flex', 
             flexDirection: 'column', 
-            // justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: 'center',
+            // alignItems: 'flex-start',
             color: 'white', 
             fontWeight: 'bold', 
             zIndex: 4,
             height: "20rem"
-          }}>
+          }}
+          >
           {/* <Typography sx={{ fontSize: "5vw", fontWeight: 900, mb: "-.3em" }}>
             VALENTINE'S
           </Typography>
@@ -42,7 +43,7 @@ const FeaturedProducts = () => {
           <Typography sx={{ fontSize: "2vw", fontWeight: 700, mb: "-.2em" }}>
             is just around the corner
           </Typography> */}
-          <Typography sx={{ fontSize: "3vw", fontWeight: 700,top:"10",color: "#8E44AD"  }}>
+          <Typography sx={{ fontSize: "3vw", fontWeight: 700,marginTop:"1.8rem", color: "#8E44AD"}} >
             ORDER YOUR CAKE TODAY!
           </Typography>
         </Box>
