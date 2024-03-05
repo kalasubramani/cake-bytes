@@ -89,9 +89,9 @@ const deleteLineItem = async (lineItem) => {
 
 const updateOrder = async (order) => {
   const SQL = `
-    UPDATE orders SET is_cart = $1,created_at=now(),order_total=$2,lineitem_total=$3  WHERE id = $4 RETURNING *
+    UPDATE orders SET is_cart = $1,created_at=now(),order_total=$2  WHERE id = $3 RETURNING *
   `;
-  const response = await client.query(SQL, [order.is_cart,order.order_total,order.lineitem_total, order.id]);
+  const response = await client.query(SQL, [order.is_cart,order.order_total, order.id]);
   return response.rows[0];
 };
 

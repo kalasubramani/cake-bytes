@@ -157,8 +157,7 @@ const seed = async () => {
       created_at TIMESTAMP DEFAULT now(),
       is_cart BOOLEAN NOT NULL DEFAULT true,
       user_id UUID REFERENCES users(id) NOT NULL,
-      order_total INTEGER DEFAULT 0,
-      lineitem_total INTEGER DEFAULT 0
+      order_total INTEGER DEFAULT 0
     );
 
     CREATE TABLE line_items(
@@ -167,6 +166,7 @@ const seed = async () => {
       product_id UUID REFERENCES products(id) NOT NULL,
       order_id UUID REFERENCES orders(id) NOT NULL,
       quantity INTEGER DEFAULT 1,
+      lineitem_total INTEGER DEFAULT NULL,
       CONSTRAINT product_and_order_key UNIQUE(product_id, order_id)
     );
 

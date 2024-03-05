@@ -76,7 +76,7 @@ export default function AddressForm({deliveryAddress,setDeliveryAddress}) {
             fullWidth
             autoComplete="none"
             variant="standard"
-            value={deliveryAddress.address_line2}
+            value={deliveryAddress.address_line2?deliveryAddress.address_line2:''}
             onChange={
               (e)=>{
                 onAddressUpdate({address_line2:e.target.value});
