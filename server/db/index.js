@@ -148,14 +148,17 @@ const seed = async () => {
       description TEXT NOT NULL,
       category VARCHAR(100),
       vip_price NUMERIC (5,2) DEFAULT 0 NOT NULL,
-      product_image TEXT
+      product_image TEXT,
+      is_vip BOOLEAN DEFAULT false NOT NULL
     );
 
     CREATE TABLE orders(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
       is_cart BOOLEAN NOT NULL DEFAULT true,
-      user_id UUID REFERENCES users(id) NOT NULL
+      user_id UUID REFERENCES users(id) NOT NULL,
+      order_total INTEGER DEFAULT 0,
+      lineitem_total INTEGER DEFAULT 0
     );
 
     CREATE TABLE line_items(

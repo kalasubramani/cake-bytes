@@ -2,7 +2,7 @@ const client = require('./client');
 const { v4 } = require('uuid');
 const uuidv4 = v4;
 
-const fetchLineItems = async(userId)=> {
+const fetchLineItems = async (userId) => {
   const SQL = `
     SELECT line_items.* 
     FROM
@@ -14,11 +14,11 @@ const fetchLineItems = async(userId)=> {
     WHERE users.id = $1
     ORDER BY product_id
   `;
-  const response = await client.query(SQL, [ userId ]);
+  const response = await client.query(SQL, [userId]);
   return response.rows;
 };
 
-const fetchAllLineItems = async()=> {
+const fetchAllLineItems = async () => {
   const SQL = `
     SELECT line_items.* 
     FROM
@@ -33,9 +33,9 @@ const fetchAllLineItems = async()=> {
   return response.rows;
 };
 
-const ensureCart = async(lineItem)=> {
+const ensureCart = async (lineItem) => {
   let orderId = lineItem.order_id;
-  if(!orderId){
+  if (!orderId) {
     const SQL = `
       SELECT order_id 
       FROM line_items 
@@ -50,11 +50,11 @@ const ensureCart = async(lineItem)=> {
     WHERE id = $1 and is_cart=true
   `;
   const response = await client.query(SQL, [orderId]);
-  if(!response.rows.length){
+  if (!response.rows.length) {
     throw Error("An order which has been placed can not be changed");
   }
 };
-const updateLineItem = async(lineItem)=> {
+const updateLineItem = async (lineItem) => {
   await ensureCart(lineItem);
   SQL = `
     UPDATE line_items
@@ -62,23 +62,23 @@ const updateLineItem = async(lineItem)=> {
     WHERE id = $2
     RETURNING *
   `;
-  if(lineItem.quantity <= 0){
+  if (lineItem.quantity <= 0) {
     throw Error('a line item quantity must be greater than 0');
   }
   const response = await client.query(SQL, [lineItem.quantity, lineItem.id]);
   return response.rows[0];
 };
 
-const createLineItem = async(lineItem)=> {
+const createLineItem = async (lineItem) => {
   await ensureCart(lineItem);
   const SQL = `
   INSERT INTO line_items (product_id, order_id, id) VALUES($1, $2, $3) RETURNING *
 `;
- response = await client.query(SQL, [ lineItem.product_id, lineItem.order_id, uuidv4()]);
+  response = await client.query(SQL, [lineItem.product_id, lineItem.order_id, uuidv4()]);
   return response.rows[0];
 };
 
-const deleteLineItem = async(lineItem)=> {
+const deleteLineItem = async (lineItem) => {
   await ensureCart(lineItem);
   const SQL = `
     DELETE from line_items
@@ -87,29 +87,30 @@ const deleteLineItem = async(lineItem)=> {
   await client.query(SQL, [lineItem.id]);
 };
 
-const updateOrder = async(order)=> {
+const updateOrder = async (order) => {
   const SQL = `
-    UPDATE orders SET is_cart = $1,created_at=now() WHERE id = $2 RETURNING *
+    UPDATE orders SET is_cart = $1,created_at=now(),order_total=$2,lineitem_total=$3  WHERE id = $4 RETURNING *
   `;
-  const response = await client.query(SQL, [order.is_cart, order.id]);
+  const response = await client.query(SQL, [order.is_cart,order.order_total,order.lineitem_total, order.id]);
   return response.rows[0];
 };
 
-const fetchOrders = async(userId)=> {
+const fetchOrders = async (userId) => {
   const SQL = `
     SELECT * FROM orders
     WHERE user_id = $1
     ORDER BY created_at DESC
   `;
-  let response = await client.query(SQL, [ userId ]);
+  let response = await client.query(SQL, [userId]);
   const cart = response.rows.find(row => row.is_cart);
-  if(!cart){
+  if (!cart) {
     await client.query(`
       INSERT INTO orders(is_cart, id, user_id) VALUES(true, $1, $2)
       `,
       [uuidv4(), userId]
-    ); 
-    response = await client.query(SQL, [ userId ]);
+    );
+    response = await client.query(SQL, [userId]);
+    console.log("db/cart.js fetchOrders",response.rows)
     return response.rows;
     //return fetchOrders(userId);
   }
@@ -117,11 +118,11 @@ const fetchOrders = async(userId)=> {
 };
 
 // fetch all orders for admin user
-const fetchAllOrders = async ()=>{
-  const SQL=`
+const fetchAllOrders = async () => {
+  const SQL = `
           SELECT * FROM orders ORDER BY created_at DESC`;
   const response = await client.query(SQL);
-  
+
   return response.rows;
 }
 
@@ -133,5 +134,5 @@ module.exports = {
   deleteLineItem,
   updateOrder,
   fetchOrders,
-  fetchAllOrders, 
+  fetchAllOrders,
 };
