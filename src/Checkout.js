@@ -19,6 +19,8 @@ import Cart from './Cart'
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
 function getStepContent(step, orderDetails, placeOrder, isVip, user,deliveryAddress,setDeliveryAddress,paymentDetails,setPaymentDetails) {
+   //console.log("deliveryAddress",deliveryAddress)
+  console.log("step:",step)
   switch (step) {
     case 0:
       return <AddressForm deliveryAddress={deliveryAddress} setDeliveryAddress={setDeliveryAddress} />;
@@ -47,6 +49,7 @@ export default function Checkout({ getItemsInCart, placeOrder, isVip, user}) {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+    console.log("active Step ",activeStep)
     if (activeStep === steps.length - 1) {
       placeOrder();
     }
@@ -55,9 +58,7 @@ export default function Checkout({ getItemsInCart, placeOrder, isVip, user}) {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-  const handleAddressSubmit = ()=>{
-    console.log("handleAddressSubmit fired")
-  }
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -95,8 +96,7 @@ export default function Checkout({ getItemsInCart, placeOrder, isVip, user}) {
               </Typography>
               <Typography variant="subtitle1" component='div'>
                 Your order number is <Box sx={{ color: '#ff9100', display: 'inline' }}>{orderid}</Box>. We have emailed your order
-                confirmation, and will send you an update when your order has
-                shipped.
+                confirmation, and will send you an update when your order is ready for pickup.              
               </Typography>
             </React.Fragment>
           ) : (

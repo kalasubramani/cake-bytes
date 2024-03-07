@@ -199,7 +199,7 @@ const Home = ({ user, logout, setUser }) => {
   }
 
   const placeOrder = () => {
-    updateOrder({ ...cart, is_cart: false });
+    updateOrder({ ...cart, is_cart: false});
   }
 
   return (
