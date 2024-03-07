@@ -198,8 +198,8 @@ const Home = ({ user, logout, setUser }) => {
     return cartProducts;
   }
 
-  const placeOrder = (order_total,lineitem_total) => {
-    updateOrder({ ...cart, is_cart: false, order_total : order_total,lineitem_total:lineitem_total});
+  const placeOrder = () => {
+    updateOrder({ ...cart, is_cart: false});
   }
 
   return (
