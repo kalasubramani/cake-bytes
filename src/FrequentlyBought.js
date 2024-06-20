@@ -13,52 +13,52 @@ const images = [
   {
     label: 'Decadent',
     imgPath:
-      'https://source.unsplash.com/random/?cake[1]',
+      'https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     label: 'Scrumptious',
     imgPath:
-      'https://source.unsplash.com/random/?cake[2]',
+      'https://images.unsplash.com/photo-1511348398635-8efff213a280?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTk0fHxmbG93ZXIlMjBjYWtlc3xlbnwwfHwwfHx8MA%3D%3D',
   },
   {
     label: 'Exquisite',
     imgPath:
-      'https://source.unsplash.com/random/?cake[3]',
+      'https://images.unsplash.com/photo-1604413191066-4dd20bedf486?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D',
   },
   {
     label: 'Irresistible',
     imgPath:
-      'https://source.unsplash.com/random/?cake[4]',
+      'https://images.unsplash.com/photo-1582180834946-f3d376b18376?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEwfHx8ZW58MHx8fHx8',
   },
   {
     label: 'Delectable',
     imgPath:
-      'https://source.unsplash.com/random/?cake[5]',
+      'https://images.unsplash.com/photo-1571050045617-cbbd5e68d181?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHx8',
   },
   {
     label: 'Divine',
     imgPath:
-      'https://source.unsplash.com/random/?cake[6]',
+      'https://images.unsplash.com/photo-1562440499-64c9a111f713?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzl8fGtpZHMlMjBiaXJ0aGRheSUyMGNha2VzfGVufDB8fDB8fHww',
   },
   {
     label: 'Delightful',
     imgPath:
-      'https://source.unsplash.com/random/?cake[7]',
+      'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGtpZHMlMjBiaXJ0aGRheSUyMGNha2VzfGVufDB8fDB8fHww',
   },
   {
     label: 'Indulgent',
     imgPath:
-      'https://source.unsplash.com/random/?cake[8]',
+      'https://images.unsplash.com/photo-1697157202877-622683269d7c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     label: 'Gourmet',
     imgPath:
-      'https://source.unsplash.com/random/?cake[9]',
+      'https://images.unsplash.com/photo-1586221266208-e3cc0e170a60?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fGJpcnRoZGF5JTIwQ2FrZXN8ZW58MHx8MHx8fDA%3D',
   },
   {
     label: 'I want it!',
     imgPath:
-      'https://source.unsplash.com/random/?cupcake',
+      'https://images.unsplash.com/photo-1619413922783-13d5a4ed3e84?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTk5fHxmbG93ZXIlMjBjYWtlc3xlbnwwfHwwfHx8MA%3D%3D',
   },
 ];
  
