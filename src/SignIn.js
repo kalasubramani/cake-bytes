@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { GoogleLogin } from '@react-oauth/google';
 
 function Copyright(props) {
   return (
@@ -107,6 +108,7 @@ const SignIn = ({ login }) => {
               >
                 Sign In
               </Button>
+              <GoogleLogin onSuccess={(response)=>{console.log(response)}} onError={(error)=>{console.log(error)}}/>
               <Grid container>
                 {/* <Grid item xs>
                   <Link href="#" variant="body2">

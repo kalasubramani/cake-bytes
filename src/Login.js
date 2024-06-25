@@ -32,7 +32,7 @@ const Login = ({ login })=> {
           onChange={ ev => setPassword(ev.target.value)}
           className='loginform'
         />
-        <button disabled={!username || !password} className='loginform'>Login</button>
+        <button disabled={!username || !password} className='loginform'>Login</button>       
       </form>
       {/* Add Register LINK */}
       Are you a new user? Get Started <Link to='/register'>here</Link>!
