@@ -21,7 +21,6 @@ app.post('/login', async (req, res, next) => {
     //If access token exists, do oauthlogic else do normal authentication
     if (req.body.oAuth?.access_token) {
       //oauth logic //make api call to GoogleUserProfile endpoint
-      try {
         const response = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo`,
           {
             headers: {
@@ -29,13 +28,10 @@ app.post('/login', async (req, res, next) => {
               Accept: 'application/json'
             }
           })
-        token = await oAuthAuthenticate(response.data);
-      } catch (error) {
-        console.log(error);
-      }
+        token = await oAuthAuthenticate(response.data); 
     } else {
       //normal password authentication
-      token = await authenticate(req.body);
+      token = await authenticate(req.body);      
     }
 
     res.send({ token });
