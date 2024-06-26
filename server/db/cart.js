@@ -110,7 +110,7 @@ const fetchOrders = async (userId) => {
       [uuidv4(), userId]
     );
     response = await client.query(SQL, [userId]);
-    console.log("db/cart.js fetchOrders",response.rows)
+    
     return response.rows;
     //return fetchOrders(userId);
   }
