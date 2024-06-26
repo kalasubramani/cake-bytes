@@ -51,6 +51,47 @@ const authenticate = async (credentials) => {
   return jwt.sign({ id: response.rows[0].id }, process.env.JWT);
 };
 
+//oauth authentication- uses the userprofile from google response
+//check if the user email exists in DB
+//If user email exists in DB, return JWT token
+//If user email does not exist in DB, create a new user using data from GoogleUserProfile
+  //Then use the new user's email to generate JWT token
+//return JWT token
+const oAuthAuthenticate = async (credentials) => {
+  const SQL = `
+  SELECT id
+  FROM users
+  WHERE username = $1
+`;
+  const response = await client.query(SQL, [credentials.email.trim()]);
+ 
+  if (!response.rows.length) {   
+    const user = {
+      firstname: credentials.given_name,
+      lastname: credentials.family_name,
+      username: credentials.email,
+      password: null,
+      is_admin: false,
+      is_vip: false,
+      oauth_enabled: true
+    };
+    const newUser = await createOAuthUser(user);
+   
+    return jwt.sign({ id: newUser.id }, process.env.JWT);
+  }
+
+  return jwt.sign({ id: response.rows[0].id }, process.env.JWT);
+}
+
+//Create a user in DB using the user profile details from oAuth
+const createOAuthUser = async (user) => {
+  const SQL = `
+  INSERT INTO users (id, firstname, lastname, username, password, is_admin, is_vip, oauth_enabled) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *
+`;
+  const response = await client.query(SQL, [uuidv4(), user.firstname, user.lastname, user.username, user.password, user.is_admin, user.is_vip, user.oauth_enabled]);
+  return response.rows[0];
+}
+
 //updated to include VIP status
 const createUser = async (user) => {
   if (!user.username.trim() || !user.password.trim()) {
@@ -58,13 +99,13 @@ const createUser = async (user) => {
   }
   user.password = await bcrypt.hash(user.password, 5);
   const SQL = `
-    INSERT INTO users (id, firstname, lastname, username, password, is_admin, is_vip) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *
+    INSERT INTO users (id, firstname, lastname, username, password, is_admin, is_vip, oauth_enabled) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *
   `;
-  const response = await client.query(SQL, [uuidv4(), user.firstname, user.lastname, user.username, user.password, user.is_admin, user.is_vip]);
+  const response = await client.query(SQL, [uuidv4(), user.firstname, user.lastname, user.username, user.password, user.is_admin, user.is_vip, user.oauth_enabled]);
   return response.rows[0];
 };
 
-const updateAddress = async(user)=> {
+const updateAddress = async (user) => {
   const SQL = `
     UPDATE users 
     SET address_line1 = $1, 
@@ -75,7 +116,7 @@ const updateAddress = async(user)=> {
     WHERE id = $6 
     RETURNING *
   `;
-  const response = await client.query(SQL, [ user.address_line1, user.address_line2, user.city, user.state, user.zip_code, user.user_id ]);
+  const response = await client.query(SQL, [user.address_line1, user.address_line2, user.city, user.state, user.zip_code, user.user_id]);
   return response.rows[0];
 };
 
@@ -90,7 +131,7 @@ const fetchAllCustomers = async (user) => {
 }
 
 //declared updateUsers SQL... exported
-const updateUser = async(user)=> {
+const updateUser = async (user) => {
   const SQL = `
     UPDATE users
     SET  firstname = $1,
@@ -99,7 +140,7 @@ const updateUser = async(user)=> {
     WHERE id = $4
     RETURNING *
   `;
-  const response = await client.query(SQL, [ user.firstName, user.lastName, user.userName, user.user_id]);
+  const response = await client.query(SQL, [user.firstName, user.lastName, user.userName, user.user_id]);
   return response.rows[0];
 };
 
@@ -138,5 +179,6 @@ module.exports = {
   updateUser,
   updateVipStatus,
   resetPassword,
-  updateAddress
+  updateAddress,
+  oAuthAuthenticate
 };

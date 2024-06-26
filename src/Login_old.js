@@ -1,7 +1,7 @@
 import React, { useState,} from 'react';
 import { Link } from 'react-router-dom';
 
-const Login = ({ login })=> {
+const Login_old = ({ login })=> {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -32,7 +32,7 @@ const Login = ({ login })=> {
           onChange={ ev => setPassword(ev.target.value)}
           className='loginform'
         />
-        <button disabled={!username || !password} className='loginform'>Login</button>
+        <button disabled={!username || !password} className='loginform'>Login</button>       
       </form>
       {/* Add Register LINK */}
       Are you a new user? Get Started <Link to='/register'>here</Link>!

@@ -26,7 +26,7 @@ function Copyright(props) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-
+    
     const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
@@ -37,7 +37,8 @@ function Copyright(props) {
           username,
           password,
           is_admin: false,
-          is_vip: false
+          is_vip: false,
+          oauth_enabled:false
         };
         try {
           const response = await axios.post(

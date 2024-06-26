@@ -5,6 +5,7 @@ import api from './api';
 import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const App = () => {
   const [auth, setAuth] = useState({});
@@ -18,7 +19,7 @@ const App = () => {
   const logout = () => {
     api.logout(setAuth);
     navigate("/");
-   }; 
+  };
 
   const attemptLoginWithToken = async () => {
     await api.attemptLoginWithToken(setAuth);
@@ -29,17 +30,21 @@ const App = () => {
   }, []);
 
   return (
-    <Routes>      
-      <Route path="/*" element={<Home user={auth} logout={logout} setUser={setAuth} />} />          
+    <Routes>
+      <Route path="/*" element={<Home user={auth} logout={logout} setUser={setAuth} />} />
       <Route path="/sign-in" element={<SignIn login={login} />} />
-      <Route path="/signup" element={<SignUp />}   /> 
+      <Route path="/signup" element={<SignUp />} />
     </Routes>
   )
 }
 
+const CLIENT_ID="108393348420-8u9s69of4bv1dbe4a62bleom36pgan0a.apps.googleusercontent.com"
+
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(
-  <HashRouter>
-    <App />
-  </HashRouter>
+  <GoogleOAuthProvider clientId={CLIENT_ID}>
+    <HashRouter>
+      <App />
+    </HashRouter>
+  </GoogleOAuthProvider>
 );
