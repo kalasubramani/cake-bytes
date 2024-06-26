@@ -130,14 +130,15 @@ const seed = async () => {
       firstname VARCHAR(100) NOT NULL,
       lastname VARCHAR(100) NOT NULL,
       username VARCHAR(100) UNIQUE NOT NULL,
-      password VARCHAR(100) NOT NULL,
+      password VARCHAR(100),
       is_admin BOOLEAN DEFAULT false NOT NULL,
       is_vip BOOLEAN DEFAULT false NOT NULL,
       address_line1 VARCHAR(25),
       address_line2 VARCHAR(25),
       city VARCHAR(15),
       state VARCHAR(15),
-      zip_code NUMERIC (5)
+      zip_code NUMERIC (5),
+      oauth_enabled BOOLEAN DEFAULT false NOT NULL
     );
 
     CREATE TABLE products(
@@ -193,9 +194,9 @@ const seed = async () => {
   //Added VIP status
   //Added firstname & lastname to columns to table
   const [moe, lucy, ethyl] = await Promise.all([
-    createUser({ firstname: "Moesha", lastname: "Norwood", username: 'moe', password: '1234', is_admin: false, is_vip: false }),
-    createUser({ firstname: "Lucinda", lastname: "Hall", username: 'lucy', password: '1234', is_admin: false, is_vip: true }),
-    createUser({ firstname: "Ethyleen", lastname: "Sims", username: 'ethyl', password: '1234', is_admin: true, is_vip: true })
+    createUser({ firstname: "Moesha", lastname: "Norwood", username: 'moe', password: '1234', is_admin: false, is_vip: false, oauth_enabled: false }),
+    createUser({ firstname: "Lucinda", lastname: "Hall", username: 'lucy', password: '1234', is_admin: false, is_vip: true, oauth_enabled: false }),
+    createUser({ firstname: "Ethyleen", lastname: "Sims", username: 'ethyl', password: '1234', is_admin: true, is_vip: true, oauth_enabled: false })
   ]);
 
   //Added addresses for all current users
